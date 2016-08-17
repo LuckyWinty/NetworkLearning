@@ -1,0 +1,19 @@
+doctype html
+html
+head
+title= title
+link(rel='stylesheet', href='/stylesheets/style.css')
+body
+    form.form-horizontal(method='post',action='/user/regist')
+        .form-group
+            label.col-sm-2.control-label(for="account") 账号
+            .col-sm-10
+                input#account(type="text", name="account")
+        .form-group
+            label.col-sm-2.control-label(for="password") 密码
+            .col-sm-10
+                 input#password(type="password", name="password")
+        .form-group
+            .col-sm-offset-2.col-sm-10
+            button.btn.btn-default(type="submit") 注册
+block content
