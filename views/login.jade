@@ -1,9 +1,6 @@
-doctype html
-html
-head
-title= title
-link(rel='stylesheet', href='/stylesheets/style.css')
-body
+extends layout
+
+block content
     form.form-horizontal(method='post',action='/user/regist')
         .form-group
             label.col-sm-2.control-label(for="account") 账号
@@ -16,4 +13,3 @@ body
         .form-group
             .col-sm-offset-2.col-sm-10
             button.btn.btn-default(type="submit") 注册
-block content
