@@ -54,5 +54,11 @@ app.use(function(err, req, res, next) {
   });
 });
 
+//注册
+app.post('/user/regist',function(req,res){
+  console.log(req);
+  
+})
+
 
 module.exports = app;
