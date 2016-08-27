@@ -4,6 +4,8 @@
 var mongoose=require('mongoose');
 var dbUrl=require('../configure/urlConfigures');
 
+mongoose.connect(dbUrl.dbUrl);
+
 mongoose.connection.on('connected', function () {
     console.log('Mongoose connected to ' + dbUrl.dbUrl);
 });

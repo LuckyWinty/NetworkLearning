@@ -5,7 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var regist = require('./routes/regist');
+var index = require('./routes/index');
+var mongodb=require('./server/db');
 
 var app = express();
 
@@ -21,7 +22,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
-app.use('/', regist);
+//注册
+// app.post('/user/regist',function(req,res){
+//   console.log(req.body);
+//   res.render('index', { title: '首页' });
+// })
+app.use('/', index);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -54,11 +60,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-//注册
-app.post('/user/regist',function(req,res){
-  console.log(req);
-  
-})
+
 
 
 module.exports = app;
