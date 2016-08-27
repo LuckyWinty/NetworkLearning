@@ -6,6 +6,6 @@ var mongoose=require('mongoose');
 var UserSchema=new mongoose.Schema({
     account:String,
     password:String
-})
+});
 
 mongoose.model('User', UserSchema);

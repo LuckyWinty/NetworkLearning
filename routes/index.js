@@ -7,6 +7,10 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/regist', function (req, res, next) {
+  res.render("regist");
+});
+
 router.post("/user/regist", registController.regist);
 
 
