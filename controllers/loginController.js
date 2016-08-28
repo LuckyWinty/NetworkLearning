@@ -7,18 +7,14 @@ module.exports.login = function(req, res){
         if(error){
             console.log(error);
         }else if(person){
-            res.render('error', { error:{type: '该用户已存在！',message:'直接登录吧！' }});
+            if(person.password!=req.body.password){
+                res.render('error', { error:{type: '密码错误！',message:'请检查密码是否正确！' }});
+            }else{
+                res.render('index', { title: '登录成功，来到首页' });
+            }
+            
         }else{
-            User.create({
-                account:req.body.account,
-                password:req.body.password
-            },function(error,User){
-                if(error){
-                    console.log(error);
-                }else{
-                    res.render('index', { title: '注册成功，来到首页' });
-                }
-            })
+            res.render('error', { error:{type: '该用户不存在！',message:'请先注册！' }});
         }
     })
 };
