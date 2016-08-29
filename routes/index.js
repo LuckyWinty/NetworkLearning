@@ -11,6 +11,9 @@ router.get('/', function(req, res, next) {
 router.get('/regist', function (req, res, next) {
   res.render("regist");
 });
+router.get('/login', function (req, res, next) {
+  res.render("login");
+});
 
 router.post("/user/regist", registController.regist);
 router.post("/user/login", loginController.login);

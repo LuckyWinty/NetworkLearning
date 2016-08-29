@@ -7,7 +7,7 @@ module.exports.regist = function(req, res){
         if(error){
             console.log(error);
         }else if(person){
-            res.render('error', { error:{type: '该用户已存在！',message:'直接登录吧！' }});
+            res.render('error', { error:{type: '该用户已存在！',message:'直接登录吧！',href:'/login',link:'点我登录'}});
         }else{
             User.create({
                 account:req.body.account,
@@ -16,7 +16,7 @@ module.exports.regist = function(req, res){
                 if(error){
                     console.log(error);
                 }else{
-                    res.render('index', { title: '注册成功，来到首页' });
+                    res.render('login', { title: '注册成功，欢迎登录' });
                 }
             })
         }
