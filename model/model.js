@@ -22,7 +22,7 @@ conn.once('open',function(){
     var gfs=grid(conn.db);
 
     var writestream=gfs.createWriteStream({
-        filename:' '
+        filename:'essayInfo'
     })
 })
 
