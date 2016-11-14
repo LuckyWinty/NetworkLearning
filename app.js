@@ -60,6 +60,16 @@ app.use(function(err, req, res, next) {
   });
 });
 
+//图片存储
+app.use(multer({dest: app.get('photos')}));
+
+var photos = require('./routes/photos'); // 自定义路由模块  
+app.set('photos', path.join(__dirname, 'public/images')); //图片文件夹路径  
+
+app.get('/', photos.list);
+app.get('/upload', photos.form);
+app.post('/upload', photos.submit(app.get('photos')));
+app.get('/photo/:id/download', photos.download(app.get('photos')));
 
 
 
