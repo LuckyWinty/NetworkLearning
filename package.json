@@ -19,6 +19,8 @@
     "morgan": "~1.7.0",
     "multer": "^1.2.0",
     "nodemon": "^1.10.2",
+    "sass-loader": "^4.0.2",
+    "semantic": "0.0.1",
     "serve-favicon": "~2.3.0"
   }
 }

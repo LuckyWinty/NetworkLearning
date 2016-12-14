@@ -1,6 +1,6 @@
 <template>
   <div class="hot">
-      <h1 class="ui header">{{msg}}</h1>
+      <h3 class="ui large header">最热学习榜</h3>
   </div>
 </template>
 
