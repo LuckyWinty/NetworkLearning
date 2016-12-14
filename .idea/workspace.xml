@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="11c367b7-fe91-4509-9207-c13cdafbe588" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/src/components/HotLearn.vue" afterPath="$PROJECT_DIR$/public/src/components/HotLearn.vue" />
     </list>
     <ignored path="NetworkLearning.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -531,7 +530,13 @@
       <option name="project" value="LOCAL" />
       <updated>1481710371126</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="add">
+      <created>1481720421804</created>
+      <option name="number" value="00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1481720421804</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -592,7 +597,8 @@
     <MESSAGE value="restart with vue" />
     <MESSAGE value="include frameworks" />
     <MESSAGE value="start" />
-    <option name="LAST_COMMIT_MESSAGE" value="start" />
+    <MESSAGE value="add" />
+    <option name="LAST_COMMIT_MESSAGE" value="add" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
