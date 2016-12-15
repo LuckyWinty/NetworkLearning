@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div class="hot">
       <h3 class="ui large header">最热学习榜</h3>
     <div class="hot_wrap">
