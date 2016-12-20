@@ -1,16 +1,15 @@
 <template>
   <div class="reply">
     <div class="comment-wrap" v-for="comment in comments">
-      <div class="info">
-        <h4>{{comment.userName}}</h4>
-        <p class="content">{{comment.content}}</p>
-        <div class="more-detail">
-          <span class="time">时间：{{comment.time}}</span>
-          <span class="el-icon-star-on like">{{comment.likeNum}}</span>
-        </div>
-      </div>
       <div class="portrait">
         <img v-bind:src="comment.portrait" alt="">
+        <h4>{{comment.userName}}</h4>
+      </div>
+      <div class="info">
+        <p class="content">{{comment.content}}</p>
+        <div class="more-detail">
+          <span class="time">回复时间：{{comment.time}}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -30,7 +29,7 @@
  .reply .portrait{
     width:15%;
     box-sizing: border-box;
-    float:right;
+    float:left;
   }
  .reply .portrait img{
     width:70px;
@@ -41,7 +40,7 @@
  .reply .info{
     width:85%;
     box-sizing: border-box;
-    float:left;
+    float:right;
   }
  .reply .info .content{
     text-indent: 2em;
@@ -65,14 +64,7 @@
           content: 'Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.',
           time: '2016-12-20',
           likeNum: '30'
-        },
-          {
-            portrait: 'http://img.mukewang.com/585897cd0001603207120172.jpg',
-            userName: '我是学生',
-            content: 'Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.',
-            time: '2016-12-20',
-            likeNum: '30'
-          }]
+        }]
       }
     }
   }

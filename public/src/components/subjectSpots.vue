@@ -46,7 +46,20 @@
                  </el-pagination>
                </div>
              </el-tab-pane>
-             <el-tab-pane label="问答" name="third">问答</el-tab-pane>
+             <el-tab-pane label="问答" name="third">
+               <Comment></Comment>
+               <Reply></Reply>
+               <div class="block">
+                 <el-pagination
+                   @size-change="handleSizeChange"
+                   @current-change="handleCurrentChange"
+                   :current-page="currentPage1"
+                   :page-size="10"
+                   layout="total, prev, pager, next"
+                   :total="100">
+                 </el-pagination>
+               </div>
+             </el-tab-pane>
            </el-tabs>
          </div>
        </el-col>
@@ -136,6 +149,7 @@
 </style>
 <script>
   import Comment from 'components/module/Comment.vue'
+  import Reply from 'components/module/Reply.vue'
   export default {
     data () {
       return {
