@@ -33,7 +33,19 @@
              <el-tab-pane label="章节" name="first">
                <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
              </el-tab-pane>
-             <el-tab-pane label="评论" name="second">评论</el-tab-pane>
+             <el-tab-pane label="评论" name="second">
+               <Comment></Comment>
+               <div class="block">
+                 <el-pagination
+                   @size-change="handleSizeChange"
+                   @current-change="handleCurrentChange"
+                   :current-page="currentPage1"
+                   :page-size="10"
+                   layout="total, prev, pager, next"
+                   :total="100">
+                 </el-pagination>
+               </div>
+             </el-tab-pane>
              <el-tab-pane label="问答" name="third">问答</el-tab-pane>
            </el-tabs>
          </div>
@@ -46,8 +58,6 @@
                  <span style="line-height: 36px;">课程须知</span>
                </div>
                <p>{{subjectInfo.note}}</p>
-
-
              </el-card>
            </div>
          </div>
@@ -125,6 +135,7 @@
 }
 </style>
 <script>
+  import Comment from 'components/module/Comment.vue'
   export default {
     data () {
       return {
@@ -163,9 +174,20 @@
         }
       }
     },
+    components: {
+      Comment: Comment,
+      Reply: Reply
+    },
     methods: {
       handleNodeClick (data) {
         console.log(data)
+      },
+      handleSizeChange (val) {
+        console.log(`每页 ${val} 条`)
+      },
+      handleCurrentChange (val) {
+        this.currentPage = val
+        console.log(`当前页: ${val}`)
       }
     }
   }
