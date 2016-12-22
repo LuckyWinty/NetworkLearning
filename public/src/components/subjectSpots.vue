@@ -26,7 +26,7 @@
    </div>
    <div class="detail">
      <el-row>
-       <el-col :span="16">
+       <el-col class="detail-subject" :span="16">
          <div class="grid-content bg-purple">
           <p class="margin-top-10px">简介：{{subjectInfo.desc}}</p>
            <el-tabs :active-name="activeName">
@@ -121,7 +121,7 @@
  .el-tabs__item{
    padding: 0 50px !important;
  }
-  .el-col{
+  .detail-subject{
     margin: 0 !important;
     padding: 0 !important;
   }

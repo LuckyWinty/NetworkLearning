@@ -2,7 +2,7 @@
   <div class="container">
     <div class="search">
       <el-input class="inline"></el-input>
-      <el-button type="primary" icon="search">搜索</el-button>
+      <el-button class="search-btn" type="primary" icon="search">搜索</el-button>
     </div>
   <h3 class="hot_head">最热学习榜<el-button  type="primary">查看更多</el-button></h3>
     <Subject></Subject>
@@ -27,7 +27,7 @@
     width:78%;
     float:left;
   }
-  .el-button{
+  .search-btn{
     float:right;
     margin-right: 20px;
   }

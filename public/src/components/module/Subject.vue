@@ -1,6 +1,6 @@
 <template>
     <el-row>
-      <el-col :span="5" v-for="info in hotLists">
+      <el-col class="subject-item" :span="5" v-for="info in hotLists">
         <a href="#">
           <el-card :body-style="{ padding: '0px' }">
             <img v-bind:src="info.imgUrl" class="image">
@@ -19,7 +19,7 @@
 </template>
 
 <style>
-  .el-col{
+  .subject-item{
     margin:10px;
   }
   .el-icon-star-off{
