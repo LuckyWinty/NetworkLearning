@@ -5,7 +5,7 @@
             <div class="portrait"><img v-bind:src="person.portrait" alt=""></div>
             <div class="more-info">
               <h2>{{person.name}}</h2>
-              <p>个性签名:{{person.signature}}</p>
+              <p>个性签名:  {{person.signature}}</p>
             </div>
           </div>
         </div>
@@ -15,13 +15,18 @@
               <el-menu default-active="2" class="el-menu-vertical-demo">
                 <el-menu-item index="1"><i class="el-icon-message"></i>课程</el-menu-item>
                 <el-menu-item index="2"><i class="el-icon-menu"></i>我的提问</el-menu-item>
-                <el-menu-item index="3"><i class="el-icon-setting"></i>我的回答</el-menu-item>
-                <el-menu-item index="3"><i class="el-icon-setting"></i>我关注的问题</el-menu-item>
-                <el-menu-item index="3"><i class="el-icon-setting"></i>我的设置</el-menu-item>
+                <el-menu-item index="3"><i class="el-icon-document"></i>我的回答</el-menu-item>
+                <el-menu-item index="4"><i class="el-icon-warning"></i>我关注的问题</el-menu-item>
+                <el-menu-item index="5"><i class="el-icon-setting"></i>我的设置</el-menu-item>
               </el-menu>
             </div></el-col>
             <el-col :span="18"><div class="grid-content bg-purple">
-
+              <div class="tabs-wrap">
+              <el-tabs type="card" @tab-click="handleClick" @tab-remove="handleRemove">
+                <el-tab-pane label="最近学习">最近学习</el-tab-pane>
+                <el-tab-pane label="我关注的">我关注的</el-tab-pane>
+              </el-tabs>
+              </div>
             </div></el-col>
           </el-row>
         </div>
@@ -77,6 +82,14 @@
             signature: '技术改变未来',
             subject: ''
           }
+        }
+      },
+      methods: {
+        handleRemove (tab) {
+          console.log(tab)
+        },
+        handleClick (tab, event) {
+          console.log(tab, event)
         }
       }
     }
