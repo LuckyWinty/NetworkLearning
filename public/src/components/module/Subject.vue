@@ -3,7 +3,7 @@
       <el-col class="subject-item" :span="5" v-for="info in hotLists">
         <a href="#">
           <el-card :body-style="{ padding: '0px' }">
-            <img v-bind:src="info.imgUrl" class="image">
+            <img :src="info.imgUrl" class="image">
             <div style="padding: 14px;">
               <h3 class="subject_title">{{info.title}}</h3>
               <p class="subject_desc">{{info.desc}}</p>

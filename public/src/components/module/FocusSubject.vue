@@ -2,7 +2,7 @@
     <div class="focus-subject">
       <div class="focus-wrap" v-for="subjectInfo in subjectInfos">
         <div class="pic">
-          <img v-bind:src="subjectInfo.imgUrl" alt="">
+          <img :src="subjectInfo.imgUrl" alt="">
         </div>
         <div class="content">
           <h3>{{subjectInfo.title}}<span class="subject-progress">{{subjectInfo.progress}}</span></h3>

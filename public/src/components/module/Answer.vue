@@ -2,7 +2,7 @@
   <div class="question">
     <div class="question-wrap" v-for="comment in comments">
       <div class="portrait">
-        <img v-bind:src="comment.portrait" alt="">
+        <img :src="comment.portrait" alt="">
       </div>
       <div class="info">
         <h4 class="user-info">回答来自  <span class="user-name">{{comment.userName}}</span></h4>

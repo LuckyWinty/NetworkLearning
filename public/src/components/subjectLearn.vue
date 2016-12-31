@@ -18,16 +18,7 @@
       </el-form-item>
     </el-form>
     <Subject></Subject>
-    <div class="block">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage1"
-        :page-size="10"
-        layout="total, prev, pager, next"
-        :total="100">
-      </el-pagination>
-    </div>
+    <page></page>
   </div>
 </template>
 
@@ -64,7 +55,7 @@
 
 <script>
   import Subject from 'components/module/Subject.vue'
-
+  import Page from 'components/module/Page.vue'
   export default {
     data () {
       return {
@@ -79,7 +70,8 @@
       }
     },
     components: {
-      'Subject': Subject
+      Subject: Subject,
+      Page: Page
     },
     methods: {
       onSubmit () {
