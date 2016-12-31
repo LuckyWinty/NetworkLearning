@@ -49,16 +49,7 @@
              <el-tab-pane label="问答" name="third">
                <Comment></Comment>
                <Reply></Reply>
-               <div class="block">
-                 <el-pagination
-                   @size-change="handleSizeChange"
-                   @current-change="handleCurrentChange"
-                   :current-page="currentPage1"
-                   :page-size="10"
-                   layout="total, prev, pager, next"
-                   :total="100">
-                 </el-pagination>
-               </div>
+               <Page></Page>
              </el-tab-pane>
            </el-tabs>
          </div>
@@ -150,6 +141,7 @@
 <script>
   import Comment from 'components/module/Comment.vue'
   import Reply from 'components/module/Reply.vue'
+  import Page from 'components/module/Page.vue'
   export default {
     data () {
       return {
@@ -190,7 +182,8 @@
     },
     components: {
       Comment: Comment,
-      Reply: Reply
+      Reply: Reply,
+      Page: Page
     },
     methods: {
       handleNodeClick (data) {

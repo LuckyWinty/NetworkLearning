@@ -18,16 +18,7 @@
       <div class="commentList">
        <Comment></Comment>
       </div>
-      <div class="block">
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage1"
-          :page-size="10"
-          layout="total, prev, pager, next"
-          :total="100">
-        </el-pagination>
-      </div>
+     <Page></Page>
     </div>
 </template>
 <style>
@@ -37,13 +28,13 @@
   }
   .comment{
     margin-top: 20px;
-    border-top:solid 1px #c0c0c0;
+    border-top:solid 1px #EFF1F0;
     padding-top: 20px;
   }
 </style>
 <script>
   import Comment from 'components/module/Comment.vue'
-
+  import Page from 'components/module/Page.vue'
   export default {
     data () {
       return {
@@ -65,7 +56,8 @@
       }
     },
     components: {
-      Comment: Comment
+      Comment: Comment,
+      Page: Page
     },
     methods: {
       onSubmit () {

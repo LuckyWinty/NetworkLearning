@@ -23,16 +23,7 @@
           <div class="question-list">
              <singleSelect></singleSelect>
           </div>
-          <div class="block">
-            <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page="currentPage1"
-              :page-size="10"
-              layout="total, prev, pager, next"
-              :total="100">
-            </el-pagination>
-          </div>
+          <Page></Page>
         </div>
       </el-col>
     </el-row>
@@ -50,7 +41,7 @@
     margin:0 auto;
   }
   .questions-nav{
-    border:solid 1px #c0c0c0;
+    border:solid 1px #EFF1F0;
     padding: 10px;
     border-radius: 5px;
   }
@@ -73,6 +64,7 @@
 </style>
 <script>
   import singleSelect from 'components/module/singleSelect.vue'
+  import Page from 'components/module/Page.vue'
   export default{
     data () {
       return {
@@ -115,7 +107,8 @@
       }
     },
     components: {
-      singleSelect: singleSelect
+      singleSelect: singleSelect,
+      Page: Page
     }
   }
 </script>

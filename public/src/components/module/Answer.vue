@@ -27,7 +27,7 @@
  .question .question-wrap{
     padding-top:10px;
     padding-bottom: 20px;
-    border-top: solid 1px #c0c0c0;
+    border-top: solid 1px #EFF1F0;
     border-bottom: none;
   }
  .question .portrait{

@@ -25,7 +25,7 @@
   .comment-wrap{
     margin-top:10px;
     padding-bottom: 20px;
-    border-bottom: solid 1px #c0c0c0;
+    border-bottom: solid 1px #EFF1F0;
   }
   .portrait{
     width:15%;

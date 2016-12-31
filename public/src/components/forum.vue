@@ -20,16 +20,7 @@
           </el-form>
           <Question>>
           </Question>
-          <div class="block">
-            <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page="currentPage1"
-              :page-size="10"
-              layout="total, prev, pager, next"
-              :total="100">
-            </el-pagination>
-          </div>
+          <Page></Page>
         </div></el-col>
         <el-col :span="6" class="right-notes">
           <div class="ask-btn"><el-button type="success">我要提问</el-button></div>
@@ -81,6 +72,7 @@
 </style>
 <script>
   import Question from 'components/module/Question.vue'
+  import Page from 'components/module/Page.vue'
   export default{
     data () {
       return {
@@ -103,7 +95,8 @@
       }
     },
     components: {
-      Question: Question
+      Question: Question,
+      Page: Page
     }
   }
 </script>
