@@ -5,7 +5,7 @@
           <img v-bind:src="subjectInfo.imgUrl" alt="">
         </div>
         <div class="content">
-          <h3>subjectInfo.title</h3>
+          <h3>{{subjectInfo.title}}</h3>
         </div>
         <div class="learn-btn">
           <el-button type="info">继续学习</el-button>
