@@ -1,5 +1,5 @@
 <template>
- <div class="content">
+ <div>
      <div class="spots">
        <div class="spots-wrap">
          <el-breadcrumb separator="/">
