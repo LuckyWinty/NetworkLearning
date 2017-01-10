@@ -2,53 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="11c367b7-fe91-4509-9207-c13cdafbe588" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/docs/7663.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/docs/index.rp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/docs/组网与因特网教育网站大纲.docx" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/src/assets/logo.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/src/images/1054123787798267489.jpeg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/src/images/bg.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/src/images/personBg.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/src/images/u=1045349616,1081702840&amp;fm=21&amp;gp=0.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/src/images/u=1255399127,3185397924&amp;fm=21&amp;gp=0.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/src/images/u=1307610571,437803091&amp;fm=21&amp;gp=0.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/src/images/u=1481310018,541190789&amp;fm=21&amp;gp=0.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/src/images/u=1781905473,41302014&amp;fm=21&amp;gp=0.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/src/images/u=1982681038,2020369215&amp;fm=21&amp;gp=0.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/src/images/u=2462692263,3318957558&amp;fm=21&amp;gp=0.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/src/images/u=2814766522,1096439845&amp;fm=21&amp;gp=0.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/src/images/u=3020207213,1695019552&amp;fm=21&amp;gp=0.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/src/images/u=3065443952,3868893718&amp;fm=21&amp;gp=0.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/src/images/u=3427825463,4124309734&amp;fm=21&amp;gp=0.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/src/images/u=3720396283,2408960213&amp;fm=21&amp;gp=0.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/src/images/u=4078085602,3229395875&amp;fm=21&amp;gp=0.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/src/images/u=4224746066,510074078&amp;fm=11&amp;gp=0.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/src/images/u=4246307053,1523634093&amp;fm=21&amp;gp=0.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/static/.gitkeep" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/npm-debug.log" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/.babelrc" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/.editorconfig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/.eslintignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/.eslintrc.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/.gitignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/README.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/build/build.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/build/check-versions.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/build/dev-client.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/build/dev-server.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/build/utils.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/build/webpack.base.conf.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/build/webpack.dev.conf.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/build/webpack.prod.conf.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/config/dev.env.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/config/index.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/config/prod.env.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/config/test.env.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/package.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/src/App.vue" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/src/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="NetworkLearning.iws" />
@@ -102,20 +55,20 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Index.vue" pinned="false" current-in-tab="false">
+          <file leaf-file-name="Index.vue" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/public/src/components/Index.vue">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-2.7142856">
-                  <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+                <state vertical-scroll-proportion="0.12808989">
+                  <caret line="6" column="29" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="index.vue" pinned="false" current-in-tab="true">
+          <file leaf-file-name="index.vue" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/public/src/admin/index.vue">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.8505618">
+                <state vertical-scroll-proportion="-33.142857">
                   <caret line="110" column="78" selection-start-line="110" selection-start-column="78" selection-end-line="110" selection-end-column="78" />
                   <folding>
                     <element signature="n#style#0;n#el-table#0;n#el-tab-pane#0;n#el-tabs#0;n#div#0;n#div#0;n#div#0;n#el-col#1;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
@@ -239,9 +192,9 @@
         <option value="$PROJECT_DIR$/public/src/components/subjectLearn.vue" />
         <option value="$PROJECT_DIR$/public/src/App.vue" />
         <option value="$PROJECT_DIR$/public/src/components/subjectSpots.vue" />
-        <option value="$PROJECT_DIR$/public/src/components/Index.vue" />
         <option value="$PROJECT_DIR$/public/src/admin/index.vue" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/public/src/components/Index.vue" />
       </list>
     </option>
   </component>
@@ -313,6 +266,46 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NetworkLearning" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NetworkLearning" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NetworkLearning" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="NetworkLearning" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="components" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -702,7 +695,13 @@
       <option name="project" value="LOCAL" />
       <updated>1484011712791</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="add admin">
+      <created>1484012822507</created>
+      <option name="number" value="00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1484012822507</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -710,7 +709,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.108333334" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -995,14 +994,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/src/components/Index.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.7142856">
-          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/docs/Schema">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.8082788">
@@ -1053,7 +1044,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/src/admin/index.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8505618">
+        <state vertical-scroll-proportion="-33.142857">
           <caret line="110" column="78" selection-start-line="110" selection-start-column="78" selection-end-line="110" selection-end-column="78" />
           <folding>
             <element signature="n#style#0;n#el-table#0;n#el-tab-pane#0;n#el-tabs#0;n#div#0;n#div#0;n#div#0;n#el-col#1;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
@@ -1061,6 +1052,14 @@
             <element signature="n#div#2;n#div#0;n#el-col#1;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
             <element signature="n#div#3;n#div#0;n#el-col#1;n#el-row#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/src/components/Index.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.12808989">
+          <caret line="6" column="29" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
+          <folding />
         </state>
       </provider>
     </entry>
