@@ -251,18 +251,6 @@
     border-bottom: solid 1px #fff;
     margin-top: 50px;
   }
- /* .triangle-top{
-   width:0;
-   border-width:100px;
-   border-color:transparent transparent #fff transparent;
-   border-style:dashed dashed solid dashed;
-  }*/
-  /*.rectangle{
-  width:200px;
-  height:200px;
-  border:solid 1px #fff;
-  transform:rotate(45deg);
-  }*/
   .inline{
     width:78%;
     float:left;
