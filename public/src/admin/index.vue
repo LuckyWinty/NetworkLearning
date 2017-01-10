@@ -109,7 +109,6 @@
                       <el-input type="textarea" v-model="formAlignRight.desc"></el-input>
                     </el-form-item>
                     <el-button type="primary" @click="onSubmit">添加</el-button>
-                    </el-form-item>
                   </el-form>
                 </el-tab-pane>
               </el-tabs>
