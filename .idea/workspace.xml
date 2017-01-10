@@ -633,7 +633,13 @@
       <option name="project" value="LOCAL" />
       <updated>1483973025822</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="add admin">
+      <created>1484011232626</created>
+      <option name="number" value="00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1484011232626</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
