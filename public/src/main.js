@@ -14,6 +14,62 @@ import adminIndex from './components/admin/index.vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import VueRouter from 'vue-router'
+import editor from 'vue-html5-editor'
+
+Vue.use(editor, {
+  name: 'vue-html5-editor',
+  icons: {
+    text: 'custom-icon text',
+    color: 'custom-icon color',
+    font: 'custom-icon font',
+    align: 'custom-icon align',
+    list: 'custom-icon list',
+    link: 'custom-icon link',
+    unlink: 'custom-icon unlink',
+    tabulation: 'custom-icon table',
+    image: 'custom-icon image',
+    'horizontal-rule': 'custom-icon hr',
+    eraser: 'custom-icon eraser',
+    hr: 'custom-icon hr',
+    undo: 'custom-icon undo',
+    'full-screen': 'custom-icon full-screen',
+    info: 'custom-icon info '
+  },
+  image: {
+    server: null,
+    fieldName: 'image',
+    sizeLimit: 512 * 1024,
+    compress: true,
+    width: 1600,
+    height: 1600,
+    quality: 80,
+    uploadHandler (responseText) {
+      var json = JSON.parse(responseText)
+      if (!json.ok) {
+        console.log(json.msg)
+      } else {
+        return json.data
+      }
+    }
+  },
+  language: 'zh-cn',
+  visibleModules: [
+    'text',
+    'color',
+    'font',
+    'align',
+    'list',
+    'link',
+    'unlink',
+    'tabulation',
+    'image',
+    'hr',
+    'eraser',
+    'undo',
+    'full-screen',
+    'info'
+  ]
+})
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)

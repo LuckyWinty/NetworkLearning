@@ -127,11 +127,11 @@
               <el-tab-pane label="添加课程">
                 <div class="step-wrap">
                   <el-steps :space="300" :active="active" finish-status="success">
-                    <el-step title="录入课程基本信息">
+                    <el-step title="基本信息">
                     </el-step>
-                    <el-step title="录入课程更多相关">
+                    <el-step title="更多相关">
                     </el-step>
-                    <el-step title="录入课程主体内容"></el-step>
+                    <el-step title="主体内容"></el-step>
                   </el-steps>
                 </div>
                 <div class="step-1" v-show="active==1">
@@ -196,6 +196,10 @@
                     </el-form-item>
                     <el-button type="primary" @click="next">下一步</el-button>
                   </el-form>
+                </div>
+                <div class="step-3" v-show="active==3">
+                  <vue-html5-editor :content="content" :height="500"></vue-html5-editor>
+                  <el-button class="top-margin" type="primary" @click="onSubmit">确定录入</el-button>
                 </div>
               </el-tab-pane>
             </el-tabs>
@@ -267,11 +271,59 @@
   .step-wrap{
     border-bottom: solid 1px #e0e6ed;
     padding-bottom: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
+  }
+  /*富文本*/
+  .custom-icon {
+    background-size: 100% 100%;
+    display: inline-block;
+  }
+  .custom-icon.text {
+    background-image: url('custom-icons/text.png');
+  }
+  .custom-icon.font {
+    background-image: url(custom-icons/font.png);
+  }
+  .custom-icon.align {
+    background-image: url(custom-icons/align.png);
+  }
+  .custom-icon.list {
+    background-image: url(custom-icons/list.png);
+  }
+  .custom-icon.color {
+    background-image: url(custom-icons/color.gif);
+  }
+  .custom-icon.eraser {
+    background-image: url(custom-icons/eraser.gif);
+  }
+  .custom-icon.full-screen {
+    background-image: url(custom-icons/full-screen.gif);
+  }
+  .custom-icon.hr {
+    background-image: url(custom-icons/hr.gif);
+  }
+  .custom-icon.image {
+    background-image: url(custom-icons/image.gif);
+  }
+  .custom-icon.link {
+    background-image: url(custom-icons/link.gif);
+  }
+  .custom-icon.table {
+    background-image: url(custom-icons/table.gif);
+  }
+  .custom-icon.undo {
+    background-image: url(custom-icons/undo.gif);
+  }
+  .custom-icon.unlink {
+    background-image: url(custom-icons/unlink.gif);
+  }
+  .custom-icon.info {
+    background-image: url(custom-icons/info.png);
   }
 </style>
 <script>
   import Page from '../module/Page.vue'
+
   export default {
     data () {
       return {
@@ -287,6 +339,7 @@
           spotNum: ''
         },
         active: 1,
+        content: '',
         person: {
           name: '学生乙',
           portrait: 'https://gss0.baidu.com/8_BXsjip0QIZ8tyhnq/timg?wh_rate=0&wapiknow&quality=100&size=w250&sec=0&di=755e2d919a2414a6a2de820f555d44ae&src=http%3A%2F%2Fiknow02.bosstatic.bdimg.com%2Fzhidaoribao%2F2016%2F1221%2Fdz.jpg',
@@ -372,6 +425,12 @@
         console.log(index, row)
       },
       handleDelete (index, row) {
+        console.log(index, row)
+      },
+      handleSuccess (index, row) {
+        console.log(index, row)
+      },
+      handleError (index, row) {
         console.log(index, row)
       }
     },
