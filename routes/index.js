@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var registController = require("../controllers/registController");
 var loginController = require("../controllers/loginController");
+//admin
+var addUserCtrol = requier("../controllers/admin/addUserCtrol");
 
 var fs = require('fs');
 var mongoose = require("mongoose");
@@ -31,7 +33,9 @@ router.get('/user/regist', function (req, res, next) {
 router.get('/user/login', function (req, res, next) {
   res.render("login");
 });
-
+router.get('admin/add',function(req,res){
+  addUserCtrol.doAdd(req,res);
+})
 router.post("/user/regist", registController.regist);
 router.post("/user/login", loginController.login);
 

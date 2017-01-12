@@ -394,6 +394,9 @@
       }
     },
     methods: {
+      doAdd () {
+
+      },
       next () {
         if (this.active++ > 2) this.active = 0
       },
