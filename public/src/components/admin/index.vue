@@ -47,17 +47,15 @@
                 </div>
               </el-tab-pane>
               <el-tab-pane label="添加管理员">
-                <el-form :model="formAlignRight" label-width="80px">
+                <el-form :model="fileList" label-width="80px">
                   <el-form-item label="头像">
                     <el-upload
-                      action="//jsonplaceholder.typicode.com/posts/"
+                      action="admin/add"
                       type="drag"
-                      :multiple="true"
+                      :thumbnail-mode="true"
                       :on-preview="handlePreview"
-                      :on-remove="handleRemovePic"
-                      :on-success="handleSuccess"
-                      :on-error="handleError"
-                      :default-file-list="fileList"
+                      :on-remove="handleRemove"
+                      :default-file-list="fileList.portrait"
                     >
                       <i class="el-icon-upload"></i>
                       <div class="el-dragger__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -65,27 +63,27 @@
                     </el-upload>
                   </el-form-item>
                   <el-form-item label="用户名">
-                    <el-input v-model="formAlignRight.name"></el-input>
+                    <el-input v-model="fileList.userName"></el-input>
                   </el-form-item>
                   <el-form-item label="密码">
-                    <el-input v-model="formAlignRight.password"></el-input>
+                    <el-input v-model="fileList.password"></el-input>
                   </el-form-item>
                   <el-form-item label="管理权限">
-                    <el-input v-model="formAlignRight.power"></el-input>
+                    <el-input v-model="fileList.power"></el-input>
                   </el-form-item>
                   <el-form-item label="微信">
-                    <el-input v-model="formAlignRight.wechat"></el-input>
+                    <el-input v-model="fileList.wechat"></el-input>
                   </el-form-item>
                   <el-form-item label="QQ">
-                    <el-input v-model="formAlignRight.qq"></el-input>
+                    <el-input v-model="fileList.qq"></el-input>
                   </el-form-item>
                   <el-form-item label="手机">
-                    <el-input v-model="formAlignRight.phone"></el-input>
+                    <el-input v-model="fileList.phone"></el-input>
                   </el-form-item>
                   <el-form-item label="个性签名">
-                    <el-input type="textarea" v-model="formAlignRight.desc"></el-input>
+                    <el-input type="textarea" v-model="fileList.desc"></el-input>
                   </el-form-item>
-                  <el-button type="primary" @click="onSubmit">添加</el-button>
+                  <el-button type="primary" @click="doAdd">添加</el-button>
                 </el-form>
               </el-tab-pane>
             </el-tabs>
@@ -327,6 +325,16 @@
   export default {
     data () {
       return {
+        fileList: [{
+          portrait: [],
+          userName: '',
+          password: '',
+          power: '',
+          wechat: '',
+          qq: '',
+          phone: '',
+          signature: ''
+        }],
         subject: {
           title: '',
           images: [],
@@ -340,21 +348,7 @@
         },
         active: 1,
         content: '',
-        person: {
-          name: '学生乙',
-          portrait: 'https://gss0.baidu.com/8_BXsjip0QIZ8tyhnq/timg?wh_rate=0&wapiknow&quality=100&size=w250&sec=0&di=755e2d919a2414a6a2de820f555d44ae&src=http%3A%2F%2Fiknow02.bosstatic.bdimg.com%2Fzhidaoribao%2F2016%2F1221%2Fdz.jpg',
-          signature: '技术改变未来',
-          subject: ''
-        },
         showModule: 1,
-        formAlignRight: {
-          name: '',
-          wechat: '',
-          qq: '',
-          phone: '',
-          desc: ''
-        },
-        fileList: [{name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
         tableData3: [{
           date: '2016-05-03',
           name: '王小虎',
@@ -395,7 +389,12 @@
     },
     methods: {
       doAdd () {
-
+        console.log('----------看看输出的数据', this.fileList)
+//        this.$http.get('/someUrl').then((response) => {
+//          // success callback
+//        }, (response) => {
+//          // error callback
+//        })
       },
       next () {
         if (this.active++ > 2) this.active = 0

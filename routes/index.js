@@ -33,7 +33,7 @@ router.get('/user/regist', function (req, res, next) {
 router.get('/user/login', function (req, res, next) {
   res.render("login");
 });
-router.get('admin/add',function(req,res){
+router.post('admin/add',function(req,res){
   addUserCtrol.doAdd(req,res);
 })
 router.post("/user/regist", registController.regist);

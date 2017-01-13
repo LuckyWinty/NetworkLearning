@@ -15,6 +15,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import VueRouter from 'vue-router'
 import editor from 'vue-html5-editor'
+import resource from 'vue-resource'
 
 Vue.use(editor, {
   name: 'vue-html5-editor',
@@ -70,7 +71,7 @@ Vue.use(editor, {
     'info'
   ]
 })
-
+Vue.use(resource)
 Vue.use(ElementUI)
 Vue.use(VueRouter)
 
