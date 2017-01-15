@@ -491,7 +491,7 @@
       <workItem from="1479131627861" duration="2095000" />
       <workItem from="1483714489796" duration="4051000" />
       <workItem from="1483976785679" duration="378000" />
-      <workItem from="1484458470190" duration="333000" />
+      <workItem from="1484458470190" duration="347000" />
     </task>
     <task id="LOCAL-00001" summary="set login as the index&#10;">
       <created>1471880225240</created>
@@ -787,11 +787,18 @@
       <option name="project" value="LOCAL" />
       <updated>1484458803174</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="fix">
+      <created>1484458815110</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1484458815110</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47170000" />
+    <option name="totallyTimeSpent" value="47184000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1378" height="744" extended-state="0" />
