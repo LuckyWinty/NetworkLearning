@@ -2,8 +2,180 @@
  * Created by winty on 2016/8/16.
  */
 var mongoose=require('mongoose');
-var dbUrl=require('../configure/urlConfigures');
 
+//定义章节
+var spotSchema = new mongoose.Schema({
+    title: {   //章节题目
+        type: String,
+        require: true
+    },
+    label: {   //层级描述
+        type: String,
+        require: true
+    },
+    subSpot:[this]  //子层级
+});
+//定义推荐资源
+var linkSchema = new mongoose.Schema({
+    name:{
+        type:String,
+        require:true
+    },
+    url:{
+        type:String,
+        require:true
+    },
+    created: {
+        type: Date, //创建日期的类型为日期类型
+        "default": Date.now //默认值为创建日期
+    },
+    clickNum: {
+        type:Number,
+        "default":0
+    }
+});
+//定义回答
+var answerSchema = new mongoose.Schema({
+    content:{
+        type:String,
+        require:true
+    },
+    user:{
+        type: mongoose.Schema.Types.ObjectId, //发布者的引用
+        ref: 'User', //引用自User Model
+        require: true //非空
+    }, //回答的用户
+    created: {
+        type: Date, //创建日期的类型为日期类型
+        "default": Date.now //默认值为创建日期
+    },
+    likeNum: {  //点赞数
+        type:Number,
+        "default":0
+    }
+});
+//定义评论
+var commentSchema = new mongoose.Schema({
+    content:{
+        type:String,
+        require:true
+    },
+    user:{
+        type: mongoose.Schema.Types.ObjectId, //发布者的引用
+        ref: 'User', //引用自User Model
+        require: true //非空
+    }, //评论的用户
+    created: {
+        type: Date, //创建日期的类型为日期类型
+        "default": Date.now //默认值为创建日期
+    }
+});
+//定义消息
+var messageSchema = new mongoose.Schema({
+    user:{
+        type: mongoose.Schema.Types.ObjectId, //发布者的引用
+        ref: 'User', //引用自User Model
+        require: true //非空
+    }, //发消息的用户
+    content:{
+        type:String,
+        require:true
+    },
+    messageType:{
+        type:Number,
+        "default":0   //0表示发送的消息，1表示接收的消息，2表示系统发过来的消息
+    },
+    created: {
+        type: Date, //创建日期的类型为日期类型
+        "default": Date.now //默认值为创建日期
+    }
+});
+//定义测试题
+var itemSchema = new mongoose.Schema({
+    content:{
+        type:String,
+        require:true
+    },
+    choice:[],//选项
+    correctChoice:{   //正确答案，1->A,2->B,3->C,4->D...
+        type:Number,
+        require:true
+    },
+    explain:String,
+    belong:String,//所属章节
+    created: {
+        type: Date, //创建日期的类型为日期类型
+        "default": Date.now //默认值为创建日期
+    }
+});
+//定义问题
+var questionSchema = new mongoose.Schema({
+    content:{
+        type:String,
+        require:true
+    },
+    user:{
+        type: mongoose.Schema.Types.ObjectId, //发布者的引用
+        ref: 'User', //引用自User Model
+        require: true //非空
+    }, //提问的用户
+    created: {
+        type: Date, //创建日期的类型为日期类型
+        "default": Date.now //默认值为创建日期
+    },
+    grade: {  //总评分(每个用户的评分加权/总人数)
+        type:Number,
+        "default":0
+    },
+    beFocused:{
+        type: mongoose.Schema.Types.ObjectId, //发布者的引用
+        ref: 'User', //引用自User Model
+        require: true //非空
+    }, //关注该问题的用户
+    answers:[answerSchema]  //该问题的回答
+});
+//定义课程信息
+var subjectSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        require: true
+    },
+    images:[],//存图片id
+    desc: {
+        type: String,
+        require: true
+    },
+    created: {
+        type: Date, //创建日期的类型为日期类型
+        "default": Date.now //默认值为创建日期
+    },
+    level:{ //难度：1.初级 2.中级 3.高级
+        type:Number,
+        "default":1
+    },
+    learnTime:{  //小时数，以0.5小时为基本单位
+        type:Number,
+        "default":1
+    },
+    spots:[spotSchema],
+    beFocused:{
+        type: mongoose.Schema.Types.ObjectId, //发布者的引用
+        ref: 'User', //引用自User Model
+        require: true //非空
+    }, //关注该课程的用户
+    practice:[linkSchema],//对应的习题链接
+    moreInfo:[linkSchema], //推荐的更多学习资源
+    Questions:[questionSchema],  //该课程的问答
+    comments:[commentSchema],
+    isFinished:{
+        type:Boolean,
+        "default":false
+    },
+    spotNum:{    //总小章数
+        type:Number,
+        "default":1
+    }
+});
 //用户Schema定义
 var userSchema = new mongoose.Schema({
     userName: String, //用户名的类型为字符串
@@ -62,7 +234,7 @@ var userSchema = new mongoose.Schema({
         subjects:[subjectSchema]
     },
     myPersons:{ //关注的人
-        users:[userSchema]
+        users:[this]
     },
     myMessages:{ //我的消息
         readMessages:[messageSchema],
@@ -70,155 +242,6 @@ var userSchema = new mongoose.Schema({
     },
     myMarks:{
         items:[itemSchema]
-    }
-})
-//定义课程信息
-var subjectSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        require: true
-    },
-    images:[],//存图片id
-    desc: {
-        type: String,
-        require: true
-    },
-    created: {
-        type: Date, //创建日期的类型为日期类型
-        "default": Date.now //默认值为创建日期
-    },
-    level:{ //难度：1.初级 2.中级 3.高级
-        type:Number,
-        "default":1
-    },
-    learnTime:{  //小时数，以0.5小时为基本单位
-        type:Number,
-        "default":1
-    },
-    spots:[spotSchema],
-    beFocused:[userSchema], //关注该课程的用户
-    practice:[linkSchema],//对应的习题链接
-    moreInfo:[linkSchema], //推荐的更多学习资源
-    Questions:[questionSchema],  //该课程的问答
-    comments:[commentSchema],
-    isFinished:{
-        type:Boolean,
-        "default":false
-    },
-    spotNum:{    //总小章数
-        type:Number,
-        "default":1
-    }
-});
-//定义章节
-var spotSchema = new mongoose.Schema({
-    title: {   //章节题目
-        type: String,
-        require: true
-    },
-    label: {   //层级描述
-        type: String,
-        require: true
-    },
-    subSpot:[this]  //子层级
-});
-//定义推荐资源
-var linkSchema = new mongoose.Schema({
-    name:{
-        type:String,
-        require:true
-    },
-    url:{
-        type:String,
-        require:true
-    },
-    created: {
-        type: Date, //创建日期的类型为日期类型
-        "default": Date.now //默认值为创建日期
-    },
-    clickNum: {
-        type:Number,
-        "default":0
-    }
-});
-//定义问题
-var questionSchema = new mongoose.Schema({
-    content:{
-        type:String,
-        require:true
-    },
-    user:[userSchema], //提问的用户
-    created: {
-        type: Date, //创建日期的类型为日期类型
-        "default": Date.now //默认值为创建日期
-    },
-    grade: {  //总评分(每个用户的评分加权/总人数)
-        type:Number,
-        "default":0
-    },
-    beFocused:[userSchema], //关注该问题的用户
-    answers:[answerSchema]  //该问题的回答
-});
-//定义回答
-var answerSchema = new mongoose.Schema({
-    content:{
-        type:String,
-        require:true
-    },
-    user:[userSchema], //回答的用户
-    created: {
-        type: Date, //创建日期的类型为日期类型
-        "default": Date.now //默认值为创建日期
-    },
-    likeNum: {  //点赞数
-        type:Number,
-        "default":0
-    }
-});
-//定义评论
-var commentSchema = new mongoose.Schema({
-    content:{
-        type:String,
-        require:true
-    },
-    user:[userSchema], //回答的用户
-    created: {
-        type: Date, //创建日期的类型为日期类型
-        "default": Date.now //默认值为创建日期
-    }
-});
-//定义消息
-var messageSchema = new mongoose.Schema({
-    user:[userSchema], //发消息的用户
-    content:{
-        type:String,
-        require:true
-    },
-    messageType:{
-        type:Number,
-        "default":0   //0表示发送的消息，1表示接收的消息，2表示系统发过来的消息
-    },
-    created: {
-        type: Date, //创建日期的类型为日期类型
-        "default": Date.now //默认值为创建日期
-    }
-});
-//定义测试题
-var itemSchema = new mongoose.Schema({
-    content:{
-        type:String,
-        require:true
-    },
-    choice:[],//选项
-    correctChoice:{   //正确答案，1->A,2->B,3->C,4->D...
-        type:Number,
-        require:true
-    },
-    explain:String,
-    belong:String,//所属章节
-    created: {
-        type: Date, //创建日期的类型为日期类型
-        "default": Date.now //默认值为创建日期
     }
 });
 
