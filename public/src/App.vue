@@ -35,4 +35,8 @@ export default {
  .nav-item:last-child{
    float:right !important;
  }
+ .float-right{
+  display:block;
+  float:right;
+ }
 </style>
