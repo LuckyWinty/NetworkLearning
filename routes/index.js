@@ -27,7 +27,7 @@ router.get('/', function(req, res, next) {
   res.json({test:'asdfas'});
 });
 
-router.post('admin/add',function(req,res){
+router.get('/admin/add',function(req,res){
   addUserCtrol.doAdd(req,res);
 })
 router.post("/user/regist", registController.regist);

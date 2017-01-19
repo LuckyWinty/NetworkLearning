@@ -6,5 +6,5 @@ require('../../model/model');
 var User = mongoose.model('User');
 
 module.exports.doAdd = function(req, res){
-  console.log(req.body.data);
+  res.json({test:'123'});
 };

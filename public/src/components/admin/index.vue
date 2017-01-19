@@ -50,7 +50,7 @@
                 <el-form :model="fileList" label-width="80px">
                   <el-form-item label="头像">
                     <el-upload
-                      action="admin/add"
+                      action="http://localhost:3000/admin/add"
                       type="drag"
                       :thumbnail-mode="true"
                       :on-preview="handlePreview"
