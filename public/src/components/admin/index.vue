@@ -47,7 +47,7 @@
                 </div>
               </el-tab-pane>
               <el-tab-pane label="添加管理员">
-                <el-form :model="fileList" label-width="80px">
+                <el-form :model="fileList" label-width="80px" id="personInfo">
                   <el-form-item label="头像">
                     <el-upload
                       action="http://localhost:3000/admin/add"
@@ -390,11 +390,11 @@
     methods: {
       doAdd () {
         console.log('----------看看输出的数据', this.fileList)
-//        this.$http.get('/someUrl').then((response) => {
-//          // success callback
-//        }, (response) => {
-//          // error callback
-//        })
+        this.$http.post('http://localhost:3000/admin/add').then((response) => {
+          console.log('返回', response)
+        }, (response) => {
+          // error callback
+        })
       },
       next () {
         if (this.active++ > 2) this.active = 0
