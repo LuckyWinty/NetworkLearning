@@ -47,7 +47,7 @@
                 </div>
               </el-tab-pane>
               <el-tab-pane label="添加管理员">
-                <el-form :model="fileList" label-width="80px" id="personInfo" enctype="multipart/form-data">
+                <el-form :model="formLabelAlign" label-width="80px" id="personInfo" enctype="multipart/form-data">
                   <el-form-item label="头像">
                     <el-upload
                       action="http://localhost:3000/admin/add"
@@ -55,7 +55,7 @@
                       :thumbnail-mode="true"
                       :on-preview="handlePreview"
                       :on-remove="handleRemove"
-                      :default-file-list="fileList.portrait"
+                      :default-file-list="fileList"
                     >
                       <i class="el-icon-upload"></i>
                       <div class="el-dragger__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -63,25 +63,25 @@
                     </el-upload>
                   </el-form-item>
                   <el-form-item label="用户名">
-                    <el-input v-model="fileList.userName"></el-input>
+                    <el-input name="userName" v-model="formLabelAlign.userName"></el-input>
                   </el-form-item>
                   <el-form-item label="密码">
-                    <el-input v-model="fileList.password"></el-input>
+                    <el-input name="password" v-model="formLabelAlign.password"></el-input>
                   </el-form-item>
                   <el-form-item label="管理权限">
-                    <el-input v-model="fileList.power"></el-input>
+                    <el-input name="power" v-model="formLabelAlign.power"></el-input>
                   </el-form-item>
                   <el-form-item label="微信">
-                    <el-input v-model="fileList.wechat"></el-input>
+                    <el-input name="wechat" v-model="formLabelAlign.wechat"></el-input>
                   </el-form-item>
                   <el-form-item label="QQ">
-                    <el-input v-model="fileList.qq"></el-input>
+                    <el-input name="qq" v-model="formLabelAlign.qq"></el-input>
                   </el-form-item>
                   <el-form-item label="手机">
-                    <el-input v-model="fileList.phone"></el-input>
+                    <el-input name="phone" v-model="formLabelAlign.phone"></el-input>
                   </el-form-item>
                   <el-form-item label="个性签名">
-                    <el-input type="textarea" v-model="fileList.desc"></el-input>
+                    <el-input name="desc" type="textarea" v-model="formLabelAlign.desc"></el-input>
                   </el-form-item>
                   <el-button type="primary" @click="doAdd">添加</el-button>
                 </el-form>
@@ -143,7 +143,6 @@
                         :on-remove="handleRemovePic"
                         :on-success="handleSuccess"
                         :on-error="handleError"
-                        :default-file-list="fileList"
                       >
                         <i class="el-icon-upload"></i>
                         <div class="el-dragger__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -325,7 +324,8 @@
   export default {
     data () {
       return {
-        fileList: [{
+        fileList: [],
+        formLabelAlign: {
           portrait: '',
           userName: '',
           password: '',
@@ -334,7 +334,7 @@
           qq: '',
           phone: '',
           signature: ''
-        }],
+        },
         subject: {
           title: '',
           images: [],
@@ -389,7 +389,10 @@
     },
     methods: {
       doAdd () {
-        this.$http.post('http://localhost:3000/admin/add', {personInfo: this.fileList}).then((response) => {
+        var formData = new window.FormData(document.getElementById('personInfo'))
+        this.$http.post('http://localhost:3000/admin/add', {
+          body: formData
+        }).then((response) => {
           console.log('返回', response)
         }, (response) => {
           // error callback

@@ -34,6 +34,8 @@ module.exports.doAdd = function(req, res){
       content_type: mimetype
     });
     file.pipe(writeStream);
+  }).on('field', function (key, value) {
+    body[key] = value;
   }).on('finish', function () {
     //if(body.personInfo) {
       console.log('user info',body.personInfo);

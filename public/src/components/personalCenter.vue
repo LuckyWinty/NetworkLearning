@@ -139,6 +139,7 @@
                         <el-form-item label="个性签名">
                           <el-input type="textarea" v-model="formAlignRight.desc"></el-input>
                         </el-form-item>
+                        <el-form-item>
                         <el-button type="primary" @click="onSubmit">确认修改</el-button>
                         <el-button>保存</el-button>
                         </el-form-item>
