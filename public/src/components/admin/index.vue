@@ -47,10 +47,10 @@
                 </div>
               </el-tab-pane>
               <el-tab-pane label="添加管理员">
-                <el-form :model="fileList" label-width="80px">
+                <el-form :model="fileList" label-width="80px" id="personInfo" enctype="multipart/form-data">
                   <el-form-item label="头像">
                     <el-upload
-                      action="admin/add"
+                      action="http://localhost:3000/admin/add"
                       type="drag"
                       :thumbnail-mode="true"
                       :on-preview="handlePreview"
@@ -326,7 +326,7 @@
     data () {
       return {
         fileList: [{
-          portrait: [],
+          portrait: '',
           userName: '',
           password: '',
           power: '',
@@ -389,12 +389,11 @@
     },
     methods: {
       doAdd () {
-        console.log('----------看看输出的数据', this.fileList)
-//        this.$http.get('/someUrl').then((response) => {
-//          // success callback
-//        }, (response) => {
-//          // error callback
-//        })
+        this.$http.post('http://localhost:3000/admin/add', {personInfo: this.fileList}).then((response) => {
+          console.log('返回', response)
+        }, (response) => {
+          // error callback
+        })
       },
       next () {
         if (this.active++ > 2) this.active = 0
