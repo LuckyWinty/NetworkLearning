@@ -391,7 +391,7 @@
       doAdd () {
         var formData = new window.FormData(document.getElementById('personInfo'))
         this.$http.post('http://localhost:3000/admin/add', {
-          body: formData
+          personInfo: formData
         }).then((response) => {
           console.log('返回', response)
         }, (response) => {

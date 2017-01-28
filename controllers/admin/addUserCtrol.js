@@ -26,19 +26,21 @@ module.exports.doAdd = function(req, res){
   var body = {};
 
   busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
-    console.log('got file', filename, mimetype, encoding);
-    var writeStream = gfs.createWriteStream({
-      _id: fileId,
-      filename: filename,
-      mode: 'w',
-      content_type: mimetype
-    });
-    file.pipe(writeStream);
+    // console.log('got file', filename, mimetype, encoding);
+    // var writeStream = gfs.createWriteStream({
+    //   _id: fileId,
+    //   filename: filename,
+    //   mode: 'w',
+    //   content_type: mimetype
+    // });
+    // file.pipe(writeStream);
+    console.log('file')
   }).on('field', function (key, value) {
-    body[key] = value;
+    // body[key] = value;
+    console.log('field');
   }).on('finish', function () {
     //if(body.personInfo) {
-      console.log('user info',body.personInfo);
+    //   console.log('user info',body.personInfo);
     //  User.findOne({userName:body.personInfo.userName},function(error,person){
     //    if(error){
     //      res.json({status:'0',mes:'增加用户失败！'});
@@ -58,6 +60,7 @@ module.exports.doAdd = function(req, res){
     //    }
     //  })
       res.json({status:'1',mes:'增加用户成功！'})
+    console.log('finish');
     //}
   });
   req.pipe(busboy);
