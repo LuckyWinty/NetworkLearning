@@ -3,9 +3,9 @@
     <div class="mask"></div>
     <div class="login">
       <div class="close">
-        <i class="el-icon-close"></i>
+        <i class="el-icon-close close-icon"></i>
       </div>
-      <h5>还没有账号？去<a>注册</a></h5>
+      <h5 class="title">还没有账号？去<a href="#">注册</a></h5>
       <el-form :model="userInfo" label-width="80px" id="personInfo" enctype="multipart/form-data">
         <el-form-item label="用户名">
           <el-input name="userName" v-model="userInfo.userName"></el-input>
@@ -35,6 +35,28 @@
      height:50%;
      background-color:#fff;
      z-index:999;
+  }
+  .login .title{
+    font-weight:500;
+    margin:10px 10px 30px 20px;
+    text-align:left;
+  }
+  .close{
+  width:100%;
+  height:50px;
+  background-color:#ccc;
+  }
+  .close .close-icon{
+  color:#fff;
+  display:block;
+  float:right;
+  margin-top:10px;
+  margin-right:10px;
+  }
+  #personInfo{
+   width:80%;
+   height:100%;
+   margin:0 auto;
   }
 </style>
 <script>
