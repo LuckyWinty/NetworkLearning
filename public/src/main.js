@@ -10,6 +10,7 @@ import forum from './components/forum.vue'
 import questions from './components/questions.vue'
 import personalCenter from './components/personalCenter.vue'
 import adminIndex from './components/admin/index.vue'
+import login from './components/login.vue'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
@@ -83,8 +84,8 @@ const routes = [
   { path: '/forum', component: forum },
   { path: '/questions', component: questions },
   { path: '/personalCenter', component: personalCenter },
-  { path: '/adminIndex', component: adminIndex }
-
+  { path: '/adminIndex', component: adminIndex },
+  {path: '/login', component: login}
 ]
 
 const router = new VueRouter({

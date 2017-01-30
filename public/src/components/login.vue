@@ -1,46 +1,77 @@
 <template>
-<div class="ui middle aligned center aligned grid">
-  <div class="column">
-    <h2 class="ui teal image header">
-      <img src="assets/images/logo.png" class="image">
-      <div class="content">
-        登录
+  <div class="login-wrap">
+    <div class="mask"></div>
+    <div class="login">
+      <div class="close">
+        <i class="el-icon-close"></i>
       </div>
-    </h2>
-    <form class="ui large form">
-      <div class="ui stacked segment">
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="user icon"></i>
-            <input type="text" name="email" placeholder="请输入账号">
-          </div>
-        </div>
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="lock icon"></i>
-            <input type="password" name="password" placeholder="请输入密码">
-          </div>
-        </div>
-        <div class="ui fluid large teal submit button">登录</div>
-      </div>
-
-      <div class="ui error message"></div>
-
-    </form>
-
-    <div class="ui message">
-      还没有账号? <a href="#">去注册</a>
+      <h5>还没有账号？去<a>注册</a></h5>
+      <el-form :model="userInfo" label-width="80px" id="personInfo" enctype="multipart/form-data">
+        <el-form-item label="用户名">
+          <el-input name="userName" v-model="userInfo.userName"></el-input>
+        </el-form-item>
+        <el-form-item label="密码">
+          <el-input name="password" v-model="userInfo.password"></el-input>
+        </el-form-item>
+        <el-button type="primary" @click="doLogin">登录</el-button>
+      </el-form>
     </div>
   </div>
-</div>
 </template>
-
+<style>
+.login-wrap{
+ position:fixed;
+ top:0;
+ bottom:0;
+ left:0;
+ right:0;
+ text-align:center;
+}
+  .login{
+     position:absolute;
+     top:25%;
+     left:25%;
+     width:50%;
+     height:50%;
+     background-color:#fff;
+     z-index:999;
+  }
+</style>
 <script>
   export default {
-    name: 'hello',
     data () {
       return {
-        msg: 'Welcome to Your Vue.js App'
+        userInfo: {
+          userName: '',
+          password: ''
+        }
+      }
+    },
+    methods: {
+      doLogin () {
+        var self = this
+        var formData = new window.FormData(document.getElementById('personInfo'))
+        this.$http.post('http://localhost:3000/admin/add', formData).then((response) => {
+          if (response.status === 200) {
+            if (response.data.status === 1) {
+              self.popTip('注册成功！', '前往登录：')
+            } else {
+              self.popTip('该用户已注册！')
+            }
+            self.formLabelAlign = {
+              portrait: '',
+              userName: '',
+              password: '',
+              power: '',
+              wechat: '',
+              qq: '',
+              phone: '',
+              signature: ''
+            }
+          }
+        }, (response) => {
+          // error callback
+        })
       }
     }
   }

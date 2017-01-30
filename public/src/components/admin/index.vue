@@ -48,20 +48,6 @@
               </el-tab-pane>
               <el-tab-pane label="添加管理员">
                 <el-form :model="formLabelAlign" label-width="80px" id="personInfo" enctype="multipart/form-data">
-                  <el-form-item label="头像">
-                    <el-upload
-                      action="http://localhost:3000/admin/add"
-                      type="drag"
-                      :thumbnail-mode="true"
-                      :on-preview="handlePreview"
-                      :on-remove="handleRemove"
-                      :default-file-list="fileList"
-                    >
-                      <i class="el-icon-upload"></i>
-                      <div class="el-dragger__text">将文件拖到此处，或<em>点击上传</em></div>
-                      <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-                    </el-upload>
-                  </el-form-item>
                   <el-form-item label="用户名">
                     <el-input name="userName" v-model="formLabelAlign.userName"></el-input>
                   </el-form-item>
@@ -74,14 +60,8 @@
                   <el-form-item label="微信">
                     <el-input name="wechat" v-model="formLabelAlign.wechat"></el-input>
                   </el-form-item>
-                  <el-form-item label="QQ">
-                    <el-input name="qq" v-model="formLabelAlign.qq"></el-input>
-                  </el-form-item>
                   <el-form-item label="手机">
                     <el-input name="phone" v-model="formLabelAlign.phone"></el-input>
-                  </el-form-item>
-                  <el-form-item label="个性签名">
-                    <el-input name="desc" type="textarea" v-model="formLabelAlign.desc"></el-input>
                   </el-form-item>
                   <el-button type="primary" @click="doAdd">添加</el-button>
                 </el-form>
@@ -389,13 +369,32 @@
     },
     methods: {
       doAdd () {
+        var self = this
         var formData = new window.FormData(document.getElementById('personInfo'))
-        this.$http.post('http://localhost:3000/admin/add', {
-          personInfo: formData
-        }).then((response) => {
-          console.log('返回', response)
+        this.$http.post('http://localhost:3000/admin/add', formData).then((response) => {
+          if (response.status === 200) {
+            if (response.data.status === 1) {
+              self.popTip('注册成功！', '前往登录：')
+            } else {
+              self.popTip('该用户已注册！')
+            }
+            self.formLabelAlign = {
+              portrait: '',
+              userName: '',
+              password: '',
+              power: '',
+              wechat: '',
+              qq: '',
+              phone: '',
+              signature: ''
+            }
+          }
         }, (response) => {
           // error callback
+        })
+      },
+      popTip (title, tips) {
+        this.$alert(tips, title, {
         })
       },
       next () {
