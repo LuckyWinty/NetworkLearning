@@ -8,6 +8,7 @@
         <el-menu-item class="nav-item" index="4"><i class="el-icon-edit"></i><router-link to="/questions">题库练习</router-link></el-menu-item>
         <el-menu-item class="nav-item" index="5"  v-show="isLogin"><router-link to="/personalCenter">{{person.userName}}|<a>注销</a></router-link></el-menu-item>
         <el-menu-item class="nav-item" index="6" v-show="!isLogin">登录</el-menu-item>
+        <el-menu-item class="nav-item" index="7" v-show="!isAdmin"><router-link to="/adminIndex">进入管理系统</router-link></el-menu-item>
       </el-menu>
       <div class="line"></div>
     </nav>
@@ -24,6 +25,7 @@ export default {
         curIndex: 1,
         showLoginFlag: false,
         isLogin: false,
+        isAdmin: false,
         person: {
           userName: ''
         }
@@ -44,7 +46,7 @@ export default {
         this.person = info
         this.showLoginFlag = false
         if (this.person.power === 0) {
-          window.location.href = '/#/adminIndex'
+          this.isAdmin = true
         }
         console.log('--------------', info)
       }
