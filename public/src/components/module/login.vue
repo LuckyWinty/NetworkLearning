@@ -3,7 +3,7 @@
     <div class="mask"></div>
     <div class="login">
       <div class="close">
-        <i class="el-icon-close close-icon"></i>
+        <i class="el-icon-close close-icon" @click="doClose"></i>
       </div>
       <h5 class="title">还没有账号？去<a href="#">注册</a></h5>
       <el-form :model="userInfo" label-width="80px" id="personInfo" enctype="multipart/form-data">
@@ -26,6 +26,7 @@
  left:0;
  right:0;
  text-align:center;
+ z-index:998;
 }
   .login{
      position:absolute;
@@ -73,27 +74,33 @@
       doLogin () {
         var self = this
         var formData = new window.FormData(document.getElementById('personInfo'))
-        this.$http.post('http://localhost:3000/admin/add', formData).then((response) => {
+        this.$http.post('http://localhost:3000/login', formData).then((response) => {
+          console.log(response)
           if (response.status === 200) {
             if (response.data.status === 1) {
-              self.popTip('注册成功！', '前往登录：')
+              console.log(response.data)
+              self.deliverInfo(response.data.person)
             } else {
-              self.popTip('该用户已注册！')
+              self.popTip(response.data.mes)
             }
-            self.formLabelAlign = {
-              portrait: '',
+            self.userInfo = {
               userName: '',
-              password: '',
-              power: '',
-              wechat: '',
-              qq: '',
-              phone: '',
-              signature: ''
+              password: ''
             }
           }
         }, (response) => {
           // error callback
         })
+      },
+      popTip (title, tips) {
+        this.$alert(tips, title, {
+        })
+      },
+      doClose () {
+        this.$emit('doClose')
+      },
+      deliverInfo (person) {
+        this.$emit('login', person)
       }
     }
   }

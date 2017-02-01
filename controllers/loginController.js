@@ -1,20 +1,30 @@
-var mongoose=require('mongoose');
-var User=mongoose.model('User');
-var index = require('../routes/index');
+/**
+ * Created by winty on 2017/1/12.
+ */
+var mongoose = require('mongoose');
+require('../model/model');
+var User = mongoose.model('User');
+var formidable = require('formidable');
+var moment=require('moment');
 
-module.exports.login = function(req, res){
-    User.findOne({account:req.body.account},function(error,person){
-        if(error){
-            console.log(error);
-        }else if(person){
-            if(person.password!=req.body.password){
-                res.render('error', { error:{type: '密码错误！',message:'请检查密码是否正确！',href:'/login'}});
-            }else{
-                res.render('index', { title: '登录成功，来到首页' });
+
+module.exports.doLogin = function(req, res){
+    console.log('--------------进入login')
+    var form = new formidable.IncomingForm()
+    form.parse(req, function(err, fields, files) {
+        console.log('--------------1',fields)
+        User.findOne({userName: fields.userName}, function (error, person) {
+            console.log('--------------',person)
+            if (error) {
+                res.json({status: 0, mes: '登陆失败！'});
+            } else if (person) {
+                if(person.password!=fields.password){
+                    res.json({status: 0, mes: '密码错误！'});
+                }else{
+                    req.session.user = person;
+                    res.json({status: 1, person: person});
+                }
             }
-            
-        }else{
-            res.render('error', { error:{type: '该用户不存在！',message:'请先注册！',href:'/regist'}});
-        }
-    })
+        });
+    });
 };

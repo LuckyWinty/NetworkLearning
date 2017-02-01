@@ -10,7 +10,7 @@ import forum from './components/forum.vue'
 import questions from './components/questions.vue'
 import personalCenter from './components/personalCenter.vue'
 import adminIndex from './components/admin/index.vue'
-import login from './components/login.vue'
+import login from './components/module/login.vue'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'

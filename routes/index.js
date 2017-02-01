@@ -13,17 +13,6 @@ var GridFS = Grid(mongoose.connection.db, mongoose.mongo);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-//  try {
-////read from mongodb
-//    GridFS.files.find({ filename: 'essayPic' }).toArray(function (err, files) {
-//      if (err) {
-//        throw (err);
-//      }
-//      console.log(files);
-//    });
-//  } catch (err) {
-//    console.log('444');
-//  }
   res.json({test:'asdfas'});
 });
 
@@ -31,7 +20,7 @@ router.post('/admin/add',function(req,res){
   addUserCtrol.doAdd(req,res);
 })
 router.post("/user/regist", registController.regist);
-router.post("/user/login", loginController.login);
+router.post("/login", loginController.doLogin);
 
 
 

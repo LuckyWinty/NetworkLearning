@@ -47,7 +47,7 @@
                 </div>
               </el-tab-pane>
               <el-tab-pane label="添加管理员">
-                <el-form :model="formLabelAlign" label-width="80px" id="personInfo" enctype="multipart/form-data">
+                <el-form :model="formLabelAlign" label-width="80px" id="personInfo1" enctype="multipart/form-data">
                   <el-form-item label="用户名">
                     <el-input name="userName" v-model="formLabelAlign.userName"></el-input>
                   </el-form-item>
@@ -370,23 +370,16 @@
     methods: {
       doAdd () {
         var self = this
-        var formData = new window.FormData(document.getElementById('personInfo'))
+        var formData = new window.FormData(document.getElementById('personInfo1'))
+        for (var [key, value] of formData.entries()) {
+          console.log('------', key, value)
+        }
         this.$http.post('http://localhost:3000/admin/add', formData).then((response) => {
           if (response.status === 200) {
             if (response.data.status === 1) {
-              self.popTip('注册成功！', '前往登录：')
+              self.popTip('注册成功！', '点击右上角登陆吧！')
             } else {
-              self.popTip('该用户已注册！')
-            }
-            self.formLabelAlign = {
-              portrait: '',
-              userName: '',
-              password: '',
-              power: '',
-              wechat: '',
-              qq: '',
-              phone: '',
-              signature: ''
+              self.popTip(response.data.mes)
             }
           }
         }, (response) => {

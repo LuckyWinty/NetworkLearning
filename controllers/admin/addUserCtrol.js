@@ -23,11 +23,12 @@ db.open(function (err) {
 module.exports.doAdd = function(req, res){
   var form = new formidable.IncomingForm()
   form.parse(req, function(err, fields, files) {
+      console.log('-----fields',fields)
       User.findOne({userName: fields.userName}, function (error, person) {
           if (error) {
-              res.json({status: '0', mes: '增加用户失败！'});
+              res.json({status: 0, mes: '增加用户失败！'});
           } else if (person) {
-              res.json({status: '1', mes: '该用户已存在！'});
+              res.json({status: 1, mes: '该用户已存在！'});
           } else {
               User.create({
                   userName: fields.userName,
@@ -36,6 +37,7 @@ module.exports.doAdd = function(req, res){
                   wechat: fields.wechat,
                   phone: fields.phone
               }, function (error, User) {
+                  console.log('---------',User)
                   if (error) {
                       res.json({status: '0', mes: '增加用户失败！'});
                   } else {
