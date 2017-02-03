@@ -395,7 +395,10 @@
       },
       changeModule (index, indexPath) {
         this.showModule = index
-        console.log('有反应不？', index, this.showModule)
+        switch (index) {
+          case '1':''
+            break
+        }
       },
       handleRemove (tab) {
         console.log(tab)
