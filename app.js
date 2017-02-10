@@ -3,6 +3,7 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var session=require('express-session');
 var bodyParser = require('body-parser');
 var cors = require('cors');
 
@@ -21,11 +22,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'node_modules')));
 app.use(cors());
-//注册
-// app.post('/user/regist',function(req,res){
-//   console.log(req.body);
-//   res.render('index', { title: '首页' });
-// })
+app.use(session({
+  secret:'winty',
+  cookie:{maxAge:86400000},
+  resave: false,
+  saveUninitialized: true
+}));
 app.use('/', index);
 
 // catch 404 and forward to error handler
