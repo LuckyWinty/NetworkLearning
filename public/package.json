@@ -16,7 +16,8 @@
     "element": "^0.1.4",
     "element-ui": "^1.0.7",
     "vue": "^2.1.0",
-    "vue-html5-editor": "^0.5.1"
+    "vue-html5-editor": "^0.5.1",
+    "vuex": "^2.1.2"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",

@@ -116,7 +116,7 @@
                   <el-form :model="subject" label-width="150px">
                     <el-form-item label="课程展示图">
                       <el-upload
-                        action="//jsonplaceholder.typicode.com/posts/"
+                        action="http://localhost:3000/admin/add"
                         type="drag"
                         :multiple="true"
                         :on-preview="handlePreview"
@@ -374,10 +374,18 @@
         for (var [key, value] of formData.entries()) {
           console.log('------', key, value)
         }
-        this.$http.post('http://localhost:3000/admin/add', formData).then((response) => {
+        this.$http.post(self.$store.state.basicUrl + '/admin/add', formData).then((response) => {
           if (response.status === 200) {
             if (response.data.status === 1) {
               self.popTip('注册成功！', '点击右上角登陆吧！')
+              self.formLabelAlign.portrait = ''
+              self.formLabelAlign.userName = ''
+              self.formLabelAlign.password = ''
+              self.formLabelAlign.power = ''
+              self.formLabelAlign.wechat = ''
+              self.formLabelAlign.qq = ''
+              self.formLabelAlign.phone = ''
+              self.formLabelAlign.signature = ''
             } else {
               self.popTip(response.data.mes)
             }

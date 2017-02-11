@@ -28,7 +28,7 @@ module.exports.doAdd = function(req, res){
           if (error) {
               res.json({status: 0, mes: '增加用户失败！'});
           } else if (person) {
-              res.json({status: 1, mes: '该用户已存在！'});
+              res.json({status: 0, mes: '该用户已存在！'});
           } else {
               User.create({
                   userName: fields.userName,

@@ -17,7 +17,9 @@ import 'element-ui/lib/theme-default/index.css'
 import VueRouter from 'vue-router'
 import editor from 'vue-html5-editor'
 import resource from 'vue-resource'
+import Vuex from 'vuex'
 
+Vue.use(Vuex)
 Vue.use(editor, {
   name: 'vue-html5-editor',
   icons: {
@@ -92,8 +94,20 @@ const router = new VueRouter({
   routes
 })
 
+const store = new Vuex.Store({
+  state: {
+    basicUrl: 'http://localhost:3000'
+  },
+  mutations: {
+    increment () {
+
+    }
+  }
+})
+
 const app = new Vue({
   router,
+  store,
   ...App
 }).$mount('#app')
 

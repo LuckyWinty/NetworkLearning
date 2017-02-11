@@ -4,6 +4,7 @@
 var mongoose = require('mongoose');
 require('../../model/model');
 var User = mongoose.model('User');
+var Subject = mongoose.model('Subject');
 var formidable = require('formidable');
 var fs = require('fs');
 var mongo = require('mongodb');
@@ -20,10 +21,22 @@ db.open(function (err) {
     gfs = Grid(db, mongo);
 });
 
-module.exports.doAdd = function(req, res){
+module.exports.addSubject = function(req, res){
     var form = new formidable.IncomingForm()
     form.parse(req, function(err, fields, files) {
         console.log('-----fields',fields )
+         if (files) {
+             req.session.portrait = files;
+         } else if (fields) {
+             var fileId = new mongo.ObjectId();
+             var writeStream = gfs.createWriteStream({
+                 _id: fileId,
+                 filename: req.session.portrait.name,
+                 mode: 'w',
+                 content_type: mimetype
+             });
+             file.pipe(writeStream);
+             }
         User.findOne({userName: fields.userName}, function (error, person) {
             if (error) {
                 res.json({status: 0, mes: '增加用户失败！'});
@@ -46,17 +59,5 @@ module.exports.doAdd = function(req, res){
                 })
             }
         })
-        // if (files) {
-        //     req.session.portrait = files;
-        // } else if (fields) {
-        //     var fileId = new mongo.ObjectId();
-        //     var writeStream = gfs.createWriteStream({
-        //         _id: fileId,
-        //         filename: req.session.portrait.name,
-        //         mode: 'w',
-        //         content_type: mimetype
-        //     });
-        //     file.pipe(writeStream);
-        //     }
     });
 };
