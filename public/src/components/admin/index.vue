@@ -116,13 +116,12 @@
                   <el-form :model="subject" label-width="150px">
                     <el-form-item label="课程展示图">
                       <el-upload
-                        action="http://localhost:3000/admin/add"
+                        action="http://localhost:3000/admin/addSubject"
                         type="drag"
-                        :multiple="true"
+                        :thumbnail-mode="true"
                         :on-preview="handlePreview"
-                        :on-remove="handleRemovePic"
-                        :on-success="handleSuccess"
-                        :on-error="handleError"
+                        :on-remove="handleRemove"
+                        :default-file-list="fileList"
                       >
                         <i class="el-icon-upload"></i>
                         <div class="el-dragger__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -175,8 +174,8 @@
                   </el-form>
                 </div>
                 <div class="step-3" v-show="active==3">
-                  <vue-html5-editor :content="content" :height="500"></vue-html5-editor>
-                  <el-button class="top-margin" type="primary" @click="onSubmit">确定录入</el-button>
+                  <vue-html5-editor :content.sync="content" :height="450"></vue-html5-editor>
+                  <el-button class="top-margin" type="primary" @click="insertSubject">确定录入</el-button>
                 </div>
               </el-tab-pane>
             </el-tabs>
@@ -304,6 +303,7 @@
   export default {
     data () {
       return {
+        basicUrl: this.$store.state.basicUrl,
         fileList: [],
         formLabelAlign: {
           portrait: '',
@@ -324,10 +324,11 @@
           spots: {},
           practice: [],
           isFinished: '',
-          spotNum: ''
+          spotNum: '',
+          content: '<h3>vue html5 editor,custom modules</h3>'
         },
         active: 1,
-        content: '',
+        content: '<h3>vue html5 editor,custom modules</h3>',
         showModule: 1,
         tableData3: [{
           date: '2016-05-03',
@@ -399,6 +400,12 @@
         })
       },
       next () {
+        console.log('--------------subject', this.subject)
+        if (window.localStorage) {
+          window.localStorage.setItem('subject', this.subject)
+        } else {
+          window.alert('该浏览器无法保存该课程数据，请输入后立刻发布。')
+        }
         if (this.active++ > 2) this.active = 0
       },
       changeModule (index, indexPath) {
@@ -414,7 +421,8 @@
       handleClick (tab, event) {
         console.log(tab, event)
       },
-      onSubmit () {
+      insertSubject () {
+        console.log('--------------subject', this.subject)
       },
       handleRemovePic (file, fileList) {
         console.log(file, fileList)

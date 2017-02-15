@@ -4,6 +4,7 @@ var registController = require("../controllers/registController");
 var loginController = require("../controllers/loginController");
 //admin
 var addUserCtrol = require("../controllers/admin/addUserCtrol");
+var addSubjectCtrol = require("../controllers/admin/addSubject")
 
 var fs = require('fs');
 var mongoose = require("mongoose");
@@ -19,6 +20,10 @@ router.get('/', function(req, res, next) {
 router.post('/admin/add',function(req,res){
   addUserCtrol.doAdd(req,res);
 })
+router.post('/admin/addSubject',function(req,res){
+  addSubjectCtrol.addSubject(req,res);
+})
+
 router.post("/user/regist", registController.regist);
 router.post("/login", loginController.doLogin);
 

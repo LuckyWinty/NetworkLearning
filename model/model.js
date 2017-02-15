@@ -158,6 +158,10 @@ var subjectSchema = new mongoose.Schema({
         "default":1
     },
     spots:[spotSchema],
+    content: {
+        type: String,
+        require: true
+    },
     beFocused:{
         type: mongoose.Schema.Types.ObjectId, //发布者的引用
         ref: 'User', //引用自User Model

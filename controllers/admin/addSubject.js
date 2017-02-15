@@ -24,9 +24,10 @@ db.open(function (err) {
 module.exports.addSubject = function(req, res){
     var form = new formidable.IncomingForm()
     form.parse(req, function(err, fields, files) {
-        console.log('-----fields',fields )
+        console.log('-----files',files )
          if (files) {
              req.session.portrait = files;
+             res.json({status: 0, mes: '上传图片成功！'});
          } else if (fields) {
              var fileId = new mongo.ObjectId();
              var writeStream = gfs.createWriteStream({
@@ -36,28 +37,6 @@ module.exports.addSubject = function(req, res){
                  content_type: mimetype
              });
              file.pipe(writeStream);
-             }
-        User.findOne({userName: fields.userName}, function (error, person) {
-            if (error) {
-                res.json({status: 0, mes: '增加用户失败！'});
-            } else if (person) {
-                res.json({status: 1, mes: '该用户已存在！'});
-            } else {
-                User.create({
-                    userName: fields.userName,
-                    password: fields.password,
-                    power: fields.power,
-                    wechat: fields.wechat,
-                    phone: fields.phone
-                }, function (error, User) {
-                    console.log('---------',User)
-                    if (error) {
-                        res.json({status: '0', mes: '增加用户失败！'});
-                    } else {
-                        res.json({status: '1', mes: '增加用户成功！'});
-                    }
-                })
-            }
-        })
+         }
     });
 };
