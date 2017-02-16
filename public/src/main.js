@@ -15,31 +15,12 @@ import login from './components/module/login.vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import VueRouter from 'vue-router'
-import editor from 'vue-html5-editor'
+import VueQuillEditor from 'vue-quill-editor'
 import resource from 'vue-resource'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
-Vue.use(editor, {
-  name: 'vue-html5-editor',
-  icons: {
-    text: 'custom-icon text',
-    color: 'custom-icon color',
-    font: 'custom-icon font',
-    align: 'custom-icon align',
-    list: 'custom-icon list',
-    link: 'custom-icon link',
-    unlink: 'custom-icon unlink',
-    tabulation: 'custom-icon table',
-    image: 'custom-icon image',
-    'horizontal-rule': 'custom-icon hr',
-    eraser: 'custom-icon eraser',
-    hr: 'custom-icon hr',
-    undo: 'custom-icon undo',
-    'full-screen': 'custom-icon full-screen',
-    info: 'custom-icon info '
-  }
-})
+Vue.use(VueQuillEditor)
 
 Vue.use(resource)
 Vue.use(ElementUI)

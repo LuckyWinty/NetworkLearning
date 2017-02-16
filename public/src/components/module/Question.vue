@@ -8,7 +8,7 @@
       <div class="info">
         <h4 class="user-info">提问来自  <span class="user-name">{{comment.userName}}</span>
           <span class="wrapper">
-            <el-button type="info">关注</el-button>
+            <el-button type="info" class="float-right">关注</el-button>
           </span>
         </h4>
         <p class="content">{{comment.content}}</p>
@@ -32,7 +32,7 @@
   </div>
 </template>
 <style>
-  .comment-wrap:after,.question-detail-wrap:after{
+  .comment-wrap:after,.question-detail-wrap:after,.more-detail:after{
     display: block;
     content: '';
     visibility: hidden;
@@ -67,6 +67,7 @@
     float:right;
   }
   .info .content{
+    width:100%;
     text-indent: 2em;
     margin: 10px 0;
     color:#5E6D82;

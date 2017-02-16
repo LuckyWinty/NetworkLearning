@@ -144,38 +144,33 @@
                     <el-form-item label="课程时长">
                       <el-input v-model="subject.learnTime"></el-input>
                     </el-form-item>
-                    <el-form-item label="是否录完">
-                      <el-radio-group v-model="subject.isFinished">
-                        <el-radio label="已录完"></el-radio>
-                        <el-radio label="未录完"></el-radio>
-                      </el-radio-group>
-                    </el-form-item>
-                    <el-form-item label="课程章节数">
-                      <el-input v-model="subject.spotNum"></el-input>
-                    </el-form-item>
-                    <el-button type="primary" @click="next">下一步</el-button>
+                    <el-button  class="top-btn" type="primary" @click="next">下一步</el-button>
                   </el-form>
                 </div>
                 <div class="step-2" v-show="active==2">
                   <el-form :model="subject" label-width="150px">
-                    <el-form-item label="课程章节目录">
-                      <el-input v-model="subject.spot"></el-input>
-                    </el-form-item>
-                    <el-form-item label="课程章节层级">
-                      <el-input v-model="subject.label"></el-input>
+                    <el-form-item label="课程须知">
+                      <el-input type="textarea" v-model="subject.mustKnow" ></el-input>
                     </el-form-item>
                     <el-form-item label="课程推荐习题链接">
-                        <el-input type="textarea" v-model="subject.moreInfo"></el-input>
+                        <el-input type="textarea" v-model="subject.practice"  placeholder="例：链接1，链接2，链接3"></el-input>
                     </el-form-item>
                     <el-form-item label="课程推荐学习资源">
-                      <el-input type="textarea" v-model="subject.moreInfo"></el-input>
+                      <el-input type="textarea" v-model="subject.moreInfo"   placeholder="例：链接1，链接2，链接3"></el-input>
                     </el-form-item>
-                    <el-button type="primary" @click="next">下一步</el-button>
+                    <el-button  class="top-btn" type="primary" @click="pre">上一步</el-button>
+                    <el-button  class="top-btn pull-right" type="primary" @click="next">下一步</el-button>
                   </el-form>
                 </div>
                 <div class="step-3" v-show="active==3">
-                  <vue-html5-editor :content.sync="content" :height="450"></vue-html5-editor>
-                  <el-button class="top-margin" type="primary" @click="insertSubject">确定录入</el-button>
+                  <quill-editor ref="myTextEditor"
+                                v-model="subject.content"
+                                @blur="onEditorBlur($event)"
+                                @focus="onEditorFocus($event)"
+                                @ready="onEditorReady($event)">
+                  </quill-editor>
+                  <el-button  class="top-btn" type="primary" @click="pre">上一步</el-button>
+                  <el-button class="top-btn pull-right" type="primary" @click="insertSubject">确定录入</el-button>
                 </div>
               </el-tab-pane>
             </el-tabs>
@@ -250,51 +245,16 @@
     margin-bottom: 30px;
   }
   /*富文本*/
-  .custom-icon {
-    background-size: 100% 100%;
-    display: inline-block;
+  .ql-container .ql-editor {
+    min-height: 450px;
+    padding-bottom: 10px;
+    max-height: 700px;
   }
-  .custom-icon.text {
-    background-image: url('custom-icons/text.png');
+  .module-wrap .top-btn{
+    margin-top: 20px;
   }
-  .custom-icon.font {
-    background-image: url(custom-icons/font.png);
-  }
-  .custom-icon.align {
-    background-image: url(custom-icons/align.png);
-  }
-  .custom-icon.list {
-    background-image: url(custom-icons/list.png);
-  }
-  .custom-icon.color {
-    background-image: url(custom-icons/color.gif);
-  }
-  .custom-icon.eraser {
-    background-image: url(custom-icons/eraser.gif);
-  }
-  .custom-icon.full-screen {
-    background-image: url(custom-icons/full-screen.gif);
-  }
-  .custom-icon.hr {
-    background-image: url(custom-icons/hr.gif);
-  }
-  .custom-icon.image {
-    background-image: url(custom-icons/image.gif);
-  }
-  .custom-icon.link {
-    background-image: url(custom-icons/link.gif);
-  }
-  .custom-icon.table {
-    background-image: url(custom-icons/table.gif);
-  }
-  .custom-icon.undo {
-    background-image: url(custom-icons/undo.gif);
-  }
-  .custom-icon.unlink {
-    background-image: url(custom-icons/unlink.gif);
-  }
-  .custom-icon.info {
-    background-image: url(custom-icons/info.png);
+  .pull-right{
+    float:right;
   }
 </style>
 <script>
@@ -317,18 +277,16 @@
         },
         subject: {
           title: '',
-          images: [],
+          images: '',
           desc: '',
           level: '',
           learnTime: '',
-          spots: {},
-          practice: [],
-          isFinished: '',
-          spotNum: '',
-          content: '<h3>vue html5 editor,custom modules</h3>'
+          practice: '',
+          moreInfo: '',
+          content: '<h3>vue html5 editor,custom modules</h3>',
+          mustKnow: ''
         },
         active: 1,
-        content: '<h3>vue html5 editor,custom modules</h3>',
         showModule: 1,
         tableData3: [{
           date: '2016-05-03',
@@ -372,9 +330,6 @@
       doAdd () {
         var self = this
         var formData = new window.FormData(document.getElementById('personInfo1'))
-        for (var [key, value] of formData.entries()) {
-          console.log('------', key, value)
-        }
         this.$http.post(self.$store.state.basicUrl + '/admin/add', formData).then((response) => {
           if (response.status === 200) {
             if (response.data.status === 1) {
@@ -399,6 +354,15 @@
         this.$alert(tips, title, {
         })
       },
+      pre () {
+        console.log('--------------subject', this.subject)
+        if (window.localStorage) {
+          window.localStorage.setItem('subject', this.subject)
+        } else {
+          window.alert('该浏览器无法保存该课程数据，请输入后立刻发布。')
+        }
+        if (this.active-- < 0) this.active = 0
+      },
       next () {
         console.log('--------------subject', this.subject)
         if (window.localStorage) {
@@ -407,6 +371,15 @@
           window.alert('该浏览器无法保存该课程数据，请输入后立刻发布。')
         }
         if (this.active++ > 2) this.active = 0
+      },
+      onEditorBlur (editor) {
+        console.log('editor blur!', editor)
+      },
+      onEditorFocus (editor) {
+        console.log('editor focus!', editor)
+      },
+      onEditorReady (editor) {
+        console.log('editor ready!', editor)
       },
       changeModule (index, indexPath) {
         this.showModule = index
@@ -422,7 +395,19 @@
         console.log(tab, event)
       },
       insertSubject () {
+        var self = this
         console.log('--------------subject', this.subject)
+        this.$http.post(self.$store.state.basicUrl + '/admin/addSubjectInfo', {subject: self.subject}).then((response) => {
+          if (response.status === 200) {
+            if (response.data.status === 1) {
+              console.log('--------------res', response)
+            } else {
+              self.popTip(response.data.mes)
+            }
+          }
+        }, (response) => {
+          // error callback
+        })
       },
       handleRemovePic (file, fileList) {
         console.log(file, fileList)

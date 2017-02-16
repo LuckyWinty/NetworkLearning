@@ -162,6 +162,10 @@ var subjectSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    mustKnow: {
+        type: String,
+        require: true
+    },
     beFocused:{
         type: mongoose.Schema.Types.ObjectId, //发布者的引用
         ref: 'User', //引用自User Model
@@ -171,13 +175,10 @@ var subjectSchema = new mongoose.Schema({
     moreInfo:[linkSchema], //推荐的更多学习资源
     Questions:[questionSchema],  //该课程的问答
     comments:[commentSchema],
-    isFinished:{
-        type:Boolean,
-        "default":false
-    },
-    spotNum:{    //总小章数
-        type:Number,
-        "default":1
+    author:{
+        type: mongoose.Schema.Types.ObjectId, //发布者的引用
+        ref: 'User', //引用自User Model
+        require: true //非空
     }
 });
 //用户Schema定义

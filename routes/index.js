@@ -23,6 +23,9 @@ router.post('/admin/add',function(req,res){
 router.post('/admin/addSubject',function(req,res){
   addSubjectCtrol.addSubject(req,res);
 })
+router.post('/admin/addSubjectInfo',function(req,res){
+  addSubjectCtrol.addSubjectInfo(req,res);
+})
 
 router.post("/user/regist", registController.regist);
 router.post("/login", loginController.doLogin);
