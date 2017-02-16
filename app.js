@@ -23,8 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'node_modules')));
 app.use(cors());
 app.use(session({
-  secret:'winty',
-  cookie:{maxAge:86400000},
+  secret: 'winty',
   resave: false,
   saveUninitialized: true
 }));
@@ -37,7 +36,8 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-// error handlers
+//app.set('views', './views');
+//app.set('view engine', 'jade');
 
 // development error handler
 // will print stacktrace
