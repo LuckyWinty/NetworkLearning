@@ -39,9 +39,9 @@ module.exports.doAdd = function(req, res){
               }, function (error, User) {
                   console.log('---------',User)
                   if (error) {
-                      res.json({status: '0', mes: '增加用户失败！'});
+                      res.json({status: 0, mes: '增加用户失败！'});
                   } else {
-                      res.json({status: '1', mes: '增加用户成功！'});
+                      res.json({status: 1, mes: '增加用户成功！'});
                   }
               })
           }

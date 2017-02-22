@@ -6,6 +6,7 @@ require('../../model/model');
 var User = mongoose.model('User');
 var Subject = mongoose.model('Subject');
 var formidable = require('formidable');
+var Busboy = require('busboy');
 var fs = require('fs');
 var mongo = require('mongodb');
 var Grid = require('gridfs-stream');
@@ -27,28 +28,25 @@ module.exports.addSubject = function(req, res){
     form.parse(req, function(err, fields, files) {
         console.log('-----files',files )
          if (files) {
-             req.session.portrait = files;
-             console.log('---------------portrait',req.session.portrait);
-             res.json({status: 1, mes: '上传图片成功！'});
-         } else if (fields) {
              var fileId = new mongo.ObjectId();
              var writeStream = gfs.createWriteStream({
                  _id: fileId,
-                 filename: req.session.portrait.name,
+                 filename: files.name,
                  mode: 'w',
-                 content_type: mimetype
+                 content_type: files.type
              });
-             file.pipe(writeStream);
+             files.file.pipe(writeStream);
+             res.json({status: 1, fileId: fileId, mes: '上传图片成功！'});
          }
     })
 };
 module.exports.addSubjectInfo = function(req, res){
     if(req.body.subject){
-        console.log('---------------看看',req.session.portrait);
-        console.log('---------------看看user',req.session.user);
+        console.log('---------------看看',req.body.subject);
+
         Subject.create({
             title: req.body.subject.title,
-            //images: req.session.portrait.name,
+            imageId: req.body.subject.imageId,
             desc: req.body.subject.desc,
             level: req.body.subject.level,
             learnTime: req.body.subject.learnTime,
@@ -59,9 +57,9 @@ module.exports.addSubjectInfo = function(req, res){
         }, function (error, Subject) {
             console.log('---------',Subject)
             if (error) {
-                res.json({status: '0', mes: '录入课程失败！'});
+                res.json({status: 0, mes: '录入课程失败！'});
             } else {
-                res.json({status: '1', mes: '录入课程成功！'});
+                res.json({status: 1, mes: '录入课程成功！'});
             }
         })
     }

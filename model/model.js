@@ -140,7 +140,7 @@ var subjectSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    images:[],//存图片id
+    imageId:'',//存封面图片id
     desc: {
         type: String,
         require: true

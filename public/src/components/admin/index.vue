@@ -121,6 +121,7 @@
                         :thumbnail-mode="true"
                         :on-preview="handlePreview"
                         :on-remove="handleRemove"
+                        :on-success="handlePicSucess"
                         :default-file-list="fileList"
                       >
                         <i class="el-icon-upload"></i>
@@ -333,6 +334,7 @@
         this.$http.post(self.$store.state.basicUrl + '/admin/add', formData).then((response) => {
           if (response.status === 200) {
             if (response.data.status === 1) {
+              console.log('--------------成功')
               self.popTip('注册成功！', '点击右上角登陆吧！')
               self.formLabelAlign.portrait = ''
               self.formLabelAlign.userName = ''
@@ -414,6 +416,9 @@
       },
       handlePreview (file) {
         console.log(file)
+      },
+      handlePicSucess (response, file, fileList) {
+        this.subject.imageId = response.fileId
       },
       formatter (row, column) {
         return row.address
