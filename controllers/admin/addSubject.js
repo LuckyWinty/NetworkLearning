@@ -22,7 +22,7 @@ db.open(function (err) {
 });
 
 module.exports.addSubject = function(req, res){
-    console.log('---------------看看user',req.session.user);
+    console.log('---------------session:',req.session);
     var form = new formidable.IncomingForm()
     form.parse(req, function(err, fields, files) {
         console.log('-----files',files )
@@ -44,8 +44,8 @@ module.exports.addSubject = function(req, res){
 };
 module.exports.addSubjectInfo = function(req, res){
     if(req.body.subject){
-        console.log('---------------看看',req.session.portrait);
-        console.log('---------------看看user',req.session.user);
+        console.log('---------------session:',req.session);
+        console.log('--------------- session',req.session);
         Subject.create({
             title: req.body.subject.title,
             //images: req.session.portrait.name,

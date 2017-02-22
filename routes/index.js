@@ -28,7 +28,7 @@ router.post('/admin/addSubjectInfo',function(req,res){
 })
 
 router.post("/user/regist", registController.regist);
-router.post("/login", loginController.doLogin);
+router.post("/", loginController.doLogin);
 
 
 
