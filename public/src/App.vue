@@ -59,7 +59,7 @@ export default {
 
 <style>
   #app .container{
-    width:1450px;
+    width:1300px;
     margin:0 auto;
   }
   .el-menu{

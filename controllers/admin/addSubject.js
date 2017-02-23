@@ -55,7 +55,7 @@ module.exports.addSubjectInfo = function(req, res){
       var moreInfos = analysisLink(req.body.subject.moreInfo);
         Subject.create({
             title: req.body.subject.title,
-            imageId: req.body.subject.imageId,
+            imageId: '/image?imageId='+req.body.subject.imageId,
             desc: req.body.subject.desc,
             level: req.body.subject.level,
             learnTime: req.body.subject.learnTime,

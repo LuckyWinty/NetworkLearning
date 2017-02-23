@@ -166,11 +166,7 @@ var subjectSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    beFocused:{
-        type: mongoose.Schema.Types.ObjectId, //发布者的引用
-        ref: 'User', //引用自User Model
-        require: true //非空
-    }, //关注该课程的用户
+    beFocused:[], //关注该课程的用户id
     practices:[linkSchema],//对应的习题链接
     moreInfos:[linkSchema], //推荐的更多学习资源
     Questions:[questionSchema],  //该课程的问答

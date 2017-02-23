@@ -172,7 +172,7 @@
       </ul>
     </div>
   <h3 class="hot_head">最热学习榜<el-button class="float-right"  type="primary">查看更多</el-button></h3>
-    <Subject></Subject>
+    <Subject :hotLists="hotLists"></Subject>
   </div>
 </template>
 
@@ -286,11 +286,34 @@
   export default {
     data () {
       return {
-        currentDate: new Date()
+        currentDate: new Date(),
+        hotLists: []
       }
     },
     components: {
       'Subject': Subject
+    },
+    created () {
+      this.showSubjects()
+    },
+    methods: {
+      getUrl () {
+        return this.$store.state.basicUrl
+      },
+      showSubjects () {
+        var self = this
+        this.$http.post(self.getUrl() + '/index').then((response) => {
+          if (response.status === 200) {
+            if (response.data.status === 1) {
+              self.hotLists = self.hotLists.concat(response.data.Subjects)
+            } else {
+              self.popTip(response.data.mes)
+            }
+          }
+        }, (response) => {
+          // error callback
+        })
+      }
     }
   }
 </script>
