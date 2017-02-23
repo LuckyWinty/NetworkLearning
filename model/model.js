@@ -150,11 +150,11 @@ var subjectSchema = new mongoose.Schema({
         "default": Date.now //默认值为创建日期
     },
     level:{ //难度：1.初级 2.中级 3.高级
-        type:Number,
+        type:String,
         "default":1
     },
     learnTime:{  //小时数，以0.5小时为基本单位
-        type:Number,
+        type:String,
         "default":1
     },
     spots:[spotSchema],
@@ -171,8 +171,8 @@ var subjectSchema = new mongoose.Schema({
         ref: 'User', //引用自User Model
         require: true //非空
     }, //关注该课程的用户
-    practice:[linkSchema],//对应的习题链接
-    moreInfo:[linkSchema], //推荐的更多学习资源
+    practices:[linkSchema],//对应的习题链接
+    moreInfos:[linkSchema], //推荐的更多学习资源
     Questions:[questionSchema],  //该课程的问答
     comments:[commentSchema],
     author:{
