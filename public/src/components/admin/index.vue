@@ -119,8 +119,9 @@
                         action="http://localhost:3000/admin/addSubject"
                         type="drag"
                         :thumbnail-mode="true"
-                        :on-preview="handlePreview"
+                        :multiple = "false"
                         :on-remove="handleRemove"
+                        :on-success="handlePicSucess"
                         :default-file-list="fileList"
                       >
                         <i class="el-icon-upload"></i>
@@ -153,10 +154,10 @@
                       <el-input type="textarea" v-model="subject.mustKnow" ></el-input>
                     </el-form-item>
                     <el-form-item label="课程推荐习题链接">
-                        <el-input type="textarea" v-model="subject.practice"  placeholder="例：链接1，链接2，链接3"></el-input>
+                        <el-input type="textarea" v-model="subject.practice"  placeholder="例：名称1|链接1，名称2|链接2，名称3|链接3"></el-input>
                     </el-form-item>
                     <el-form-item label="课程推荐学习资源">
-                      <el-input type="textarea" v-model="subject.moreInfo"   placeholder="例：链接1，链接2，链接3"></el-input>
+                      <el-input type="textarea" v-model="subject.moreInfo"   placeholder="例：名称1|链接1，名称2|链接2，名称3|链接3"></el-input>
                     </el-form-item>
                     <el-button  class="top-btn" type="primary" @click="pre">上一步</el-button>
                     <el-button  class="top-btn pull-right" type="primary" @click="next">下一步</el-button>
@@ -244,6 +245,9 @@
     padding-bottom: 10px;
     margin-bottom: 30px;
   }
+  .el-icon-view{
+    display: none;
+  }
   /*富文本*/
   .ql-container .ql-editor {
     min-height: 450px;
@@ -277,13 +281,13 @@
         },
         subject: {
           title: '',
-          images: '',
+          imageId: '',
           desc: '',
           level: '',
           learnTime: '',
           practice: '',
           moreInfo: '',
-          content: '<h3>vue html5 editor,custom modules</h3>',
+          content: '',
           mustKnow: ''
         },
         active: 1,
@@ -333,6 +337,7 @@
         this.$http.post(self.$store.state.basicUrl + '/admin/add', formData).then((response) => {
           if (response.status === 200) {
             if (response.data.status === 1) {
+              console.log('--------------成功')
               self.popTip('注册成功！', '点击右上角登陆吧！')
               self.formLabelAlign.portrait = ''
               self.formLabelAlign.userName = ''
@@ -361,7 +366,7 @@
         } else {
           window.alert('该浏览器无法保存该课程数据，请输入后立刻发布。')
         }
-        if (this.active-- < 0) this.active = 0
+        if (this.active-- < 0) this.active = 1
       },
       next () {
         console.log('--------------subject', this.subject)
@@ -370,7 +375,7 @@
         } else {
           window.alert('该浏览器无法保存该课程数据，请输入后立刻发布。')
         }
-        if (this.active++ > 2) this.active = 0
+        if (this.active++ > 2) this.active = 1
       },
       onEditorBlur (editor) {
         console.log('editor blur!', editor)
@@ -400,7 +405,19 @@
         this.$http.post(self.$store.state.basicUrl + '/admin/addSubjectInfo', {subject: self.subject}).then((response) => {
           if (response.status === 200) {
             if (response.data.status === 1) {
-              console.log('--------------res', response)
+              self.popTip(response.data.mes)
+              self.subject.title = ''
+              self.subject.imageId = ''
+              self.subject.desc = ''
+              self.subject.level = ''
+              self.subject.learnTime = ''
+              self.subject.practice = ''
+              self.subject.moreInfo = ''
+              self.subject.content = ''
+              self.subject.mustKnow = ''
+              self.active = 1
+              self.handleRemovePic()
+              window.localStorage.removeItem('subject')
             } else {
               self.popTip(response.data.mes)
             }
@@ -410,10 +427,11 @@
         })
       },
       handleRemovePic (file, fileList) {
-        console.log(file, fileList)
+        console.log('you', file, fileList)
       },
-      handlePreview (file) {
-        console.log(file)
+      handlePicSucess (response, file, fileList) {
+        this.handleRemovePic(file, fileList)
+        this.subject.imageId = response.fileId
       },
       formatter (row, column) {
         return row.address

@@ -58,6 +58,10 @@ export default {
 </script>
 
 <style>
+  #app .container{
+    width:1300px;
+    margin:0 auto;
+  }
   .el-menu{
     border-radius:0 !important;
   }

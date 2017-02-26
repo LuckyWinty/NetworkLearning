@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var registController = require("../controllers/registController");
 var loginController = require("../controllers/loginController");
+var showInfoController = require("../controllers/showInfoController");
 //admin
 var addUserCtrol = require("../controllers/admin/addUserCtrol");
 var addSubjectCtrol = require("../controllers/admin/addSubject")
@@ -27,9 +28,15 @@ router.post('/admin/addSubjectInfo',function(req,res){
   addSubjectCtrol.addSubjectInfo(req,res);
 })
 
+//用户
 router.post("/user/regist", registController.regist);
-router.post("/", loginController.doLogin);
-
+router.post("/login", loginController.doLogin);
+router.post("/index",showInfoController.showSubjects);
+//加载图片
+router.get('/image', function (req, res) {
+  console.log('----------------------来了')
+  showInfoController.getImage(req, res);
+});
 
 
 module.exports = router;

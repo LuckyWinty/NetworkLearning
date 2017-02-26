@@ -36,8 +36,8 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-//app.set('views', './views');
-//app.set('view engine', 'jade');
+app.set('views', './views');
+app.set('view engine', 'jade');
 
 // development error handler
 // will print stacktrace
