@@ -20,6 +20,7 @@
                  <span class="diamonds"></span>
                  <span class="short-line"></span>
                </div>
+                <div class="long-string"></div>
               </div>
           </li>
                     <li>
@@ -36,6 +37,7 @@
                  <span class="diamonds"></span>
                  <span class="short-line"></span>
                </div>
+                <div class="long-string"></div>
               </div>
           </li>
                     <li>
@@ -52,6 +54,7 @@
                  <span class="diamonds"></span>
                  <span class="short-line"></span>
                </div>
+                <div class="long-string"></div>
               </div>
           </li>
                     <li>
@@ -68,6 +71,7 @@
                  <span class="diamonds"></span>
                  <span class="short-line"></span>
                </div>
+                <div class="long-string"></div>
               </div>
           </li>
                     <li>
@@ -84,6 +88,7 @@
                  <span class="diamonds"></span>
                  <span class="short-line"></span>
                </div>
+                <div class="long-string"></div>
               </div>
           </li>
       </ul>
@@ -103,6 +108,11 @@
                  <span class="diamonds"></span>
                  <span class="short-line"></span>
                </div>
+                <div class="skew-string">
+                  <span class="line1"></span>
+                  <span class="line2"></span>
+                  <span class="line3"></span>
+                </div>
               </div>
           </li>
                     <li>
@@ -119,6 +129,11 @@
                  <span class="diamonds"></span>
                  <span class="short-line"></span>
                </div>
+                <div class="skew-string">
+                  <span class="line1"></span>
+                  <span class="line2"></span>
+                  <span class="line3"></span>
+                </div>
               </div>
           </li>
                     <li>
@@ -135,6 +150,11 @@
                  <span class="diamonds"></span>
                  <span class="short-line"></span>
                </div>
+                <div class="skew-string">
+                  <span class="line1"></span>
+                  <span class="line2"></span>
+                  <span class="line3"></span>
+                </div>
               </div>
           </li>
                     <li>
@@ -151,6 +171,11 @@
                  <span class="diamonds"></span>
                  <span class="short-line"></span>
                </div>
+                <div class="skew-string">
+                  <span class="line1"></span>
+                  <span class="line2"></span>
+                  <span class="line3"></span>
+                </div>
               </div>
           </li>
                     <li>
@@ -167,6 +192,11 @@
                  <span class="diamonds"></span>
                  <span class="short-line"></span>
                </div>
+                <div class="skew-string">
+                  <span class="line1"></span>
+                  <span class="line2"></span>
+                  <span class="line3"></span>
+                </div>
               </div>
           </li>
       </ul>
@@ -194,7 +224,7 @@
    width:100%;
    height:490px;
    margin-bottom:10px;
-   background-image:url('../images/banner1.jpg');
+   background-image:url('../images/banner2.jpg');
    background-repeat:no-repeat;
    background-size:100% 100%;
   }
@@ -202,6 +232,9 @@
   float:left;
   margin-left:50px;
   margin-top:50px;
+  }
+  .learn-guide .guide-ul h4{
+    text-align: center;
   }
   .rhombus{
    position:relative;
@@ -214,6 +247,7 @@
   .learn-guide .rhombus .content-list li{
     float:none;
     margin: 5px;
+    text-align: center;
   }
     .learn-guide .rhombus .content-list li a{
       color:#fff;
@@ -246,10 +280,38 @@
     height:1px;
     background-color: #fff;
   }
+  .long-string{
+    width: 1px;
+    height: 46px;
+    background-color: #fff;
+    margin-left: 155px;
+    margin-top: 20px;
+  }
   .cut-off{
     width:100%;
     border-bottom: solid 1px #fff;
     margin-top: 50px;
+  }
+  .guide-ul .skew-string .line1,.guide-ul .skew-string .line2,.guide-ul .skew-string .line3{
+    background-color: #fff;
+    display: block;
+  }
+  .guide-ul .skew-string .line1{
+    margin-left: 155px;
+    width: 1px;
+    height: 25px;
+    margin-top: 20px;
+  }
+  .guide-ul .skew-string .line2{
+    margin-left: 155px;
+    width: 70px;
+    height: 1px;
+  }
+  .guide-ul .skew-string .line3{
+    margin-left: 225px;
+    height: 228px;
+    margin-top: -228px;
+    width: 1px;
   }
   .inline{
     width:78%;
