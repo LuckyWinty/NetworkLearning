@@ -3,7 +3,7 @@
       <el-col class="subject-item" :span="5" v-for="info in hotLists">
         <a href="#">
           <el-card :body-style="{ padding: '0px' }">
-            <img :src="info.imageId" class="image">
+            <img v-bind:src="`${basicUrl}/image?imageId=${info.imageId}`" class="image">
             <div style="padding: 14px;">
               <h3 class="subject_title">{{info.title}}</h3>
               <p class="subject_desc">{{info.desc}}</p>
@@ -61,7 +61,13 @@
     props: ['hotLists'],
     data () {
       return {
-        currentDate: new Date()
+        currentDate: new Date(),
+        basicUrl: this.getUrl()
+      }
+    },
+    methods: {
+      getUrl () {
+        return this.$store.state.basicUrl
       }
     }
   }

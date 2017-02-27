@@ -26,6 +26,8 @@ Vue.use(resource)
 Vue.use(ElementUI)
 Vue.use(VueRouter)
 
+Vue.http.options.xhr = {withCredentials: true}
+
 const routes = [
   { path: '/', component: index },
   { path: '/subjectLearn', component: subjectLearn },

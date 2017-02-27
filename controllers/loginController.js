@@ -23,7 +23,7 @@ module.exports.doLogin = function(req, res){
                 }else{
                     req.session.user = person;
                     setTimeout(function(){
-                      console.log('-----登录的session还在吗',req.session.user)
+                      console.log('-----登录的session还在吗',req.session)
                     }, 5000)
                     res.json({status: 1, person: person});
                 }

@@ -78,7 +78,8 @@
         console.log('---------------ok?', this.getUrl())
         var self = this
         var formData = new window.FormData(document.getElementById('personInfo'))
-        this.$http.post(self.getUrl() + '/login', formData).then((response) => {
+
+        this.$http.post(self.getUrl() + '/', formData).then((response) => {
           console.log(response)
           if (response.status === 200) {
             if (response.data.status === 1) {

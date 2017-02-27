@@ -55,7 +55,7 @@ module.exports.addSubjectInfo = function(req, res){
       var moreInfos = analysisLink(req.body.subject.moreInfo);
         Subject.create({
             title: req.body.subject.title,
-            imageId: '/image?imageId='+req.body.subject.imageId,
+            imageId: req.body.subject.imageId,
             desc: req.body.subject.desc,
             level: req.body.subject.level,
             learnTime: req.body.subject.learnTime,
@@ -64,7 +64,7 @@ module.exports.addSubjectInfo = function(req, res){
             content: req.body.subject.content,
             mustKnow: req.body.subject.mustKnow
         }, function (error, Subject) {
-            console.log('---------',Subject)
+            // console.log('---------',Subject)
             if (error) {
                 console.log('-----------error',error)
                 res.json({status: 0, mes: '录入课程失败！'});
