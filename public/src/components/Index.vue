@@ -7,13 +7,13 @@
     <div class="learn-guide">
       <ul class="guide-ul">
           <li>
-              <h4>网络安全学习</h4>
+              <h4>概述</h4>
               <div class="rhombus">
                 <ul class="content-list">
-                <li><a href="#">开始学习1</a></li>
-                <li><a href="#">开始学习2</a></li>
-                <li><a href="#">开始学习3</a></li>
-                <li><a href="#">开始学习4</a></li>
+                <li><a href="#">因特网的组成</a></li>
+                <li><a href="#">计算机网络的类别</a></li>
+                <li><a href="#">计算机网络的性能</a></li>
+                <li><a href="#">计算机网络体系结构</a></li>
                 </ul>
                <div class="line">
                  <span class="long-line"></span>
@@ -24,13 +24,13 @@
               </div>
           </li>
                     <li>
-              <h4>网络安全学习</h4>
+              <h4>物理层</h4>
               <div class="rhombus">
                 <ul class="content-list">
-                <li><a href="#">开始学习1</a></li>
-                <li><a href="#">开始学习2</a></li>
-                <li><a href="#">开始学习3</a></li>
-                <li><a href="#">开始学习4</a></li>
+                <li><a href="#">物理层基本概念</a></li>
+                <li><a href="#">数据通信基础</a></li>
+                <li><a href="#">物理层下面的传输媒介</a></li>
+                <li><a href="#">信道复用技术</a></li>
                 </ul>
                <div class="line">
                  <span class="long-line"></span>
@@ -41,13 +41,13 @@
               </div>
           </li>
                     <li>
-              <h4>网络安全学习</h4>
+              <h4>数据链路层</h4>
               <div class="rhombus">
                 <ul class="content-list">
-                <li><a href="#">开始学习1</a></li>
-                <li><a href="#">开始学习2</a></li>
-                <li><a href="#">开始学习3</a></li>
-                <li><a href="#">开始学习4</a></li>
+                <li><a href="#">数据链路层概念</a></li>
+                <li><a href="#">点对点协议PPP</a></li>
+                <li><a href="#">广播信道</a></li>
+                <li><a href="#">以太网扩展</a></li>
                 </ul>
                <div class="line">
                  <span class="long-line"></span>
@@ -58,13 +58,13 @@
               </div>
           </li>
                     <li>
-              <h4>网络安全学习</h4>
+              <h4>网络层</h4>
               <div class="rhombus">
                 <ul class="content-list">
-                <li><a href="#">开始学习1</a></li>
-                <li><a href="#">开始学习2</a></li>
-                <li><a href="#">开始学习3</a></li>
-                <li><a href="#">开始学习4</a></li>
+                <li><a href="#">网络层概念</a></li>
+                <li><a href="#">网络协议IP</a></li>
+                <li><a href="#">子网和超网</a></li>
+                <li><a href="#">路由和IP</a></li>
                 </ul>
                <div class="line">
                  <span class="long-line"></span>
@@ -75,13 +75,13 @@
               </div>
           </li>
                     <li>
-              <h4>网络安全学习</h4>
+              <h4>运输层</h4>
               <div class="rhombus">
                 <ul class="content-list">
-                <li><a href="#">开始学习1</a></li>
-                <li><a href="#">开始学习2</a></li>
-                <li><a href="#">开始学习3</a></li>
-                <li><a href="#">开始学习4</a></li>
+                <li><a href="#">运输层概念</a></li>
+                <li><a href="#">数据报协议UDP</a></li>
+                <li><a href="#">传输控制协议TCP</a></li>
+                <li><a href="#">可靠传输工作原理</a></li>
                 </ul>
                <div class="line">
                  <span class="long-line"></span>
@@ -95,13 +95,13 @@
       <div class="cut-off"></div>
             <ul class="guide-ul">
           <li>
-              <h4>网络安全学习</h4>
+              <h4>应用层</h4>
               <div class="rhombus">
                 <ul class="content-list">
-                <li><a href="#">开始学习1</a></li>
-                <li><a href="#">开始学习2</a></li>
-                <li><a href="#">开始学习3</a></li>
-                <li><a href="#">开始学习4</a></li>
+                <li><a href="#">应用层概念</a></li>
+                <li><a href="#">文件传输协议FTP</a></li>
+                <li><a href="#">万维网</a></li>
+                <li><a href="#">电子邮件</a></li>
                 </ul>
                <div class="line">
                  <span class="long-line"></span>
@@ -116,13 +116,13 @@
               </div>
           </li>
                     <li>
-              <h4>网络安全学习</h4>
+              <h4>网络安全</h4>
               <div class="rhombus">
                 <ul class="content-list">
-                <li><a href="#">开始学习1</a></li>
-                <li><a href="#">开始学习2</a></li>
-                <li><a href="#">开始学习3</a></li>
-                <li><a href="#">开始学习4</a></li>
+                <li><a href="#">网络安全概念</a></li>
+                <li><a href="#">两类密码体制</a></li>
+                <li><a href="#">鉴别</a></li>
+                <li><a href="#">系统安全</a></li>
                 </ul>
                <div class="line">
                  <span class="long-line"></span>
@@ -137,13 +137,13 @@
               </div>
           </li>
                     <li>
-              <h4>网络安全学习</h4>
+              <h4>音频/视频服务</h4>
               <div class="rhombus">
                 <ul class="content-list">
-                <li><a href="#">开始学习1</a></li>
-                <li><a href="#">开始学习2</a></li>
-                <li><a href="#">开始学习3</a></li>
-                <li><a href="#">开始学习4</a></li>
+                <li><a href="#">相关概述</a></li>
+                <li><a href="#">流式存储</a></li>
+                <li><a href="#">交互式音频/视频</a></li>
+                <li><a href="#">交互服务</a></li>
                 </ul>
                <div class="line">
                  <span class="long-line"></span>
@@ -158,13 +158,13 @@
               </div>
           </li>
                     <li>
-              <h4>网络安全学习</h4>
+              <h4>无线网络和移动网络</h4>
               <div class="rhombus">
                 <ul class="content-list">
-                <li><a href="#">开始学习1</a></li>
-                <li><a href="#">开始学习2</a></li>
-                <li><a href="#">开始学习3</a></li>
-                <li><a href="#">开始学习4</a></li>
+                <li><a href="#">无线局域网WLAN</a></li>
+                <li><a href="#">无线个人区域网WPAN</a></li>
+                <li><a href="#">无线城域网WMAN</a></li>
+                <li><a href="#">窝蜂移动通信网</a></li>
                 </ul>
                <div class="line">
                  <span class="long-line"></span>
@@ -179,13 +179,13 @@
               </div>
           </li>
                     <li>
-              <h4>网络安全学习</h4>
+              <h4>下一代通信网</h4>
               <div class="rhombus">
                 <ul class="content-list">
-                <li><a href="#">开始学习1</a></li>
-                <li><a href="#">开始学习2</a></li>
-                <li><a href="#">开始学习3</a></li>
-                <li><a href="#">开始学习4</a></li>
+                <li><a href="#">相关概念</a></li>
+                <li><a href="#">IPV6</a></li>
+                <li><a href="#">MPLS</a></li>
+                <li><a href="#">P2P</a></li>
                 </ul>
                <div class="line">
                  <span class="long-line"></span>
