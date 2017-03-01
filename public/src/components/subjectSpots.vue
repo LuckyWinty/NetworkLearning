@@ -177,7 +177,8 @@
         defaultProps: {
           children: 'children',
           label: 'label'
-        }
+        },
+        currentPage1: 1
       }
     },
     components: {

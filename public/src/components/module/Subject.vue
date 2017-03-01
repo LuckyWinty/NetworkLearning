@@ -1,9 +1,9 @@
 <template>
     <el-row>
       <el-col class="subject-item" :span="5" v-for="info in hotLists">
-        <a href="#">
+        <a :href="`/#/subjectSpots?subjectId=${info._id}`">
           <el-card :body-style="{ padding: '0px' }">
-            <img v-bind:src="`${basicUrl}/image?imageId=${info.imageId}`" class="image">
+            <img :src="`${basicUrl}/image?imageId=${info.imageId}`" class="image">
             <div style="padding: 14px;">
               <h3 class="subject_title">{{info.title}}</h3>
               <p class="subject_desc">{{info.desc}}</p>
