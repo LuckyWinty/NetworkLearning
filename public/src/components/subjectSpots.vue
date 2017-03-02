@@ -30,21 +30,25 @@
          <div class="grid-content bg-purple">
           <p class="margin-top-10px">简介：{{subjectInfo.desc}}</p>
            <el-tabs :active-name="activeName">
-             <el-tab-pane label="章节" name="first">
-               <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
-             </el-tab-pane>
-             <el-tab-pane label="评论" name="second">
-               <Comment></Comment>
-               <div class="block">
-                 <el-pagination
-                   @size-change="handleSizeChange"
-                   @current-change="handleCurrentChange"
-                   :current-page="currentPage1"
-                   :page-size="10"
-                   layout="total, prev, pager, next"
-                   :total="100">
-                 </el-pagination>
+             <el-tab-pane label="课程" name="first">
+               <div>这里是html模板</div>
+               <div class="comment">
+                 <el-form ref="form" :model="form" label-width="80px">
+                   <el-form-item label="评论">
+                     <el-input type="textarea" v-model="form.comment"></el-input>
+                   </el-form-item>
+                   <el-form-item>
+                     <el-button type="primary" @click="onSubmit">评论</el-button>
+                   </el-form-item>
+                 </el-form>
                </div>
+               <div class="commentList">
+                 <Comment></Comment>
+               </div>
+               <Page></Page>
+             </el-tab-pane>
+             <el-tab-pane label="更多资源" name="second">
+
              </el-tab-pane>
              <el-tab-pane label="问答" name="third">
                <Comment></Comment>
@@ -74,7 +78,7 @@
 .spots{
   width:100%;
   height:150px;
-  background-image: url("../images/bg.jpg");
+  background-image: url("../images/bg12.jpg");
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
@@ -154,31 +158,13 @@
           desc: '8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。',
           note: '本课程是腾讯前端团队Alloyteam参与主办的AC2016前端技术大会现场实录。大会分享议题涉及最近流行的ReactNative、Node.js、Angular.js、RXjs等技术。精彩分享不容错过！'
         },
-        data: [{
-          label: '一级 1',
-          children: [{
-            label: '二级 1-1'
-          }]
-        }, {
-          label: '一级 2',
-          children: [{
-            label: '二级 2-1'
-          }, {
-            label: '二级 2-2'
-          }]
-        }, {
-          label: '一级 3',
-          children: [{
-            label: '二级 3-1'
-          }, {
-            label: '二级 3-2'
-          }]
-        }],
-        defaultProps: {
-          children: 'children',
-          label: 'label'
+        form: {
+          comment: ''
         },
-        currentPage1: 1
+        currentPage1: 5,
+        currentPage2: 5,
+        currentPage3: 5,
+        currentPage4: 4
       }
     },
     components: {
@@ -187,6 +173,9 @@
       Page: Page
     },
     methods: {
+      onSubmit () {
+        console.log('submit!')
+      },
       handleNodeClick (data) {
         console.log(data)
       },
