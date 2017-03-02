@@ -33,8 +33,8 @@
              <el-tab-pane label="课程" name="first">
                <div class="subject-content" v-html="subjectInfo.content"></div>
                <div class="comment">
-                 <el-form ref="form" :model="form" label-width="80px">
-                   <el-form-item label="评论">
+                 <el-form ref="form" :model="form">
+                   <el-form-item>
                      <el-input type="textarea" v-model="form.comment"></el-input>
                    </el-form-item>
                    <el-form-item>
@@ -76,7 +76,7 @@
            <div class="note">
              <el-card class="box-card">
                <div slot="header" class="clearfix">
-                 <span style="line-height: 36px;">课程须知</span>
+                 <span style="line-height: 36px;color: red;font-weight: bold;">课程须知</span>
                </div>
                <p>{{subjectInfo.mustKnow}}</p>
              </el-card>
