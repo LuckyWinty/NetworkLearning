@@ -14,6 +14,7 @@
 </style>
 <script>
   export default {
+    props: ['pageInfo'],
     data () {
       return {
         currentPage1: 5,

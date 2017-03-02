@@ -32,6 +32,7 @@ router.post('/admin/addSubjectInfo',function(req,res){
 router.post("/user/regist", registController.regist);
 router.post("/login", loginController.doLogin);
 router.post("/index",showInfoController.showSubjects);
+router.post("/subjectSpots",showInfoController.showOneSubject)
 //加载图片
 router.get('/image', function (req, res) {
   console.log('----------------------来了')

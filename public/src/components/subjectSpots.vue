@@ -9,15 +9,15 @@
          <div class="tag-wrap">
            <ul>
              <li>
-               <h3>{{subjectInfo.hardLever}}</h3>
+               <h3>{{subjectInfo.level}}</h3>
                <p>难度</p>
              </li>
              <li>
-               <h3>{{subjectInfo.long}}</h3>
+               <h3>{{subjectInfo.learnTime}}</h3>
                <p>时长</p>
              </li>
              <li>
-             <h3>{{subjectInfo.hotLever}}人</h3>
+             <h3>{{subjectInfo.beFocused}}人</h3>
              <p>关注度</p>
              </li>
            </ul>
@@ -26,12 +26,12 @@
    </div>
    <div class="detail">
      <el-row>
-       <el-col class="detail-subject" :span="16">
+       <el-col class="detail-subject" :span="18">
          <div class="grid-content bg-purple">
           <p class="margin-top-10px">简介：{{subjectInfo.desc}}</p>
            <el-tabs :active-name="activeName">
              <el-tab-pane label="课程" name="first">
-               <div>这里是html模板</div>
+               <div class="subject-content" v-html="subjectInfo.content"></div>
                <div class="comment">
                  <el-form ref="form" :model="form" label-width="80px">
                    <el-form-item label="评论">
@@ -43,29 +43,42 @@
                  </el-form>
                </div>
                <div class="commentList">
-                 <Comment></Comment>
+                 <Comment :comments="subjectInfo.comments"></Comment>
                </div>
-               <Page></Page>
              </el-tab-pane>
              <el-tab-pane label="更多资源" name="second">
-
+               <el-card class="box-card">
+                 <div slot="header" class="clearfix">
+                   <span style="line-height: 36px;">对应的习题链接</span>
+                 </div>
+                 <div v-for="o in 4" class="text item">
+                   {{'列表内容 ' + o }}
+                 </div>
+               </el-card>
+               <el-card class="box-card"  style="margin-top: 36px;">
+                 <div slot="header" class="clearfix">
+                   <span style="line-height: 36px;">推荐学习资源</span>
+                 </div>
+                 <div v-for="o in 4" class="text item">
+                   {{'列表内容 ' + o }}
+                 </div>
+               </el-card>
              </el-tab-pane>
              <el-tab-pane label="问答" name="third">
                <Comment></Comment>
                <Reply></Reply>
-               <Page></Page>
              </el-tab-pane>
            </el-tabs>
          </div>
        </el-col>
-       <el-col :span="8">
+       <el-col :span="6">
          <div class="grid-content bg-purple">
            <div class="note">
              <el-card class="box-card">
                <div slot="header" class="clearfix">
                  <span style="line-height: 36px;">课程须知</span>
                </div>
-               <p>{{subjectInfo.note}}</p>
+               <p>{{subjectInfo.mustKnow}}</p>
              </el-card>
            </div>
          </div>
@@ -141,6 +154,9 @@
   margin-left:30px;
   margin-top: 50px;
 }
+  .subject-content{
+    padding: 10px 0;
+  }
 </style>
 <script>
   import Comment from 'components/module/Comment.vue'
@@ -150,14 +166,7 @@
     data () {
       return {
         activeName: 'first',
-        subjectInfo: {
-          title: '计算机',
-          hardLever: '初级',
-          long: '1小时',
-          hotLever: '1231',
-          desc: '8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。',
-          note: '本课程是腾讯前端团队Alloyteam参与主办的AC2016前端技术大会现场实录。大会分享议题涉及最近流行的ReactNative、Node.js、Angular.js、RXjs等技术。精彩分享不容错过！'
-        },
+        subjectInfo: {},
         form: {
           comment: ''
         },
@@ -167,12 +176,54 @@
         currentPage4: 4
       }
     },
+    created () {
+      this.showSubject()
+    },
     components: {
       Comment: Comment,
       Reply: Reply,
       Page: Page
     },
     methods: {
+      getUrl () {
+        return this.$store.state.basicUrl
+      },
+      popTip (title, tips) {
+        this.$alert(tips, title, {
+        })
+      },
+      showSubject () {
+        var self = this
+        var params = {}
+        var name, value
+        var str = window.location.href
+        var num = str.indexOf('?')
+        str = str.substr(num + 1)
+        var arr = str.split('&')
+        for (var i = 0; i < arr.length; i++) {
+          num = arr[i].indexOf('=')
+          if (num > 0) {
+            name = arr[i].substring(0, num)
+            value = arr[i].substr(num + 1)
+            params[name] = value
+          }
+        }
+        var subjectId = params.subjectId || ''
+        console.log('------------------', params, subjectId)
+        this.$http.post(self.getUrl() + '/subjectSpots', {subjectId: subjectId}).then((response) => {
+          if (response.status === 200) {
+            if (response.data.status === 1) {
+              console.log('----------课程', response.data.Subject)
+              self.subjectInfo = response.data.Subject
+              self.subjectInfo.beFocused = self.subjectInfo.beFocused.length
+            } else {
+              self.popTip(response.data.mes)
+            }
+          }
+        }, (response) => {
+          // error callback
+        })
+      },
       onSubmit () {
         console.log('submit!')
       },

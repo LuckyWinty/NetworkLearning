@@ -30,6 +30,22 @@ module.exports.showSubjects = function(req, res){
             }
         })
 }
+module.exports.showOneSubject = function(req, res){
+    console.log('------------------',req.body.subjectId)
+    if(req.body.subjectId){
+        Subject.findOne({'_id': req.body.subjectId})
+            .exec(function(error,Subject){
+                if(error){
+                    console.log('.....查找课程出错',error);
+                }else{
+                    res.json({status: 1,Subject:Subject, mes: '查找所有课程成功！'});
+                }
+            })
+    }else{
+        res.json({status: 0,mes: '找不到课程信息！'});
+    }
+}
+
 
 module.exports.getImage = function(req, res){
     var _id = new mongo.ObjectId(req.query.imageId);

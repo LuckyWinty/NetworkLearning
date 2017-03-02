@@ -362,6 +362,10 @@
       getUrl () {
         return this.$store.state.basicUrl
       },
+      popTip (title, tips) {
+        this.$alert(tips, title, {
+        })
+      },
       showSubjects () {
         var self = this
         this.$http.post(self.getUrl() + '/index').then((response) => {

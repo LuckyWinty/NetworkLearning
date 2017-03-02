@@ -169,7 +169,8 @@ var subjectSchema = new mongoose.Schema({
     beFocused:[], //关注该课程的用户id
     practices:[linkSchema],//对应的习题链接
     moreInfos:[linkSchema], //推荐的更多学习资源
-    Questions:[questionSchema],  //该课程的问答comments:[commentSchema],
+    Questions:[questionSchema],  //该课程的问答
+    comments:[commentSchema],
     author:{
         type: mongoose.Schema.Types.ObjectId, //发布者的引用
         ref: 'User', //引用自User Model
