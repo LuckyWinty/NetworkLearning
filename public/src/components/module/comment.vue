@@ -1,8 +1,9 @@
 <template>
+  <div class="wrap">
     <div class="comment">
       <div class="comment-wrap" v-for="comment in comments">
         <div class="portrait">
-          <img v-bind:src="comment.portrait" alt="">
+          <img :src="comment.portrait" alt="">
         </div>
         <div class="info">
           <h4>{{comment.userName}}</h4>
@@ -14,6 +15,10 @@
         </div>
       </div>
     </div>
+    <div class="page-wrap" v-if="comments">
+      <Page></Page>
+    </div>
+  </div>
 </template>
 <style>
   .comment-wrap:after{
@@ -57,24 +62,15 @@
   }
 </style>
 <script>
+  import Page from 'components/module/Page.vue'
   export default{
+    props: ['comments'],
     data () {
       return {
-        comments: [{
-          portrait: 'http://img.mukewang.com/585897cd0001603207120172.jpg',
-          userName: '我是学生',
-          content: 'Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.',
-          time: '2016-12-20',
-          likeNum: '30'
-        },
-        {
-          portrait: 'http://img.mukewang.com/585897cd0001603207120172.jpg',
-          userName: '我是学生',
-          content: 'Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.',
-          time: '2016-12-20',
-          likeNum: '30'
-        }]
       }
+    },
+    components: {
+      Page: Page
     }
   }
 </script>

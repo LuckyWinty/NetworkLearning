@@ -1,19 +1,19 @@
 <template>
     <el-row>
       <el-col class="subject-item" :span="5" v-for="info in hotLists">
-        <a :href="`/#/subjectSpots?subjectId=${info._id}`">
           <el-card :body-style="{ padding: '0px' }">
+            <a :href="`/#/subjectSpots?subjectId=${info._id}`">
             <img :src="`${basicUrl}/image?imageId=${info.imageId}`" class="image">
-            <div style="padding: 14px;">
+              <div style="padding: 10px;">
               <h3 class="subject_title">{{info.title}}</h3>
               <p class="subject_desc">{{info.desc}}</p>
-              <div class="bottom clearfix">
-                <time class="time">{{info.beFocused.length}}人关注</time>
-                <i class="el-icon-star-off">关注</i>
               </div>
-            </div>
+              </a>
+              <div class="bottom clearfix"  style="padding:0px 10px 10px 10px;">
+                <time class="time">{{info.beFocused.length}}人关注</time>
+                <i class="el-icon-star-off" @click="focus">关注</i>
+              </div>
           </el-card>
-        </a>
       </el-col>
     </el-row>
 </template>
@@ -68,6 +68,18 @@
     methods: {
       getUrl () {
         return this.$store.state.basicUrl
+      },
+      focus () {
+        var userId = window.sessionStorage.getItem('userId') || ''
+        if (userId) {
+
+        } else {
+          this.popTip('关注失败', '您还没有登录呢~~')
+        }
+      },
+      popTip (title, tips) {
+        this.$alert(tips, title, {
+        })
       }
     }
   }

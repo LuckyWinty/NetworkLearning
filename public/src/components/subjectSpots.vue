@@ -49,22 +49,30 @@
              <el-tab-pane label="更多资源" name="second">
                <el-card class="box-card">
                  <div slot="header" class="clearfix">
-                   <span style="line-height: 36px;">对应的习题链接</span>
+                   <span style="line-height: 36px;color: red;font-weight: bold;">对应的习题链接</span>
                  </div>
-                 <div v-for="o in 4" class="text item">
-                   {{'列表内容 ' + o }}
+                 <div v-for="o in subjectInfo.practices" class="text">
+                   <a :href="o.url">{{o.name}}</a>
                  </div>
                </el-card>
                <el-card class="box-card"  style="margin-top: 36px;">
                  <div slot="header" class="clearfix">
-                   <span style="line-height: 36px;">推荐学习资源</span>
+                   <span style="line-height: 36px;color: red;font-weight: bold;">推荐学习资源</span>
                  </div>
-                 <div v-for="o in 4" class="text item">
-                   {{'列表内容 ' + o }}
+                 <div v-for="o in subjectInfo.moreInfos" class="text">
+                   <a :href="o.url">{{o.name}}</a>
                  </div>
                </el-card>
              </el-tab-pane>
              <el-tab-pane label="问答" name="third">
+               <el-form ref="form" :model="question">
+                 <el-form-item>
+                   <el-input type="textarea" v-model="question.ask"></el-input>
+                 </el-form-item>
+                 <el-form-item>
+                   <el-button type="primary" @click="submitQuestion">提问</el-button>
+                 </el-form-item>
+               </el-form>
                <Comment></Comment>
                <Reply></Reply>
              </el-tab-pane>
@@ -136,11 +144,9 @@
 .text {
   font-size: 14px;
 }
-
-.item {
-  padding: 18px 0;
+.el-textarea textarea{
+  height:100px;
 }
-
 .clearfix:before,
 .clearfix:after {
   display: table;
@@ -169,6 +175,9 @@
         subjectInfo: {},
         form: {
           comment: ''
+        },
+        question: {
+          ask: ''
         },
         currentPage1: 5,
         currentPage2: 5,
@@ -225,6 +234,9 @@
         })
       },
       onSubmit () {
+        console.log('submit!')
+      },
+      submitQuestion () {
         console.log('submit!')
       },
       handleNodeClick (data) {
