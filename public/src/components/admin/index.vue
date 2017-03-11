@@ -133,7 +133,7 @@
                       <el-input v-model="subject.title"></el-input>
                     </el-form-item>
                     <el-form-item label="课程描述">
-                      <el-input type="textarea" v-model="subject.desc"></el-input>
+                      <el-input type="textarea" placeholder="最大150字" v-model="subject.desc"></el-input>
                     </el-form-item>
                     <el-form-item label="课程难度">
                       <el-radio-group v-model="subject.level">
@@ -151,7 +151,7 @@
                 <div class="step-2" v-show="active==2">
                   <el-form :model="subject" label-width="150px">
                     <el-form-item label="课程须知">
-                      <el-input type="textarea" v-model="subject.mustKnow" ></el-input>
+                      <el-input type="textarea"  placeholder="最大200字" v-model="subject.mustKnow" ></el-input>
                     </el-form-item>
                     <el-form-item label="课程推荐习题链接">
                         <el-input type="textarea" v-model="subject.practice"  placeholder="例：名称1|链接1，名称2|链接2，名称3|链接3"></el-input>

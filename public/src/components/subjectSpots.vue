@@ -28,7 +28,6 @@
      <el-row>
        <el-col class="detail-subject" :span="18">
          <div class="grid-content bg-purple">
-          <p class="margin-top-10px">简介：{{subjectInfo.desc}}</p>
            <el-tabs :active-name="activeName">
              <el-tab-pane label="课程" name="first">
                <div class="subject-content" v-html="subjectInfo.content"></div>
@@ -52,7 +51,7 @@
                    <span style="line-height: 36px;color: red;font-weight: bold;">对应的习题链接</span>
                  </div>
                  <div v-for="o in subjectInfo.practices" class="text">
-                   <a :href="o.url">{{o.name}}</a>
+                   <a class="link" :href="o.url">{{o.name}}</a>
                  </div>
                </el-card>
                <el-card class="box-card"  style="margin-top: 36px;">
@@ -60,7 +59,7 @@
                    <span style="line-height: 36px;color: red;font-weight: bold;">推荐学习资源</span>
                  </div>
                  <div v-for="o in subjectInfo.moreInfos" class="text">
-                   <a :href="o.url">{{o.name}}</a>
+                   <a class="link" :href="o.url">{{o.name}}</a>
                  </div>
                </el-card>
              </el-tab-pane>
@@ -163,6 +162,16 @@
   .subject-content{
     padding: 10px 0;
   }
+  .link{
+    display: block;
+    padding: 10px 5px;
+    border-radius: 5px;
+    background-color: #d3dce6;
+    margin:5px 0;
+  }
+   .link:hover{
+   background-color: #ccc;
+   }
 </style>
 <script>
   import Comment from 'components/module/Comment.vue'
