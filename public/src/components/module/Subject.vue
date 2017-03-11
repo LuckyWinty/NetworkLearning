@@ -10,8 +10,9 @@
               </div>
               </a>
               <div class="bottom clearfix"  style="padding:0px 10px 10px 10px;">
-                <time class="time">{{info.beFocused.length}}人关注</time>
-                <i class="el-icon-star-off" @click="focus">关注</i>
+                <span class="time">{{info.beFocused.length}}人关注</span>
+                <!--<i class="el-icon-star-off" @click="focus(info._id)">关注</i>-->
+                <el-button type="info" size="small" class="float-right">关注</el-button>
               </div>
           </el-card>
       </el-col>
@@ -35,6 +36,7 @@
     color:#58606D;
   }
   .time {
+    vertical-align: -webkit-baseline-middle;
     font-size: 13px;
     color: #999;
   }
