@@ -3,6 +3,7 @@ var router = express.Router();
 var registController = require("../controllers/registController");
 var loginController = require("../controllers/loginController");
 var showInfoController = require("../controllers/showInfoController");
+var basicController = require("../controllers/basicController");
 //admin
 var addUserCtrol = require("../controllers/admin/addUserCtrol");
 var addSubjectCtrol = require("../controllers/admin/addSubject")
@@ -32,7 +33,8 @@ router.post('/admin/addSubjectInfo',function(req,res){
 router.post("/user/regist", registController.regist);
 router.post("/login", loginController.doLogin);
 router.post("/index",showInfoController.showSubjects);
-router.post("/subjectSpots",showInfoController.showOneSubject)
+router.post("/subjectSpots",showInfoController.showOneSubject);
+router.post("/focus",basicController.focusSubject);
 //加载图片
 router.get('/image', function (req, res) {
   console.log('----------------------来了')

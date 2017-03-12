@@ -12,7 +12,7 @@
               <div class="bottom clearfix"  style="padding:0px 10px 10px 10px;">
                 <span class="time">{{info.beFocused.length}}人关注</span>
                 <!--<i class="el-icon-star-off" @click="focus(info._id)">关注</i>-->
-                <el-button type="info" size="small" class="float-right">关注</el-button>
+                <el-button type="info" size="small" class="float-right" @click="focus(info)">{{info.isFocus==1?'已关注':'关注'}}</el-button>
               </div>
           </el-card>
       </el-col>
@@ -71,10 +71,33 @@
       getUrl () {
         return this.$store.state.basicUrl
       },
-      focus () {
+      focus (info) {
         var userId = window.sessionStorage.getItem('userId') || ''
-        if (userId) {
+        var isFocus = info.isFocus
 
+        if (userId) {
+          var self = this
+          this.$http.post(self.getUrl() + '/focus', {userId: userId, subjectId: info._id, isFocus: isFocus}).then((response) => {
+            if (response.status === 200) {
+              if (response.data.status === 1) {
+                console.log('----------', response.data)
+                for (var i = 0; i < self.hotLists.length; i++) {
+                  if (self.hotLists[i]._id.toString() === info._id) {
+                    self.hotLists[i].isFocus = response.data.isFocus
+                    if (response.data.isFocus === 1) {
+                      self.hotLists[i].beFocused.push('1')
+                    } else {
+                      self.hotLists[i].beFocused.splice(0, 1)
+                    }
+                  }
+                }
+              } else {
+                self.popTip(response.data.mes)
+              }
+            }
+          }, (response) => {
+            // error callback
+          })
         } else {
           this.popTip('关注失败', '您还没有登录呢~~')
         }

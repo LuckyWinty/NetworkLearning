@@ -9,7 +9,6 @@ var moment=require('moment');
 
 
 module.exports.doLogin = function(req, res){
-    console.log('--------------进入login')
     var form = new formidable.IncomingForm()
     form.parse(req, function(err, fields, files) {
         console.log('--------------1',fields)

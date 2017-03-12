@@ -26,7 +26,22 @@ module.exports.showSubjects = function(req, res){
             if(error){
                 console.log('.....查找所有课程出错',error);
             }else{
-                res.json({status: 1,Subjects:Subjects, mes: '查找所有课程成功！'});
+                if(req.body.userId){
+                    User.findOne({_id: req.body.userId})
+                        .exec(function (err, person) {
+                            for (var i = 0; i < person.mySubjects.subjects.length; i++) {
+                                for (var j = 0; j < Subjects.length; j++) {
+                                    if (person.mySubjects.subjects[i]._id.toString() == Subjects[j]._id.toString()) {
+                                        Subjects[j].isFocus = 1;
+                                        break;
+                                    }
+                                }
+                            }
+                            res.json({status: 1,Subjects:Subjects, mes: '查找所有课程成功！'});
+                    })
+                }else{
+                    res.json({status: 1,Subjects:Subjects, mes: '查找所有课程成功！'});
+                }
             }
         })
 }

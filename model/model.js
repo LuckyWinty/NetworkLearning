@@ -149,6 +149,10 @@ var subjectSchema = new mongoose.Schema({
         type: Date, //创建日期的类型为日期类型
         "default": Date.now //默认值为创建日期
     },
+    isFocus: {
+        type:String,
+        "default":0
+    },
     level:{ //难度：1.初级 2.中级 3.高级
         type:String,
         "default":1

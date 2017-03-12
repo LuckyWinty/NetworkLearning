@@ -368,7 +368,8 @@
       },
       showSubjects () {
         var self = this
-        this.$http.post(self.getUrl() + '/index').then((response) => {
+        var userId = window.sessionStorage.getItem('userId') || ''
+        this.$http.post(self.getUrl() + '/index', {userId: userId}).then((response) => {
           if (response.status === 200) {
             if (response.data.status === 1) {
               console.log('----------所有的课程', response.data.Subjects)

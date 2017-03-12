@@ -6,15 +6,12 @@ var mongoose = require('mongoose');
 require('../model/model');
 var User = mongoose.model('User');
 var Subject = mongoose.model('Subject');
-var mongo = require('mongodb');
-var util = require('util');
-var moment=require('moment');
 
 module.exports.focusSubject = function(req, res){
-    if(req.body.SubjectId && req.body.userId){
-        var SubjectId = req.body.SubjectId;
+    if(req.body.subjectId && req.body.userId){
+        var SubjectId = req.body.subjectId;
         var userId = req.body.userId;
-        if (req.body.isFocus == '1') {
+        if (req.body.isFocus == 0) {
             Subject.findById({'_id': SubjectId})
                 .exec(function (error, Subject) {
                     if (error) {
@@ -60,7 +57,7 @@ module.exports.focusSubject = function(req, res){
                                 User.findOne({_id: userId})
                                     .exec(function (err, person) {
                                         for (var i = 0; i < person.mySubjects.subjects.length; i++) {
-                                            if (person.mySubjects.subjects[i]._id.toString() == sha._id.toString()) {
+                                            if (person.mySubjects.subjects[i]._id.toString() == sub._id.toString()) {
                                                 person.mySubjects.subjects.splice(i, 1);
                                                 break;
                                             }
@@ -69,7 +66,7 @@ module.exports.focusSubject = function(req, res){
                                             if (err) {
                                                 res.json({status: 0, mes: '取关失败'});
                                             } else {
-                                                res.json({status: 1, isLike: 0, mes: '消赞成功'});
+                                                res.json({status: 1,isFocus:0, mes: '取关成功'});
                                             }
                                         })
                                     })

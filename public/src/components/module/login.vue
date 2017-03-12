@@ -79,11 +79,11 @@
         var self = this
         var formData = new window.FormData(document.getElementById('personInfo'))
 
-        this.$http.post(self.getUrl() + '/', formData).then((response) => {
+        this.$http.post(self.getUrl() + '/login', formData).then((response) => {
           console.log(response)
           if (response.status === 200) {
             if (response.data.status === 1) {
-              console.log(response.data)
+              window.sessionStorage.setItem('userId', response.data.person._id)
               self.deliverInfo(response.data.person)
             } else {
               self.popTip(response.data.mes)
