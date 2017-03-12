@@ -1,14 +1,14 @@
 <template>
   <div class="reply">
-    <div class="reply-wrap" v-for="comment in comments">
+    <div class="reply-wrap" v-for="answer in answers">
       <div class="portrait">
-        <img v-bind:src="comment.portrait" alt="">
-        <h4>{{comment.userName}}</h4>
+        <img :src="answer.user.portrait?`${basicUrl}/image?imageId=${answer.user.portrait}`:`${basicUrl}/image?imageId=58c4d44ad68eca1eb831a2b6`" alt="">
+        <h4>{{answer.user.userName}}</h4>
       </div>
       <div class="info">
-        <p class="content">{{comment.content}}</p>
+        <p class="content">{{answer.content}}</p>
         <div class="more-detail">
-          <span class="time">回复时间：{{comment.time}}</span>
+          <span class="time">回复时间：{{formatDate(question.created)}}</span>
         </div>
       </div>
     </div>
@@ -56,15 +56,31 @@
 </style>
 <script>
   export default{
+    props: ['answers'],
     data () {
       return {
-        comments: [{
-          portrait: 'http://img.mukewang.com/585897cd0001603207120172.jpg',
-          userName: '我是学生',
-          content: 'Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.',
-          time: '2016-12-20',
-          likeNum: '30'
-        }]
+        basicUrl: this.getUrl()
+      }
+    },
+    methods: {
+       getUrl () {
+        return this.$store.state.basicUrl
+      },
+      popTip (title, tips) {
+        this.$alert(tips, title, {
+        })
+      },
+      formatDate (date) {
+        var times = new Date(date)
+        var Y = times.getFullYear()
+        var M = times.getMonth() > 8 ? times.getMonth() + 1 : '0' + (times.getMonth() + 1)
+        var D = times.getDate() > 9 ? times.getDate() : '0' + times.getDate()
+
+        var H = times.getHours()
+        var m = times.getMinutes()
+        var S = times.getSeconds()
+
+        return Y + '-' + M + '-' + D + '  ' + H + ' : ' + m + ' : ' + S
       }
     }
   }

@@ -1,16 +1,16 @@
 <template>
   <div class="question">
-    <div class="question-wrap" v-for="comment in comments">
+    <div class="question-wrap" v-for="answer in answers">
       <div class="portrait">
-        <img :src="comment.portrait" alt="">
+         <img :src="answer.user.portrait?`${basicUrl}/image?imageId=${answer.user.portrait}`:`${basicUrl}/image?imageId=58c4d44ad68eca1eb831a2b6`" alt="">
       </div>
       <div class="info">
-        <h4 class="user-info">回答来自  <span class="user-name">{{comment.userName}}</span></h4>
-        <p class="content">{{comment.content}}</p>
+        <h4 class="user-info">回答来自  <span class="user-name">{{answer.user.userName}}</span></h4>
+        <p class="content">{{answer.content}}</p>
         <div class="more-detail">
-          <span class="time">回答时间：{{comment.time}}</span>
+          <span class="time">回答时间：{{formatDate(answer.created)}}</span>
           <div class="answer-like">
-            <el-tag type="primary">赞({{comment.likeNum}})</el-tag>
+            <el-tag type="primary">赞({{answer.likeNum}})</el-tag>
           </div>
         </div>
       </div>
@@ -68,22 +68,31 @@
 </style>
 <script>
   export default{
+    props: ['answers'],
     data () {
       return {
-        comments: [{
-          portrait: 'http://img.mukewang.com/585897cd0001603207120172.jpg',
-          userName: '我是学生',
-          content: 'Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.',
-          time: '2016-12-20',
-          likeNum: '123'
-        },
-        {
-          portrait: 'http://img.mukewang.com/585897cd0001603207120172.jpg',
-          userName: '我是学生',
-          content: 'Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio.',
-          time: '2016-12-20',
-          likeNum: '3'
-        }]
+        basicUrl: this.getUrl()
+      }
+    },
+    methods: {
+      getUrl () {
+        return this.$store.state.basicUrl
+      },
+      popTip (title, tips) {
+        this.$alert(tips, title, {
+        })
+      },
+      formatDate (date) {
+        var times = new Date(date)
+        var Y = times.getFullYear()
+        var M = times.getMonth() > 8 ? times.getMonth() + 1 : '0' + (times.getMonth() + 1)
+        var D = times.getDate() > 9 ? times.getDate() : '0' + times.getDate()
+
+        var H = times.getHours()
+        var m = times.getMinutes()
+        var S = times.getSeconds()
+
+        return Y + '-' + M + '-' + D + '  ' + H + ' : ' + m + ' : ' + S
       }
     }
   }

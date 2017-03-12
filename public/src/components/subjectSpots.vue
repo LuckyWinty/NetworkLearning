@@ -69,11 +69,10 @@
                    <el-input type="textarea" v-model="question.ask"></el-input>
                  </el-form-item>
                  <el-form-item>
-                   <el-button type="primary" @click="submitQuestion">提问</el-button>
+                   <el-button type="primary" @click="submitQuestion(subjectInfo)">提问</el-button>
                  </el-form-item>
                </el-form>
-               <Comment></Comment>
-               <Reply></Reply>
+               <Question :questions="subjectInfo.Questions" :showFocus="1"></Question>
              </el-tab-pane>
            </el-tabs>
          </div>
@@ -126,7 +125,7 @@
   font-weight: 500;
 }
   .detail,.spots-wrap{
-    width:80%;
+    width:90%;
     margin: 0 auto;
   }
   .el-tabs{
@@ -175,8 +174,7 @@
 </style>
 <script>
   import Comment from 'components/module/Comment.vue'
-  import Reply from 'components/module/Reply.vue'
-  import Page from 'components/module/Page.vue'
+  import Question from 'components/module/Question.vue'
   export default {
     data () {
       return {
@@ -195,8 +193,7 @@
     },
     components: {
       Comment: Comment,
-      Reply: Reply,
-      Page: Page
+      Question: Question
     },
     methods: {
       getUrl () {
@@ -263,8 +260,31 @@
           this.popTip('评论失败', '您还没有登录呢~~')
         }
       },
-      submitQuestion () {
-        console.log('submit!')
+      submitQuestion (info) {
+        var userId = window.sessionStorage.getItem('userId') || ''
+        if (userId) {
+          var self = this
+          if (!self.question.ask) {
+            this.popTip('提问失败', '您还没有输入提问内容呢~~')
+            return
+          }
+          this.$http.post(self.getUrl() + '/ask', {userId: userId, subjectId: info._id, question: self.question.ask}).then((response) => {
+            if (response.status === 200) {
+              if (response.data.status === 1) {
+                self.question.ask = ''
+                console.log('----------', response.data)
+                self.subjectInfo.Questions = []
+                self.subjectInfo.Questions = self.subjectInfo.Questions.concat(response.data.questions)
+              } else {
+                self.popTip(response.data.mes)
+              }
+            }
+          }, (response) => {
+            // error callback
+          })
+        } else {
+          this.popTip('提问失败', '您还没有登录呢~~')
+        }
       },
       handleNodeClick (data) {
         console.log(data)

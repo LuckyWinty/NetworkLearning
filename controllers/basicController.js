@@ -7,6 +7,9 @@ require('../model/model');
 var User = mongoose.model('User');
 var Subject = mongoose.model('Subject');
 var Comment = mongoose.model('Comment');
+var Question = mongoose.model('Question');
+var Answer = mongoose.model('Answer');
+
 
 module.exports.focusSubject = function(req, res){
     if(req.body.subjectId && req.body.userId){
@@ -124,5 +127,89 @@ module.exports.comment = function(req, res){
         res.json({status: 0, mes: '失败'});
     }
 }
-
+module.exports.ask = function(req, res){
+    if(req.body.subjectId && req.body.userId){
+        var SubjectId = req.body.subjectId;
+        var userId = req.body.userId;
+        Subject.findById({'_id': SubjectId})
+            .exec(function (error, Subject1) {
+                if (error) {
+                    res.json({status: 0, mes: '提问失败'});
+                } else {
+                    var com = new Question;
+                    com.content = req.body.question;
+                    com.user = userId;
+                    Subject1.Questions.push(com);
+                    Subject1.save(function (err, sub) {
+                        if (err) {
+                            res.json({status: 0, mes: '提问失败'});
+                        } else {
+                            User.findOne({_id: userId})
+                                .exec(function (err, person) {
+                                    person.myQuestions.questions.push(com);
+                                    person.save(function (err, user) {
+                                        if (err) {
+                                            res.json({status: 0, mes: '提问失败'});
+                                        } else {
+                                            Subject.findById({'_id': SubjectId})
+                                                .populate('Questions.user')
+                                                .exec(function(error,Subject2){
+                                                    if(error){
+                                                        res.json({status: 0, mes: '提问失败'});
+                                                    }else{
+                                                        res.json({status: 1, questions: Subject2.Questions, mes: '提问成功'});
+                                                    }
+                                                })
+                                        }
+                                    })
+                                })
+                        }
+                    })
+                }
+            })
+    } else{
+        res.json({status: 0, mes: '失败'});
+    }
+}
+module.exports.reply = function(req, res){
+    if(req.body.subjectId && req.body.userId && req.body.questionId){
+        var SubjectId = req.body.subjectId;
+        var userId = req.body.userId;
+        var questionId = req.body.questionId;
+        Subject.findById({'_id': SubjectId})
+            .exec(function (error, Subject1) {
+                if (error) {
+                    res.json({status: 0, mes: '回复失败'});
+                } else {
+                    var com = new Answer;
+                    com.content = req.body.reply;
+                    com.user = userId;
+                    for(var i = 0; i < Subject1.Questions.length; i++){
+                        if(Subject1.Questions[i]._id.toString() == questionId){
+                            Subject1.Questions[i].answers.push(com);
+                            break;
+                        }
+                    }
+                    Subject1.save(function (err, sub) {
+                        if (err) {
+                            res.json({status: 0, mes: '回复失败'});
+                        } else {
+                            Subject.findById({'_id': SubjectId})
+                                .populate('Questions.user')
+                                .populate('Questions.answers.user')
+                                .exec(function(error,Subject2){
+                                    if(error){
+                                        res.json({status: 0, mes: '回复失败'});
+                                    }else{
+                                        res.json({status: 1, questions: Subject2.Questions, mes: '回复成功'});
+                                    }
+                                })
+                        }
+                    })
+                }
+            })
+    } else{
+        res.json({status: 0, mes: '失败'});
+    }
+}
 

@@ -4,7 +4,7 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="currentPage1"
-      :page-size="10"
+      :page-size="pageSize"
       layout="total, prev, pager, next"
       :total="pageInfo">
     </el-pagination>
@@ -14,7 +14,7 @@
 </style>
 <script>
   export default {
-    props: ['pageInfo'],
+    props: ['pageInfo', 'pageSize'],
     data () {
       return {
         currentPage1: 1

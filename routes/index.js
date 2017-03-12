@@ -36,6 +36,8 @@ router.post("/index",showInfoController.showSubjects);
 router.post("/subjectSpots",showInfoController.showOneSubject);
 router.post("/focus",basicController.focusSubject);
 router.post("/comment",basicController.comment);
+router.post("/ask",basicController.ask);
+router.post("/reply",basicController.reply);
 
 //加载图片
 router.get('/image', function (req, res) {

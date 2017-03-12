@@ -13,7 +13,7 @@
         </div>
       </div>
     <div class="page-wrap" v-if="comments">
-      <Page pageInfo="comments.length"></Page>
+      <Page :pageInfo="comments.length"  :pageSize="10"></Page>
     </div>
   </div>
 </template>
