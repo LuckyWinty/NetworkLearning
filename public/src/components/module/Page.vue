@@ -1,12 +1,12 @@
 <template>
-  <div class="block">
+  <div class="block" v-if="pageInfo > 10">
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="currentPage1"
       :page-size="10"
       layout="total, prev, pager, next"
-      :total="100">
+      :total="pageInfo">
     </el-pagination>
   </div>
 </template>
@@ -17,10 +17,7 @@
     props: ['pageInfo'],
     data () {
       return {
-        currentPage1: 5,
-        currentPage2: 5,
-        currentPage3: 5,
-        currentPage4: 4
+        currentPage1: 1
       }
     },
     methods: {

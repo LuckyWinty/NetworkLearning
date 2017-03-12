@@ -35,6 +35,8 @@ router.post("/login", loginController.doLogin);
 router.post("/index",showInfoController.showSubjects);
 router.post("/subjectSpots",showInfoController.showOneSubject);
 router.post("/focus",basicController.focusSubject);
+router.post("/comment",basicController.comment);
+
 //加载图片
 router.get('/image', function (req, res) {
   console.log('----------------------来了')

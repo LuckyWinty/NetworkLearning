@@ -37,7 +37,7 @@
                      <el-input type="textarea" v-model="form.comment"></el-input>
                    </el-form-item>
                    <el-form-item>
-                     <el-button type="primary" @click="onSubmit">评论</el-button>
+                     <el-button type="primary" @click="doComment(subjectInfo)">评论</el-button>
                    </el-form-item>
                  </el-form>
                </div>
@@ -187,11 +187,7 @@
         },
         question: {
           ask: ''
-        },
-        currentPage1: 5,
-        currentPage2: 5,
-        currentPage3: 5,
-        currentPage4: 4
+        }
       }
     },
     created () {
@@ -227,11 +223,10 @@
           }
         }
         var subjectId = params.subjectId || ''
-        console.log('------------------', params, subjectId)
         this.$http.post(self.getUrl() + '/subjectSpots', {subjectId: subjectId}).then((response) => {
           if (response.status === 200) {
             if (response.data.status === 1) {
-              console.log('----------课程', response.data.Subject)
+              console.log('----------', response.data)
               self.subjectInfo = response.data.Subject
               self.subjectInfo.beFocused = self.subjectInfo.beFocused.length
             } else {
@@ -242,8 +237,31 @@
           // error callback
         })
       },
-      onSubmit () {
-        console.log('submit!')
+      doComment (info) {
+        var userId = window.sessionStorage.getItem('userId') || ''
+        if (userId) {
+          var self = this
+          if (!self.form.comment) {
+            this.popTip('评论失败', '您还没有输入评论内容呢~~')
+            return
+          }
+          this.$http.post(self.getUrl() + '/comment', {userId: userId, subjectId: info._id, comment: self.form.comment}).then((response) => {
+            if (response.status === 200) {
+              if (response.data.status === 1) {
+                self.form.comment = ''
+                console.log('----------', response.data)
+                self.subjectInfo.comments = []
+                self.subjectInfo.comments = self.subjectInfo.comments.concat(response.data.comments)
+              } else {
+                self.popTip(response.data.mes)
+              }
+            }
+          }, (response) => {
+            // error callback
+          })
+        } else {
+          this.popTip('评论失败', '您还没有登录呢~~')
+        }
       },
       submitQuestion () {
         console.log('submit!')

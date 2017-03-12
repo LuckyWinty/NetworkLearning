@@ -1,6 +1,6 @@
 <template>
   <div class="question">
-    <div class="comment-wrap" v-for="comment in comments">
+    <div class="question-wrap" v-for="comment in comments">
       <div class="question-detail-wrap">
       <div class="portrait">
         <img v-bind:src="comment.portrait" alt="">
@@ -32,13 +32,13 @@
   </div>
 </template>
 <style>
-  .comment-wrap:after,.question-detail-wrap:after,.more-detail:after{
+  .question-wrap:after,.question-detail-wrap:after,.more-detail:after{
     display: block;
     content: '';
     visibility: hidden;
     clear: both;
   }
-  .comment-wrap{
+  .question-wrap{
     padding-top:10px;
     padding-bottom: 20px;
     border-bottom: solid 1px #c0c0c0;

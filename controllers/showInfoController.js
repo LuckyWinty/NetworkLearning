@@ -49,6 +49,7 @@ module.exports.showOneSubject = function(req, res){
     console.log('------------------',req.body.subjectId)
     if(req.body.subjectId){
         Subject.findOne({'_id': req.body.subjectId})
+            .populate('comments.user')
             .exec(function(error,Subject){
                 if(error){
                     console.log('.....查找课程出错',error);

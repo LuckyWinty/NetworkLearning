@@ -1,6 +1,6 @@
 <template>
   <div class="reply">
-    <div class="comment-wrap" v-for="comment in comments">
+    <div class="reply-wrap" v-for="comment in comments">
       <div class="portrait">
         <img v-bind:src="comment.portrait" alt="">
         <h4>{{comment.userName}}</h4>
@@ -15,13 +15,13 @@
   </div>
 </template>
 <style>
- .reply .comment-wrap:after{
+ .reply .reply-wrap:after{
     display: block;
     content: '';
     visibility: hidden;
     clear: both;
   }
- .reply .comment-wrap{
+ .reply .reply-wrap{
     margin-top:10px;
     padding-bottom: 20px;
     border-bottom: solid 1px #EFF1F0;

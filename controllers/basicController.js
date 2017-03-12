@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 require('../model/model');
 var User = mongoose.model('User');
 var Subject = mongoose.model('Subject');
+var Comment = mongoose.model('Comment');
 
 module.exports.focusSubject = function(req, res){
     if(req.body.subjectId && req.body.userId){
@@ -79,6 +80,49 @@ module.exports.focusSubject = function(req, res){
         res.json({status: 0, mes: '失败'});
     }
 }
-
+module.exports.comment = function(req, res){
+    if(req.body.subjectId && req.body.userId){
+        var SubjectId = req.body.subjectId;
+        var userId = req.body.userId;
+            Subject.findById({'_id': SubjectId})
+                .exec(function (error, Subject1) {
+                    if (error) {
+                        res.json({status: 0, mes: '评论失败'});
+                    } else {
+                        var com = new Comment;
+                        com.content = req.body.comment;
+                        com.user = userId;
+                        Subject1.comments.push(com);
+                        Subject1.save(function (err, sub) {
+                            if (err) {
+                                res.json({status: 0, mes: '评论失败'});
+                            } else {
+                                User.findOne({_id: userId})
+                                    .exec(function (err, person) {
+                                        person.myComments.subjects.push(sub);
+                                        person.save(function (err, user) {
+                                            if (err) {
+                                                res.json({status: 0, mes: '评论失败'});
+                                            } else {
+                                                Subject.findById({'_id': SubjectId})
+                                                    .populate('comments.user')
+                                                    .exec(function(error,Subject2){
+                                                        if(error){
+                                                            res.json({status: 0, mes: '评论失败'});
+                                                        }else{
+                                                            res.json({status: 1, comments: Subject2.comments, mes: '评论成功'});
+                                                        }
+                                                    })
+                                            }
+                                        })
+                                    })
+                            }
+                        })
+                    }
+                })
+        } else{
+        res.json({status: 0, mes: '失败'});
+    }
+}
 
 
