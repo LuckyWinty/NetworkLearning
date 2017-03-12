@@ -373,7 +373,7 @@
           if (response.status === 200) {
             if (response.data.status === 1) {
               console.log('----------所有的课程', response.data.Subjects)
-              self.hotLists = self.hotLists.concat(response.data.Subjects)
+              self.hotLists = self.hotLists.concat(response.data.Subjects.slice(0, 20))
             } else {
               self.popTip(response.data.mes)
             }
