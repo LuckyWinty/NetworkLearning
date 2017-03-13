@@ -4,20 +4,20 @@
     <el-form ref="form" :model="form" label-width="80px">
       <el-form-item class="select-item" label="选择难度：">
         <el-radio-group v-model="form.hardLever">
-          <el-radio label="全部"></el-radio>
-          <el-radio label="初级"></el-radio>
-          <el-radio label="中级"></el-radio>
-          <el-radio label="高级"></el-radio>
+          <el-radio label="全部" @click="showSubjects"></el-radio>
+          <el-radio label="初级" @click="showSubjects"></el-radio>
+          <el-radio label="中级" @click="showSubjects"></el-radio>
+          <el-radio label="高级" @click="showSubjects"></el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item class="select-item" label="选择热度：">
         <el-radio-group v-model="form.hotLever">
-          <el-radio label="最新"></el-radio>
-          <el-radio label="最热"></el-radio>
+          <el-radio label="最新" @click="showSubjects"></el-radio>
+          <el-radio label="最热" @click="showSubjects"></el-radio>
         </el-radio-group>
       </el-form-item>
     </el-form>
-    <Subject></Subject>
+    <Subject  :hotLists="hotLists"></Subject>
     <page></page>
   </div>
 </template>
@@ -60,20 +60,55 @@
     data () {
       return {
         form: {
-          hardLever: '',
-          hotLever: ''
+          hardLever: '全部',
+          hotLever: '最新'
         },
         currentPage1: 5,
-        currentPage2: 5,
-        currentPage3: 5,
-        currentPage4: 4
+        hotLists: [],
+        allSubject: [],
+        primarySubject: [],
+        middleSubject: [],
+        highSubject: []
       }
+    },
+    created () {
+      this.showSubjects()
     },
     components: {
       Subject: Subject,
       Page: Page
     },
     methods: {
+      getUrl () {
+        return this.$store.state.basicUrl
+      },
+      showSubjects () {
+        var self = this
+        console.log('----------------', this.form.hardLever)
+        var all = JSON.parse(window.sessionStorage.getItem('allSubject')) || ''
+        console.log('----------------', all)
+        if (all.length > 0) {
+          self.allSubject = []
+          self.allSubject = self.allSubject.concat(all)
+          self.hotLists = []
+          self.hotLists = self.hotLists.concat(self.allSubject.slice(0, 20))
+          return
+        }
+        var userId = window.sessionStorage.getItem('userId') || ''
+        this.$http.post(self.getUrl() + '/index', {userId: userId}).then((response) => {
+          if (response.status === 200) {
+            if (response.data.status === 1) {
+              self.allSubject = self.allSubject.concat(response.data.Subjects)
+              window.sessionStorage.setItem('allSubject', JSON.stringify(self.allSubject))
+              self.hotLists = self.hotLists.concat(response.data.Subjects.slice(0, 20))
+            } else {
+              self.popTip(response.data.mes)
+            }
+          }
+        }, (response) => {
+          // error callback
+        })
+      },
       onSubmit () {
         console.log('submit!')
       },
