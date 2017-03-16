@@ -3,7 +3,7 @@
     <h3 class="all_head">全部课程</h3>
     <el-form label-width="80px">
       <el-form-item class="select-item" label="选择难度：">
-        <el-radio-group v-model="hardLever" @change="showSubjects">
+        <el-radio-group v-model="hardLever" @change="showSubjects(hardLever)">
           <el-radio label="全部"></el-radio>
           <el-radio label="初级" ></el-radio>
           <el-radio label="中级"></el-radio>
@@ -11,7 +11,7 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item class="select-item" label="选择热度：">
-        <el-radio-group v-model="hotLever"  @change="showSubjects">
+        <el-radio-group v-model="hotLever"  @change="showSubjects(hotLever)">
           <el-radio label="最新"></el-radio>
           <el-radio label="最热"></el-radio>
         </el-radio-group>
@@ -111,16 +111,49 @@
           case '初级' :
             var temp = []
             var loop = 0
-            while (loop < self.hotLists.length) {
-              if (self.hotLists[i]) {
-
+            while (loop < self.allSubject.length) {
+              var sub = self.allSubject[loop++]
+              if (sub.level === '初级') {
+                temp.push(sub)
               }
             }
+            self.hotLists = []
+            self.hotLists = self.hotLists.concat(temp)
             break
-          case '中级' : break
-          case '高级' : break
-          case '最新' : break
-          case '最热' : break
+          case '中级' :
+            var temp1 = []
+            var loop1 = 0
+            while (loop1 < self.allSubject.length) {
+              var sub1 = self.allSubject[loop1++]
+              if (sub1.level === '中级') {
+                temp1.push(sub1)
+              }
+            }
+            self.hotLists = []
+            self.hotLists = self.hotLists.concat(temp1)
+            break
+          case '高级' :
+            var temp2 = []
+            var loop2 = 0
+            while (loop2 < self.allSubject.length) {
+              var sub2 = self.allSubject[loop2++]
+              if (sub2.level === '高级') {
+                temp2.push(sub2)
+              }
+            }
+            self.hotLists = []
+            self.hotLists = self.hotLists.concat(temp2)
+            break
+          case '最新' :
+            self.hotLists = self.hotLists.sort(function (a, b) {
+              return new Date(b.created) - new Date(a.created)
+            })
+            break
+          case '最热' :
+            self.hotLists = self.hotLists.sort(function (a, b) {
+              return b.beFocused.length - a.beFocused.length
+            })
+            break
           default :
         }
       },
