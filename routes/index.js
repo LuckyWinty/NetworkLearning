@@ -4,6 +4,8 @@ var registController = require("../controllers/registController");
 var loginController = require("../controllers/loginController");
 var showInfoController = require("../controllers/showInfoController");
 var basicController = require("../controllers/basicController");
+var forturnController = require("../controllers/forturnController");
+
 //admin
 var addUserCtrol = require("../controllers/admin/addUserCtrol");
 var addSubjectCtrol = require("../controllers/admin/addSubject")
@@ -39,6 +41,8 @@ router.post("/comment",basicController.comment);
 router.post("/ask",basicController.ask);
 router.post("/reply",basicController.reply);
 
+//论坛
+router.post("/askQuestion",forturnController.askQuestion);
 //加载图片
 router.get('/image', function (req, res) {
   console.log('----------------------来了')

@@ -18,12 +18,19 @@
               </el-radio-group>
             </el-form-item>
           </el-form>
-          <Question>>
+          <Question>
           </Question>
+          <el-form ref="form">
+            <el-form-item>
+              <el-input type="textarea" v-model="question"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="submitQuestion">提问</el-button>
+            </el-form-item>
+          </el-form>
           <Page></Page>
         </div></el-col>
         <el-col :span="6" class="right-notes">
-          <div class="ask-btn"><el-button type="success">我要提问</el-button></div>
           <div class="grid-content bg-purple">
             <div class="grid-content bg-purple">
               <div class="note">
@@ -79,6 +86,7 @@
         form: {
           discuss: '全部'
         },
+        question: '',
         currentPage1: 5,
         currentPage2: 5,
         currentPage3: 5,
@@ -86,13 +94,46 @@
       }
     },
     methods: {
+      getUrl () {
+        return this.$store.state.basicUrl
+      },
+      popTip (title, tips) {
+        this.$alert(tips, title, {
+        })
+      },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
       },
       handleCurrentChange (val) {
         this.currentPage = val
         console.log(`当前页: ${val}`)
-      }
+      },
+      submitQuestion () {
+        var self = this
+        var userId = window.sessionStorage.getItem('userId') || ''
+        if (userId) {
+          var self = this
+          if (!self.question) {
+            this.popTip('提问失败', '您还没有输入评论内容呢~~')
+            return
+          }
+          this.$http.post(self.getUrl() + '/askQuestion', {userId: userId, content: self.question}).then((response) => {
+            if (response.status === 200) {
+            if (response.data.status === 1) {
+              self.form.comment = ''
+              console.log('----------', response.data)
+              self.subjectInfo.comments = []
+              self.subjectInfo.comments = self.subjectInfo.comments.concat(response.data.comments)
+            } else {
+              self.popTip(response.data.mes)
+            }
+          }
+        }, (response) => {
+            // error callback
+          })
+        } else {
+          this.popTip('提问失败', '您还没有登录呢~~')
+        }
     },
     components: {
       Question: Question,
