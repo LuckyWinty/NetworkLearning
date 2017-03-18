@@ -7,9 +7,9 @@
       <el-row :gutter="20">
         <el-col :span="16"><div class="grid-content bg-purple">
           <h3 class="all_head">全部讨论</h3>
-          <el-form ref="form" :model="form" label-width="80px">
+          <el-form ref="form" label-width="80px">
             <el-form-item class="select-item" label="条件筛选：">
-              <el-radio-group v-model="form.discuss">
+              <el-radio-group v-model="condition" @change="showQuestion(condition)">
                 <el-radio label="全部"></el-radio>
                 <el-radio label="推荐"></el-radio>
                 <el-radio label="最新"></el-radio>
@@ -83,14 +83,14 @@
   export default{
     data () {
       return {
-        form: {
-          discuss: '全部'
-        },
+        condition: '全部',
         question: '',
-        currentPage1: 5,
-        currentPage2: 5,
-        currentPage3: 5,
-        currentPage4: 4
+        showQuestion: [],
+        allQuestion: [],
+        recommendQuestion: [],
+        newQuestion: [],
+        waitQuestion: [],
+        focusQuestion: []
       }
     },
     methods: {
@@ -100,6 +100,83 @@
       popTip (title, tips) {
         this.$alert(tips, title, {
         })
+      },
+      showQuestion (value) {
+        var self = this
+        switch (value) {
+          case '全部' :
+            var all = JSON.parse(window.sessionStorage.getItem('allQuestion')) || ''
+            console.log('----------------', all)
+            if (all.length > 0) {
+              self.allQuestion = []
+              self.allQuestion = self.allQuestion.concat(all)
+              self.showQuestion = []
+              self.showQuestion = self.showQuestion.concat(self.allQuestion.slice(0, 20))
+              return
+            }
+            var userId = window.sessionStorage.getItem('userId') || ''
+            this.$http.post(self.getUrl() + '/index', {userId: userId}).then((response) => {
+              if (response.status === 200) {
+                if (response.data.status === 1) {
+                  self.allQuestion = self.allQuestion.concat(response.data.Subjects)
+                  window.sessionStorage.setItem('allQuestion', JSON.stringify(self.allQuestion))
+                  self.showQuestion = self.showQuestion.concat(response.data.Subjects.slice(0, 20))
+                } else {
+                  self.popTip(response.data.mes)
+                }
+              }
+            }, (response) => {
+              // error callback
+            })
+            break
+          case '初级' :
+            var temp = []
+            var loop = 0
+            while (loop < self.allQuestion.length) {
+              var sub = self.allQuestion[loop++]
+              if (sub.level === '初级') {
+                temp.push(sub)
+              }
+            }
+            self.showQuestion = []
+            self.showQuestion = self.showQuestion.concat(temp)
+            break
+          case '中级' :
+            var temp1 = []
+            var loop1 = 0
+            while (loop1 < self.allQuestion.length) {
+              var sub1 = self.allQuestion[loop1++]
+              if (sub1.level === '中级') {
+                temp1.push(sub1)
+              }
+            }
+            self.showQuestion = []
+            self.showQuestion = self.showQuestion.concat(temp1)
+            break
+          case '高级' :
+            var temp2 = []
+            var loop2 = 0
+            while (loop2 < self.allQuestion.length) {
+              var sub2 = self.allQuestion[loop2++]
+              if (sub2.level === '高级') {
+                temp2.push(sub2)
+              }
+            }
+            self.showQuestion = []
+            self.showQuestion = self.showQuestion.concat(temp2)
+            break
+          case '最新' :
+            self.showQuestion = self.showQuestion.sort(function (a, b) {
+              return new Date(b.created) - new Date(a.created)
+            })
+            break
+          case '最热' :
+            self.showQuestion = self.showQuestion.sort(function (a, b) {
+              return b.beFocused.length - a.beFocused.length
+            })
+            break
+          default :
+        }
       },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
@@ -112,28 +189,26 @@
         var self = this
         var userId = window.sessionStorage.getItem('userId') || ''
         if (userId) {
-          var self = this
           if (!self.question) {
             this.popTip('提问失败', '您还没有输入评论内容呢~~')
             return
           }
           this.$http.post(self.getUrl() + '/askQuestion', {userId: userId, content: self.question}).then((response) => {
             if (response.status === 200) {
-            if (response.data.status === 1) {
-              self.form.comment = ''
-              console.log('----------', response.data)
-              self.subjectInfo.comments = []
-              self.subjectInfo.comments = self.subjectInfo.comments.concat(response.data.comments)
-            } else {
-              self.popTip(response.data.mes)
+              if (response.data.status === 1) {
+                self.question = ''
+                console.log('----------', response.data)
+              } else {
+                self.popTip(response.data.mes)
+              }
             }
-          }
-        }, (response) => {
+          }, (response) => {
             // error callback
           })
         } else {
           this.popTip('提问失败', '您还没有登录呢~~')
         }
+      }
     },
     components: {
       Question: Question,
