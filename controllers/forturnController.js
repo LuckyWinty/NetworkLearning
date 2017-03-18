@@ -12,6 +12,7 @@ var Answer = mongoose.model('Answer');
 module.exports.askQuestion = function(req, res){
     if(req.body.userId){
         Question.create({
+            user:req.body.userId,
             content:req.body.content
         },function(error,question){
             if(error){

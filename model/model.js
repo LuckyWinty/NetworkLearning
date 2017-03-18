@@ -127,11 +127,7 @@ var questionSchema = new mongoose.Schema({
         type:Number,
         "default":0
     },
-    beFocused:{
-        type: mongoose.Schema.Types.ObjectId, //发布者的引用
-        ref: 'User', //引用自User Model
-        require: true //非空
-    }, //关注该问题的用户
+    beFocused:[], //关注该问题的用户id
     answers:[answerSchema]  //该问题的回答
 });
 //定义课程信息
@@ -224,6 +220,9 @@ var userSchema = new mongoose.Schema({
         }
     },
     myQuestions:{ //我的提问
+        questions:[questionSchema]
+    },
+    myFocusQuestions:{ //关注的问题
         questions:[questionSchema]
     },
     myGrades:{  //我给过的评分

@@ -9,7 +9,7 @@
           <h3 class="all_head">全部讨论</h3>
           <el-form ref="form" label-width="80px">
             <el-form-item class="select-item" label="条件筛选：">
-              <el-radio-group v-model="condition" @change="showQuestion(condition)">
+              <el-radio-group v-model="condition" @change="showQuestions(condition)">
                 <el-radio label="全部"></el-radio>
                 <el-radio label="推荐"></el-radio>
                 <el-radio label="最新"></el-radio>
@@ -18,8 +18,6 @@
               </el-radio-group>
             </el-form-item>
           </el-form>
-          <Question>
-          </Question>
           <el-form ref="form">
             <el-form-item>
               <el-input type="textarea" v-model="question"></el-input>
@@ -28,6 +26,8 @@
               <el-button type="primary" @click="submitQuestion">提问</el-button>
             </el-form-item>
           </el-form>
+          <Question :questions="showQuestion" :showFocus="0">
+          </Question>
           <Page></Page>
         </div></el-col>
         <el-col :span="6" class="right-notes">
@@ -93,6 +93,9 @@
         focusQuestion: []
       }
     },
+    created () {
+      this.showQuestions('全部')
+    },
     methods: {
       getUrl () {
         return this.$store.state.basicUrl
@@ -101,7 +104,7 @@
         this.$alert(tips, title, {
         })
       },
-      showQuestion (value) {
+      showQuestions (value) {
         var self = this
         switch (value) {
           case '全部' :
@@ -115,12 +118,12 @@
               return
             }
             var userId = window.sessionStorage.getItem('userId') || ''
-            this.$http.post(self.getUrl() + '/index', {userId: userId}).then((response) => {
+            this.$http.post(self.getUrl() + '/showQuestions', {userId: userId}).then((response) => {
               if (response.status === 200) {
                 if (response.data.status === 1) {
-                  self.allQuestion = self.allQuestion.concat(response.data.Subjects)
+                  self.allQuestion = self.allQuestion.concat(response.data.Questions)
                   window.sessionStorage.setItem('allQuestion', JSON.stringify(self.allQuestion))
-                  self.showQuestion = self.showQuestion.concat(response.data.Subjects.slice(0, 20))
+                  self.showQuestion = self.showQuestion.concat(response.data.Questions.slice(0, 20))
                 } else {
                   self.popTip(response.data.mes)
                 }
@@ -129,51 +132,47 @@
               // error callback
             })
             break
-          case '初级' :
-            var temp = []
-            var loop = 0
-            while (loop < self.allQuestion.length) {
-              var sub = self.allQuestion[loop++]
-              if (sub.level === '初级') {
-                temp.push(sub)
-              }
-            }
-            self.showQuestion = []
-            self.showQuestion = self.showQuestion.concat(temp)
-            break
-          case '中级' :
-            var temp1 = []
-            var loop1 = 0
-            while (loop1 < self.allQuestion.length) {
-              var sub1 = self.allQuestion[loop1++]
-              if (sub1.level === '中级') {
-                temp1.push(sub1)
-              }
-            }
-            self.showQuestion = []
-            self.showQuestion = self.showQuestion.concat(temp1)
-            break
-          case '高级' :
-            var temp2 = []
-            var loop2 = 0
-            while (loop2 < self.allQuestion.length) {
-              var sub2 = self.allQuestion[loop2++]
-              if (sub2.level === '高级') {
-                temp2.push(sub2)
-              }
-            }
-            self.showQuestion = []
-            self.showQuestion = self.showQuestion.concat(temp2)
+          case '推荐' :
+            self.showQuestion = self.showQuestion.sort(function (a, b) {
+              return b.beFocused.length - a.beFocused.length
+            })
             break
           case '最新' :
             self.showQuestion = self.showQuestion.sort(function (a, b) {
               return new Date(b.created) - new Date(a.created)
             })
             break
-          case '最热' :
-            self.showQuestion = self.showQuestion.sort(function (a, b) {
-              return b.beFocused.length - a.beFocused.length
-            })
+          case '等待回答' :
+            var temp = []
+            var loop = 0
+            while (loop < self.allQuestion.length) {
+              var sub = self.allQuestion[loop++]
+              if (sub.answers.length === 0) {
+                temp.push(sub)
+              }
+            }
+            self.showQuestion = []
+            self.showQuestion = self.showQuestion.concat(temp)
+            break
+          case '只显示我关注的' :
+            var Id = window.sessionStorage.getItem('userId') || ''
+            if (Id) {
+              var temp1 = []
+              var loop1 = 0
+              while (loop1 < self.allQuestion.length) {
+                var sub1 = self.allQuestion[loop1++]
+                for (var i = 0; i < sub1.beFocused.length; i++) {
+                  if (sub1[i].toString() === Id.toString()) {
+                    temp1.push(sub1)
+                  }
+                }
+              }
+              self.showQuestion = []
+              self.showQuestion = self.showQuestion.concat(temp1)
+            } else {
+              this.popTip('无问题', '主人，你藏得太深了，还没有登录呢~~')
+              return
+            }
             break
           default :
         }
@@ -197,7 +196,9 @@
             if (response.status === 200) {
               if (response.data.status === 1) {
                 self.question = ''
-                console.log('----------', response.data)
+                self.allQuestion = self.allQuestion.concat(response.data.question)
+                self.showQuestions(self.condition)
+                window.sessionStorage.setItem('allQuestion', JSON.stringify(self.allQuestion))
               } else {
                 self.popTip(response.data.mes)
               }

@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 require('../model/model');
 var User = mongoose.model('User');
 var Subject = mongoose.model('Subject');
+var Question = mongoose.model('Question');
 var mongo = require('mongodb');
 var util = require('util');
 var moment=require('moment');
@@ -64,6 +65,35 @@ module.exports.showOneSubject = function(req, res){
     }
 }
 
+module.exports.showQuestions = function(req, res){
+    Question.find({})
+        .populate('user')
+        .populate('answers.user')
+        .sort({'created':-1})
+        .exec(function(error,Questions){
+            if(error){
+                console.log('.....查找所有问题出错',error);
+            }else{
+                console.log('.....查找----',Questions);
+                if(req.body.userId){
+                    User.findOne({_id: req.body.userId})
+                        .exec(function (err, person) {
+                            for (var i = 0; i < person.myFocusQuestions.questions.length; i++) {
+                                for (var j = 0; j < Questions.length; j++) {
+                                    if (person.myFocusQuestions.questions[i]._id.toString() == Questions[j]._id.toString()) {
+                                        Questions[j].isFocus = 1;
+                                        break;
+                                    }
+                                }
+                            }
+                            res.json({status: 1,Questions:Questions, mes: '查找所有课程成功！'});
+                        })
+                }else{
+                    res.json({status: 1,Questions:Questions, mes: '查找所有课程成功！'});
+                }
+            }
+        })
+}
 
 module.exports.getImage = function(req, res){
     var _id = new mongo.ObjectId(req.query.imageId);

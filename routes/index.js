@@ -42,6 +42,7 @@ router.post("/ask",basicController.ask);
 router.post("/reply",basicController.reply);
 
 //论坛
+router.post("/showQuestions",showInfoController.showQuestions);
 router.post("/askQuestion",forturnController.askQuestion);
 //加载图片
 router.get('/image', function (req, res) {
