@@ -208,8 +208,135 @@ module.exports.reply = function(req, res){
                     })
                 }
             })
+    }else if(req.body.userId && req.body.questionId){
+        var userId = req.body.userId;
+        var questionId = req.body.questionId;
+        Question.findById({'_id': questionId})
+            .exec(function (error, ques) {
+                if (error) {
+                    res.json({status: 0, mes: '回答失败'});
+                } else {
+                    var com = new Answer;
+                    com.content = req.body.reply;
+                    com.user = userId;
+                    ques.answers.push(com);
+                    ques.save(function (err, ques1) {
+                        if (err) {
+                            res.json({status: 0, mes: '回答失败'});
+                        } else {
+                            Question.find({})
+                                .populate('user')
+                                .populate('answers.user')
+                                .sort({'created':-1})
+                                .exec(function (error, ques2) {
+                                    if (error) {
+                                        res.json({status: 0, mes: '回复失败'});
+                                    } else {
+                                        res.json({status: 1, questions: ques2, mes: '回复成功'});
+                                    }
+                            })
+                        }
+                    })
+                }
+            })
+    }
+    else{
+        res.json({status: 0, mes: '失败'});
+    }
+}
+module.exports.doLike = function(req, res){
+    var likeFlag = true;  //默认是点赞
+    var linkNum = 0;
+    if(req.body.userId){
+        User.findOne({id: userId}, function (error, person) {
+            if (error) {
+                res.json({status: 0, mes: '失败！'});
+            } else if (person) {
+                for(var i = 0; i < person.myLikes.answers.length; i++){
+                    if(person.myLikes.answers[i].toString() == answerId.toString()){
+                        likeFlag = false;
+                        person.myLikes.answers.splice(i,1);
+                        break;
+                    }
+                }
+                if(likeFlag){
+                    person.myLikes.answers.push(answerId)
+                }
+                person.save(function (err, ques1) {
+                    if (err) {
+                        res.json({status: 0, mes: '点赞失败'});
+                        return;
+                    }
+                })
+            }else{
+                res.json({status: 0, mes:'该账户不存在，请注册'});
+            }
+        });
+    }
+    if(req.body.subjectId && req.body.questionId){
+        var SubjectId = req.body.subjectId;
+        var userId = req.body.userId;
+        var questionId = req.body.questionId;
+        Subject.findById({'_id': SubjectId})
+            .exec(function (error, Subject1) {
+                if (error) {
+                    res.json({status: 0, mes: '点赞失败'});
+                } else {
+                    for(var i = 0; i < Subject1.Questions.length; i++){
+                        if(Subject1.Questions[i]._id.toString() == questionId){
+                            for(var j = 0 ;j < Subject1.Questions[i].answers.length;j++){
+                                var ans = Subject1.Questions[i].answers[j];
+                                if(ans._id.toString() == req.body.answerId.toString()){
+                                    if(likeFlag){
+                                        ans.likeNum++;
+                                    }else{
+                                        ans.likeNum--;
+                                    }
+                                    linkNum = ans.likeNum;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    Subject1.save(function (err, sub) {
+                        if (err) {
+                            res.json({status: 0, mes: '点赞失败'});
+                        } else {
+                            res.json({status: 1, likeNum: linkNum, mes: '成功'});
+                        }
+                    })
+                }
+            })
+    }else if(req.body.userId && req.body.questionId){
+        var answerId = req.body.answerId
+        var questionId = req.body.questionId;
+        Question.findById({'_id': questionId})
+            .exec(function (error, ques) {
+                if (error) {
+                    res.json({status: 0, mes: '点赞失败'});
+                } else {
+                    for(var j = 0 ;j < ques.answers.length;j++) {
+                        var ans = ques.answers[j];
+                        if (ans._id.toString() == answerId.toString()) {
+                            if (likeFlag) {
+                                ans.likeNum++;
+                            } else {
+                                ans.likeNum--;
+                            }
+                            linkNum = ans.likeNum;
+                            break;
+                        }
+                    }
+                    ques.save(function (err, ques1) {
+                        if (err) {
+                            res.json({status: 0, mes: '点赞失败'});
+                        } else {
+                            res.json({status: 1, likeNum: linkNum, mes: '成功'});
+                        }
+                    })
+                }
+            })
     } else{
         res.json({status: 0, mes: '失败'});
     }
 }
-

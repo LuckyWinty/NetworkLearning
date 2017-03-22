@@ -313,7 +313,7 @@
     margin-top: -228px;
     width: 1px;
   }
-  .inline{
+  .search .inline{
     width:78%;
     float:left;
   }

@@ -15,11 +15,16 @@ module.exports.askQuestion = function(req, res){
             user:req.body.userId,
             content:req.body.content
         },function(error,question){
-            if(error){
-                res.json({status: 0, mes: '提问失败'});
-            }else{
-                res.json({status: 1, mes: '提问成功',question:question});
-            }
+            Question.find({_id:question._id})
+                .populate('user')
+                .populate('answers.user')
+                .exec(function(error,question1){
+                    if(error){
+                        res.json({status: 0, mes: '提问失败'});
+                    }else{
+                        res.json({status: 1, mes: '提问成功',question:question1});
+                    }
+                })
         })
     } else{
         res.json({status: 0, mes: '失败'});

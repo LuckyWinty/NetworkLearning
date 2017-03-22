@@ -27,7 +27,7 @@
       </div>
       </div>
       <div class="answer-wrap">
-        <Answer :answers="question.answers"></Answer>
+        <Answer :answers="question.answers" :questionId="question._id"></Answer>
       </div>
       <div class="answer-btn"><el-button @click="open3(question)" type="success">我要回答</el-button></div>
     </div>
@@ -152,10 +152,14 @@
               self.popTip('失败', '您还没有输入回复内容呢~~')
               return
             }
-            self.$http.post(self.getUrl() + '/reply', {userId: userId, subjectId: subjectId, questionId: question._id, reply: value}).then((response) => {
+            self.$http.post(self.getUrl() + '/reply', {
+              userId: userId,
+              subjectId: subjectId,
+              questionId: question._id,
+              reply: value
+            }).then((response) => {
               if (response.status === 200) {
                 if (response.data.status === 1) {
-                  console.log('----------', response.data)
                   self.questions = response.data.questions
                 } else {
                   self.popTip(response.data.mes)
@@ -164,7 +168,6 @@
             }, (response) => {
               // error callback
             })
-          }).catch(() => {
           })
         } else {
           this.popTip('失败', '您还没有登录呢~~')

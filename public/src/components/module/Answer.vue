@@ -9,7 +9,7 @@
         <p class="content">{{answer.content}}</p>
         <div class="more-detail">
           <span class="time">回答时间：{{formatDate(answer.created)}}</span>
-          <div class="answer-like">
+          <div class="answer-like" @click="doLike(answer._id, questionId, $event)">
             <el-tag type="primary">赞({{answer.likeNum}})</el-tag>
           </div>
         </div>
@@ -64,11 +64,12 @@
  .question .answer-like {
     width: 100px;
     float: right;
+   cursor: pointer;
   }
 </style>
 <script>
   export default{
-    props: ['answers'],
+    props: ['answers', 'questionId'],
     data () {
       return {
         basicUrl: this.getUrl()
@@ -93,6 +94,39 @@
         var S = times.getSeconds()
 
         return Y + '-' + M + '-' + D + '  ' + H + ' : ' + m + ' : ' + S
+      },
+      doLike (answerId, questionId, el) {
+        var userId = window.sessionStorage.getItem('userId') || ''
+        if (userId) {
+          var self = this
+          var params = {}
+          var name, value
+          var str = window.location.href
+          var num = str.indexOf('?')
+          str = str.substr(num + 1)
+          var arr = str.split('&')
+          for (var i = 0; i < arr.length; i++) {
+            num = arr[i].indexOf('=')
+            if (num > 0) {
+              name = arr[i].substring(0, num)
+              value = arr[i].substr(num + 1)
+              params[name] = value
+            }
+          }
+          var subjectId = params.subjectId || ''
+          self.$http.post(self.getUrl() + '/doLike', {userId: userId, subjectId: subjectId, questionId: questionId, answerId: answerId}).then((response) => {
+            if (response.status === 200) {
+              if (response.data.status === 1) {
+                console.log(response.data)
+                el.target.parentElement.innerHTML = '<span class="el-tag el-tag--primary">赞(' + response.data.likeNum + ')</span>'
+              }
+            }
+          }, (response) => {
+            // error callback
+          })
+        } else {
+          this.popTip('失败', '您还没有登录呢~~')
+        }
       }
     }
   }

@@ -40,6 +40,7 @@ router.post("/focus",basicController.focusSubject);
 router.post("/comment",basicController.comment);
 router.post("/ask",basicController.ask);
 router.post("/reply",basicController.reply);
+router.post("/doLike",basicController.doLike);
 
 //论坛
 router.post("/showQuestions",showInfoController.showQuestions);

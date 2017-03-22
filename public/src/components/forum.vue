@@ -108,15 +108,6 @@
         var self = this
         switch (value) {
           case '全部' :
-            var all = JSON.parse(window.sessionStorage.getItem('allQuestion')) || ''
-            console.log('----------------', all)
-            if (all.length > 0) {
-              self.allQuestion = []
-              self.allQuestion = self.allQuestion.concat(all)
-              self.showQuestion = []
-              self.showQuestion = self.showQuestion.concat(self.allQuestion.slice(0, 20))
-              return
-            }
             var userId = window.sessionStorage.getItem('userId') || ''
             this.$http.post(self.getUrl() + '/showQuestions', {userId: userId}).then((response) => {
               if (response.status === 200) {
@@ -189,16 +180,15 @@
         var userId = window.sessionStorage.getItem('userId') || ''
         if (userId) {
           if (!self.question) {
-            this.popTip('提问失败', '您还没有输入评论内容呢~~')
+            this.popTip('提问失败', '您还没有输入内容呢~~')
             return
           }
           this.$http.post(self.getUrl() + '/askQuestion', {userId: userId, content: self.question}).then((response) => {
             if (response.status === 200) {
               if (response.data.status === 1) {
                 self.question = ''
-                self.allQuestion = self.allQuestion.concat(response.data.question)
+                self.allQuestion = response.data.question.concat(self.allQuestion)
                 self.showQuestions(self.condition)
-                window.sessionStorage.setItem('allQuestion', JSON.stringify(self.allQuestion))
               } else {
                 self.popTip(response.data.mes)
               }

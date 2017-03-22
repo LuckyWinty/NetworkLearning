@@ -228,8 +228,8 @@ var userSchema = new mongoose.Schema({
     myGrades:{  //我给过的评分
         questions:[questionSchema]
     },
-    myLikes:{   //点过赞的回答
-        answers:[answerSchema]
+    myLikes:{   //点过赞的回答的id
+        answers:[]
     },
     myAnswers:{  //我的回答
         answers:[answerSchema]

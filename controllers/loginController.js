@@ -20,12 +20,10 @@ module.exports.doLogin = function(req, res){
                 if(person.password!=fields.password){
                     res.json({status: 0, mes: '密码错误！'});
                 }else{
-                    req.session.user = person;
-                    setTimeout(function(){
-                      console.log('-----登录的session还在吗',req.session)
-                    }, 5000)
                     res.json({status: 1, person: person});
                 }
+            }else{
+                res.json({status: 0, mes:'该账户不存在，请注册'});
             }
         });
     });
