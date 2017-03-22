@@ -123,6 +123,10 @@ var questionSchema = new mongoose.Schema({
         type: Date, //创建日期的类型为日期类型
         "default": Date.now //默认值为创建日期
     },
+    isFocus: {
+        type:String,
+        "default":0
+    },
     grade: {  //总评分(每个用户的评分加权/总人数)
         type:Number,
         "default":0

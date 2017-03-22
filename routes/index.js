@@ -40,11 +40,14 @@ router.post("/focus",basicController.focusSubject);
 router.post("/comment",basicController.comment);
 router.post("/ask",basicController.ask);
 router.post("/reply",basicController.reply);
-router.post("/doLike",basicController.doLike);
 
 //论坛
 router.post("/showQuestions",showInfoController.showQuestions);
+router.post("/getPerson",showInfoController.goodPerson);
 router.post("/askQuestion",forturnController.askQuestion);
+router.post("/doLike",basicController.doLike);
+router.post("/focusQuestion",basicController.focusQuestion);
+
 //加载图片
 router.get('/image', function (req, res) {
   console.log('----------------------来了')

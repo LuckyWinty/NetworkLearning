@@ -8,7 +8,7 @@
       <div class="info">
         <h4 class="user-info">提问来自  <span class="user-name">{{question.user.userName}}</span>
           <span class="wrapper" v-if="showFocus != 1">
-            <el-button type="info" class="float-right">关注</el-button>
+            <el-button type="info" class="float-right" @click="focusQuestion(question)" :data="question.isFocus">{{question.isFocus==1?'已关注':'关注'}}</el-button>
           </span>
         </h4>
         <p class="content">{{question.content}}</p>
@@ -175,6 +175,37 @@
       },
       submitValue (question) {
         this.popTip('失败', '有登录呢~~')
+      },
+      focusQuestion (info) {
+        var userId = window.sessionStorage.getItem('userId') || ''
+        var isFocus = info.isFocus
+        console.log('----------', info)
+        if (userId) {
+          var self = this
+          this.$http.post(self.getUrl() + '/focusQuestion', {userId: userId, questionId: info._id, isFocus: isFocus}).then((response) => {
+            if (response.status === 200) {
+              if (response.data.status === 1) {
+                console.log('----------', response.data)
+                for (var i = 0; i < self.questions.length; i++) {
+                  if (self.questions[i]._id.toString() === info._id) {
+                    self.questions[i].isFocus = response.data.isFocus
+                    if (response.data.isFocus === 1) {
+                      self.questions[i].beFocused.push('1')
+                    } else {
+                      self.questions[i].beFocused.splice(0, 1)
+                    }
+                  }
+                }
+              } else {
+                self.popTip(response.data.mes)
+              }
+            }
+          }, (response) => {
+            // error callback
+          })
+        } else {
+          this.popTip('关注失败', '您还没有登录呢~~')
+        }
       }
     }
   }

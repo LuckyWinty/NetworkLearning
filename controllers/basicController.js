@@ -340,3 +340,75 @@ module.exports.doLike = function(req, res){
         res.json({status: 0, mes: '失败'});
     }
 }
+module.exports.focusQuestion = function(req, res){
+    if(req.body.questionId && req.body.userId){
+        var questionId = req.body.questionId;
+        var userId = req.body.userId;
+        if (req.body.isFocus == 0) {
+            Question.findById({'_id': questionId})
+                .exec(function (error, question) {
+                    if (error) {
+                        res.json({status: 0, mes: '关注失败'});
+                    } else {
+                        question.beFocused.push(userId);
+                        question.save(function (err, sub) {
+                            if (err) {
+                                res.json({status: 0, mes: '关注失败'});
+                            } else {
+                                User.findOne({_id: userId})
+                                    .exec(function (err, person) {
+                                        person.myFocusQuestions.questions.push(sub);
+                                        person.save(function (err, user) {
+                                            if (err) {
+                                                res.json({status: 0, mes: '关注失败'});
+                                            } else {
+                                                res.json({status: 1, isFocus: 1, mes: '关注成功'});
+                                            }
+                                        })
+                                    })
+                            }
+                        })
+                    }
+                })
+        } else {
+            Question.findById({'_id': questionId})
+                .exec(function (error, question) {
+                    if (error) {
+                        res.json({status: 0, mes: '取关失败'});
+                    } else {
+                        var index = question.beFocused.indexOf(userId);
+                        if(index > -1){
+                            question.beFocused.splice(index,1);
+                        }else{
+                            res.json({status: 0, mes: '取关失败'});
+                            return;
+                        }
+                        question.save(function (err, sub) {
+                            if (err) {
+                                res.json({status: 0, mes: '取关失败'});
+                            } else {
+                                User.findOne({_id: userId})
+                                    .exec(function (err, person) {
+                                        for (var i = 0; i < person.myFocusQuestions.questions.length; i++) {
+                                            if (person.myFocusQuestions.questions[i]._id.toString() == sub._id.toString()) {
+                                                person.myFocusQuestions.questions.splice(i, 1);
+                                                break;
+                                            }
+                                        }
+                                        person.save(function (err, use) {
+                                            if (err) {
+                                                res.json({status: 0, mes: '取关失败'});
+                                            } else {
+                                                res.json({status: 1,isFocus:0, mes: '取关成功'});
+                                            }
+                                        })
+                                    })
+                            }
+                        })
+                    }
+                })
+        }
+    }else{
+        res.json({status: 0, mes: '失败'});
+    }
+}

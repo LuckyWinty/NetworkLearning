@@ -38,8 +38,8 @@
                   <div slot="header" class="clearfix">
                     <span style="line-height: 36px;">提问达人</span>
                   </div>
-                  <div v-for="o in 4" class="text item">
-                    {{'列表内容 ' + o }}
+                  <div v-for="o in askPersons" class="text item">
+                    {{o.userName}}
                   </div>
                 </el-card>
               </div>
@@ -52,8 +52,8 @@
                   <div slot="header" class="clearfix">
                     <span style="line-height: 36px;">回答雷锋榜</span>
                   </div>
-                  <div v-for="o in 4" class="text item">
-                    {{'列表内容 ' + o }}
+                  <div v-for="o in answerPersons" class="text item">
+                    {{o.userName}}
                   </div>
                 </el-card>
               </div>
@@ -90,11 +90,14 @@
         recommendQuestion: [],
         newQuestion: [],
         waitQuestion: [],
-        focusQuestion: []
+        focusQuestion: [],
+        askPersons: [],
+        answerPersons: []
       }
     },
     created () {
       this.showQuestions('全部')
+      this.getPerson()
     },
     methods: {
       getUrl () {
@@ -112,9 +115,10 @@
             this.$http.post(self.getUrl() + '/showQuestions', {userId: userId}).then((response) => {
               if (response.status === 200) {
                 if (response.data.status === 1) {
+                  self.allQuestion = []
                   self.allQuestion = self.allQuestion.concat(response.data.Questions)
-                  window.sessionStorage.setItem('allQuestion', JSON.stringify(self.allQuestion))
-                  self.showQuestion = self.showQuestion.concat(response.data.Questions.slice(0, 20))
+                  console.log('------', self.allQuestion)
+                  self.showQuestion = self.allQuestion.slice(0, 20)
                 } else {
                   self.popTip(response.data.mes)
                 }
@@ -124,14 +128,14 @@
             })
             break
           case '推荐' :
-            self.showQuestion = self.showQuestion.sort(function (a, b) {
+            self.showQuestion = self.allQuestion.sort(function (a, b) {
               return b.beFocused.length - a.beFocused.length
             })
             break
           case '最新' :
-            self.showQuestion = self.showQuestion.sort(function (a, b) {
+            self.showQuestion = self.allQuestion.sort(function (a, b) {
               return new Date(b.created) - new Date(a.created)
-            })
+            }).slice(0, 20)
             break
           case '等待回答' :
             var temp = []
@@ -153,7 +157,7 @@
               while (loop1 < self.allQuestion.length) {
                 var sub1 = self.allQuestion[loop1++]
                 for (var i = 0; i < sub1.beFocused.length; i++) {
-                  if (sub1[i].toString() === Id.toString()) {
+                  if (sub1.beFocused[i].toString() === Id.toString()) {
                     temp1.push(sub1)
                   }
                 }
@@ -168,12 +172,21 @@
           default :
         }
       },
-      handleSizeChange (val) {
-        console.log(`每页 ${val} 条`)
-      },
-      handleCurrentChange (val) {
-        this.currentPage = val
-        console.log(`当前页: ${val}`)
+      getPerson () {
+        var self = this
+        this.$http.post(self.getUrl() + '/getPerson').then((response) => {
+          if (response.status === 200) {
+            if (response.data.status === 1) {
+              self.askPersons = []
+              self.askPersons = self.askPersons.concat(response.data.askPersons)
+              self.answerPersons = self.answerPersons.concat(response.data.answerPersons)
+            } else {
+              self.popTip(response.data.mes)
+            }
+          }
+        }, (response) => {
+          // error callback
+        })
       },
       submitQuestion () {
         var self = this
@@ -188,6 +201,7 @@
               if (response.data.status === 1) {
                 self.question = ''
                 self.allQuestion = response.data.question.concat(self.allQuestion)
+                self.showQuestion = response.data.question.concat(self.showQuestion)
                 self.showQuestions(self.condition)
               } else {
                 self.popTip(response.data.mes)

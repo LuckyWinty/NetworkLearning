@@ -22,6 +22,9 @@ db.open(function (err) {
 
 module.exports.showSubjects = function(req, res){
     Subject.find({})
+        .populate('comments.user')
+        .populate('Questions.user')
+        .populate('Questions.answers.user')
         .sort({'created':-1})
         .exec(function(error,Subjects){
             if(error){
@@ -47,7 +50,6 @@ module.exports.showSubjects = function(req, res){
         })
 }
 module.exports.showOneSubject = function(req, res){
-    console.log('------------------',req.body.subjectId)
     if(req.body.subjectId){
         Subject.findOne({'_id': req.body.subjectId})
             .populate('comments.user')
@@ -57,6 +59,7 @@ module.exports.showOneSubject = function(req, res){
                 if(error){
                     console.log('.....查找课程出错',error);
                 }else{
+                    console.log('------------------',Subject)
                     res.json({status: 1,Subject:Subject, mes: '查找所有课程成功！'});
                 }
             })
@@ -64,7 +67,6 @@ module.exports.showOneSubject = function(req, res){
         res.json({status: 0,mes: '找不到课程信息！'});
     }
 }
-
 module.exports.showQuestions = function(req, res){
     Question.find({})
         .populate('user')
@@ -91,6 +93,23 @@ module.exports.showQuestions = function(req, res){
                 }else{
                     res.json({status: 1,Questions:Questions, mes: '查找所有课程成功！'});
                 }
+            }
+        })
+}
+module.exports.goodPerson = function(req, res){
+    User.find({})
+        .sort({'created':-1})
+        .exec(function(error,users){
+            if(error){
+                console.log('.....查找所有用户出错',error);
+            }else{
+               askPersons = users.sort(function(a,b){
+                   return b.myQuestions.questions.length - a.myQuestions.questions.length
+               }).slice(0,5)
+               answerPersons = users.sort(function(a,b){
+                    return b.mmyAnswers.answers.length - a.myAnswers.answers.length
+                }).slice(0,5)
+            res.json({status: 1,askPersons:askPersons,answerPersons:answerPersons, mes: '查找所有课程成功！'});
             }
         })
 }
