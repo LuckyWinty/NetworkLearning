@@ -181,6 +181,61 @@
           </div>
 
           <div class="module-wrap" v-show="showModule==4">
+            <el-tabs type="card" @tab-click="handleClick" @tab-remove="handleRemove">
+              <el-tab-pane label="全部练习">
+                <div class="tabs-wrap">
+                  <table class="primary-table top-margin">
+                    <thead>
+                    <th rowspan="1" colspan="1">练习名称</th>
+                    <th rowspan="1" colspan="1">录入日期</th>
+                    <th rowspan="1" colspan="1">选项个数</th>
+                    <th rowspan="1" colspan="1">课程时长</th>
+                    <th rowspan="1" colspan="1">操作</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td>11</td>
+                      <td>12</td>
+                      <td>13</td>
+                      <td>14</td>
+                      <td>
+                        <el-button
+                          size="small"
+                          @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                        <el-button
+                          size="small"
+                          type="danger"
+                          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <Page></Page>
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="添加练习">
+                <div class="step-1">
+                  <el-form :model="practice" label-width="150px">
+                    <el-form-item label="章节名称">
+                      <el-input v-model="practice.belong"></el-input>
+                    </el-form-item>
+                    <el-form-item label="题目描述">
+                      <el-input type="textarea" placeholder="最大500字" v-model="practice.content"></el-input>
+                    </el-form-item>
+                    <el-form-item label="题目选项">
+                    <el-input type="textarea" placeholder="每条选项最大150字,例：***，***，***" v-model="practice.choice" placa></el-input>
+                  </el-form-item>
+                    <el-form-item label="正确答案">
+                      <el-input v-model="practice.correctChoice" placeholder="例：A，B，C"></el-input>
+                    </el-form-item>
+                    <el-form-item label="答案解释">
+                      <el-input type="textarea" placeholder="最大250字" v-model="practice.explain"></el-input>
+                    </el-form-item>
+                  </el-form>
+                  <el-button class="top-btn pull-right" type="primary" @click="insertItem">确定录入</el-button>
+                </div>
+              </el-tab-pane>
+            </el-tabs>
           </div>
         </el-col>
       </el-row>
@@ -290,6 +345,13 @@
           content: '',
           mustKnow: ''
         },
+        practice: {
+          content: '',
+          choice: '',
+          correctChoice: '',
+          explain: '',
+          belong: ''
+        },
         active: 1,
         showModule: 1,
         tableData3: [{
@@ -388,10 +450,7 @@
       },
       changeModule (index, indexPath) {
         this.showModule = index
-        switch (index) {
-          case '1':''
-            break
-        }
+        console.log('---------------', index)
       },
       handleRemove (tab) {
         console.log(tab)
@@ -401,7 +460,6 @@
       },
       insertSubject () {
         var self = this
-        console.log('--------------subject', this.subject)
         this.$http.post(self.$store.state.basicUrl + '/admin/addSubjectInfo', {subject: self.subject}).then((response) => {
           if (response.status === 200) {
             if (response.data.status === 1) {
@@ -418,6 +476,26 @@
               self.active = 1
               self.handleRemovePic()
               window.localStorage.removeItem('subject')
+            } else {
+              self.popTip(response.data.mes)
+            }
+          }
+        }, (response) => {
+          // error callback
+        })
+      },
+      insertItem () {
+        var self = this
+        console.log('--------------practice', this.practice)
+        this.$http.post(self.$store.state.basicUrl + '/admin/addPractice', {practice: self.practice}).then((response) => {
+          if (response.status === 200) {
+            if (response.data.status === 1) {
+              self.popTip(response.data.mes)
+              self.practice.content = ''
+              self.practice.choice = ''
+              self.practice.correctChoice = ''
+              self.practice.belong = ''
+              self.practice.explain = ''
             } else {
               self.popTip(response.data.mes)
             }

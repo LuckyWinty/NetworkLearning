@@ -97,10 +97,7 @@ var itemSchema = new mongoose.Schema({
         require:true
     },
     choice:[],//选项
-    correctChoice:{   //正确答案，1->A,2->B,3->C,4->D...
-        type:Number,
-        require:true
-    },
+    correctChoice:[],  //正确答案，1->A,2->B,3->C,4->D...,
     explain:String,
     belong:String,//所属章节
     created: {

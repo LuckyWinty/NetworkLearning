@@ -8,7 +8,8 @@ var forturnController = require("../controllers/forturnController");
 
 //admin
 var addUserCtrol = require("../controllers/admin/addUserCtrol");
-var addSubjectCtrol = require("../controllers/admin/addSubject")
+var addSubjectCtrol = require("../controllers/admin/addSubject");
+var addPracticeCtrol = require("../controllers/admin/addPractice");
 
 var fs = require('fs');
 var mongoose = require("mongoose");
@@ -29,6 +30,9 @@ router.post('/admin/addSubject',function(req,res){
 })
 router.post('/admin/addSubjectInfo',function(req,res){
   addSubjectCtrol.addSubjectInfo(req,res);
+})
+router.post('/admin/addPractice',function(req,res){
+    addPracticeCtrol.addPractice(req,res);
 })
 
 //用户
