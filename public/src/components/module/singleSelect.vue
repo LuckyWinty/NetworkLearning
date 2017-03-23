@@ -1,19 +1,18 @@
 <template>
     <div>
-      <div v-for="item in questionList">
+      <div v-for="(item,index) in questionList">
         <div class="single-item">
-          <p class="title"><span>{{item.index}}.</span>{{item.content}}</p>
+          <p class="title"><span>{{index+1}}.</span>{{item.content}}</p>
           <el-radio-group class="opt-group" v-model="item.selected">
             <el-radio class="select-opt" v-for="opt in item.selects" :label="opt.option">{{opt.option}}</el-radio>
           </el-radio-group>
           <div class="btn-group">
             <el-button type="primary">检验</el-button>
-            <el-button type="warning">标记</el-button>
           </div>
         </div>
         <div class="tips" v-if="item.result">
           <h4>回答{{item.result.result}}！</h4>
-          <p>{{item.result.explain}}</p>
+          <p>{{item.explain}}</p>
         </div>
       </div>
     </div>

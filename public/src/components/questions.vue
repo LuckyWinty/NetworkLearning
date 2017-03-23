@@ -26,7 +26,7 @@
             </ul>
           </div>
           <div class="question-list">
-             <singleSelect></singleSelect>
+             <singleSelect :questionList="questionList"></singleSelect>
           </div>
           <Page></Page>
         </div>
@@ -237,7 +237,7 @@
             label: 'P2P'
           }]
         }],
-        currentPage1: 5,
+        questionList: [],
         currentPage2: 5,
         currentPage3: 5,
         currentPage4: 4
