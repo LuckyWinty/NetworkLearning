@@ -7,6 +7,7 @@ require('../model/model');
 var User = mongoose.model('User');
 var Subject = mongoose.model('Subject');
 var Question = mongoose.model('Question');
+var Item=mongoose.model('Item');
 var mongo = require('mongodb');
 var util = require('util');
 var moment=require('moment');
@@ -30,6 +31,7 @@ module.exports.showSubjects = function(req, res){
             if(error){
                 console.log('.....查找所有课程出错',error);
             }else{
+                console.log('.....deng',req.body.userId);
                 if(req.body.userId){
                     User.findOne({_id: req.body.userId})
                         .exec(function (err, person) {
@@ -113,6 +115,20 @@ module.exports.goodPerson = function(req, res){
             }
         })
 }
+module.exports.showPractice = function(req, res){
+    if(req.body.belong){
+        Item.find({belong:req.body.belong})
+            .exec(function(error,Items) {
+                if (error) {
+                    res.json({status: 0,mes:'查找失败'});
+                } else {
+                    res.json({status: 1,mes:'查找成功',Items: Items});
+                }
+            })
+    }else{
+        res.json({status: 0,mes:'暂无题目'});
+    }
+};
 
 module.exports.getImage = function(req, res){
     var _id = new mongo.ObjectId(req.query.imageId);

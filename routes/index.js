@@ -35,6 +35,8 @@ router.post('/admin/addPractice',function(req,res){
     addPracticeCtrol.addPractice(req,res);
 })
 
+
+
 //用户
 router.post("/user/regist", registController.regist);
 router.post("/login", loginController.doLogin);
@@ -44,6 +46,7 @@ router.post("/focus",basicController.focusSubject);
 router.post("/comment",basicController.comment);
 router.post("/ask",basicController.ask);
 router.post("/reply",basicController.reply);
+router.post("/showPractice",showInfoController.showPractice);
 
 //论坛
 router.post("/showQuestions",showInfoController.showQuestions);

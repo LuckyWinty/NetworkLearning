@@ -63,22 +63,9 @@
 </style>
 <script>
     export default{
+      props: ['questionList'],
       data () {
         return {
-          questionList: [{
-            index: '1',
-            content: '为解决各类应用问题而编写的程序，称为______软件。',
-            selects: [{option: 'a. 应用软件'}, {option: 'b. 应用软件'}, {option: 'c. 应用软件'}, {option: 'd. 应用软件'}],
-            selected: '',
-            result: {result: '正确', explain: '这个回答给满分！'}
-          },
-          {
-            index: '2',
-            content: '为解决各类应用问题而编写的程序，称为______软件。',
-            selects: [{option: 'a. 应用软件应用软件应用软件应用软件应用软件应用软件应用软件应用软件应用软件应用软件应用软件应用软件应用软件应用软件应用软件应用软件应用软件应用软件应用软件应用软件'}, {option: 'b. 应用软件'}, {option: 'c. 应用软件'}, {option: 'd. 应用软件'}],
-            selected: '',
-            result: ''
-          }]
         }
       }
     }

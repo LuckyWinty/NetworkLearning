@@ -247,11 +247,36 @@
       this.getPractice('因特网的组成')
     },
     methods: {
+      getUrl () {
+        return this.$store.state.basicUrl
+      },
+      popTip (title, tips) {
+        this.$alert(tips, title, {
+        })
+      },
       handleNodeClick (data) {
         this.getPractice(data.label)
       },
       getPractice (label) {
-
+        var self = this
+        this.$http.post(self.getUrl() + '/showPractice', {belong: label}).then((response) => {
+          if (response.status === 200) {
+            if (response.data.status === 1) {
+//              {
+//                index: '1',
+//                  content: '为解决各类应用问题而编写的程序，称为______软件。',
+//                selects: [{option: 'a. 应用软件'}, {option: 'b. 应用软件'}, {option: 'c. 应用软件'}, {option: 'd. 应用软件'}],
+//                selected: '',
+//                result: {result: '正确', explain: '这个回答给满分！'}
+//              }
+              console.log('------', response.data)
+            } else {
+              self.popTip(response.data.mes)
+            }
+          }
+        }, (response) => {
+          // error callback
+        })
       },
       handleSizeChange (val) {
         console.log(`每页 ${val} 条`)
