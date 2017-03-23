@@ -259,18 +259,11 @@
       },
       getPractice (label) {
         var self = this
+        self.questionList = []
         this.$http.post(self.getUrl() + '/showPractice', {belong: label}).then((response) => {
           if (response.status === 200) {
             if (response.data.status === 1) {
-//              {
-//                index: '1',
-//                  content: '为解决各类应用问题而编写的程序，称为______软件。',
-//                selects: [{option: 'a. 应用软件'}, {option: 'b. 应用软件'}, {option: 'c. 应用软件'}, {option: 'd. 应用软件'}],
-//                selected: '',
-//                result: {result: '正确', explain: '这个回答给满分！'}
-//              }
               self.questionList = self.questionList.concat(response.data.Items)
-              console.log('------', response.data)
             } else {
               self.popTip(response.data.mes)
             }
