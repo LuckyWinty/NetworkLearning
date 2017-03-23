@@ -269,6 +269,7 @@
 //                selected: '',
 //                result: {result: '正确', explain: '这个回答给满分！'}
 //              }
+              self.questionList = self.questionList.concat(response.data.Items)
               console.log('------', response.data)
             } else {
               self.popTip(response.data.mes)

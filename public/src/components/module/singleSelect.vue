@@ -3,15 +3,15 @@
       <div v-for="(item,index) in questionList">
         <div class="single-item">
           <p class="title"><span>{{index+1}}.</span>{{item.content}}</p>
-          <el-radio-group class="opt-group" v-model="item.selected">
-            <el-radio class="select-opt" v-for="opt in item.selects" :label="opt.option">{{opt.option}}</el-radio>
-          </el-radio-group>
+          <el-checkbox-group v-model="item.selected">
+            <el-checkbox v-for="(opt,index) in item.choice" :label="index">{{opt.option}}</el-checkbox>
+          </el-checkbox-group>
           <div class="btn-group">
-            <el-button type="primary">检验</el-button>
+            <el-button type="primary" @click="check(item)">检验</el-button>
           </div>
         </div>
-        <div class="tips" v-if="item.result">
-          <h4>回答{{item.result.result}}！</h4>
+        <div class="tips" v-show="item.result!=''">
+          <h4>回答{{item.result}}！</h4>
           <p>{{item.explain}}</p>
         </div>
       </div>
@@ -27,8 +27,9 @@
   .title{
     margin-bottom: 15px;
   }
-  .opt-group{
-    width:100%;
+  .single-item .el-checkbox{
+    display: block;
+    margin-left: 15px;
   }
   .btn-group{
    margin-top: 20px;
@@ -65,6 +66,31 @@
       props: ['questionList'],
       data () {
         return {
+        }
+      },
+      methods: {
+        check (item) {
+          var result = true
+          var temp = { A: 0, B: 1, C: 2, D: 3, E: 4, F: 5, G: 6, H: 7, I: 8, J: 9 }
+          if (item.correctChoice.length !== item.selected.length) {
+            result = false
+          } else {
+            for (var i = 0; i < item.correctChoice.length; i++) {
+              if (item.selected.indexOf(temp[item.correctChoice[i]]) === -1) {
+                result = false
+                break
+              }
+            }
+          }
+          for (var w = 0; w < this.questionList.length; w++) {
+            if (this.questionList[w]._id.toString() === item._id.toString()) {
+              if (result) {
+                this.questionList[w].result = '正确'
+              } else {
+                this.questionList[w].result = '错误'
+              }
+            }
+          }
         }
       }
     }
