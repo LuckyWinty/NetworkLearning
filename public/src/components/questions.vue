@@ -17,14 +17,6 @@
       </el-col>
       <el-col :span="16">
         <div class="grid-content bg-purple">
-          <div class="questions-nav">
-            <h4>题目导航</h4>
-            <ul>
-              <li v-for="o in 15" class="questions-item">
-                <a href="#" class="question-index">{{o}}</a>
-              </li>
-            </ul>
-          </div>
           <div class="question-list">
              <singleSelect :questionList="questionList"></singleSelect>
           </div>

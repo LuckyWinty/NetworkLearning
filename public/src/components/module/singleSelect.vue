@@ -1,6 +1,14 @@
 <template>
     <div>
-      <div v-for="(item,index) in questionList">
+      <div class="questions-nav" style="display: none;">
+        <h4>题目导航</h4>
+        <ul>
+          <li v-for="(o,index) in questionList" class="questions-item">
+            <a :href="'#question'+(index+1)" class="question-index">{{index+1}}</a>
+          </li>
+        </ul>
+      </div>
+      <div v-for="(item,index) in questionList" :id="'question'+(index+1)">
         <div class="single-item">
           <p class="title"><span>{{index+1}}.</span>{{item.content}}</p>
           <el-checkbox-group v-model="item.selected">
@@ -13,6 +21,7 @@
         <div class="tips" v-show="item.result!=''">
           <h4>回答{{item.result}}！</h4>
           <p>{{item.explain}}</p>
+        </div>
         </div>
       </div>
     </div>
