@@ -6,8 +6,7 @@
         </div>
         <div class="content">
           <h3>{{subjectInfo.title}}<span class="subject-progress">{{subjectInfo.progress}}</span></h3>
-          <p class="learn-progress">已学：<el-progress class="detail-progress" :text-inside="true" :stroke-width="15" :percentage="70"></el-progress></p>
-          <p>学习至：{{subjectInfo.learnTo}}</p>
+          <p class="learn-progress">{{subjectInfo.desc}}</p>
           <p class="detail-info"><span>等级:<i>{{subjectInfo.level}}</i></span><span>关注:<i>{{subjectInfo.focus}}</i></span><span>评论:<i>{{subjectInfo.num}}</i></span></p>
         </div>
         <div class="learn-btn">

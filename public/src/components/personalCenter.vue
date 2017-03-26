@@ -23,11 +23,7 @@
             <el-col :span="18"><div class="grid-content bg-purple">
               <div class="module-wrap" v-show="showModule==1">
                 <div class="tabs-wrap">
-                <el-tabs type="card" @tab-click="handleClick" @tab-remove="handleRemove">
-                  <el-tab-pane label="最近学习">
-                    <FocusSubject></FocusSubject>
-                    <Page></Page>
-                  </el-tab-pane>
+                <el-tabs type="card">
                   <el-tab-pane label="我关注的">
                     <FocusSubject></FocusSubject>
                     <Page></Page>
