@@ -46,6 +46,7 @@ router.post("/focus",basicController.focusSubject);
 router.post("/comment",basicController.comment);
 router.post("/ask",basicController.ask);
 router.post("/reply",basicController.reply);
+router.post("/checkLogin",basicController.checkLogin);
 router.post("/showPractice",showInfoController.showPractice);
 
 //论坛

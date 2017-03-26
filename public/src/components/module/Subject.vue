@@ -85,7 +85,7 @@
                   if (self.hotLists[i]._id.toString() === info._id) {
                     self.hotLists[i].isFocus = response.data.isFocus
                     if (response.data.isFocus === 1) {
-                      self.hotLists[i].beFocused.push('1')
+                      self.hotLists[i].beFocused.length = response.data.num
                     } else {
                       self.hotLists[i].beFocused.splice(0, 1)
                     }

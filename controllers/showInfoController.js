@@ -128,7 +128,8 @@ module.exports.showPractice = function(req, res){
     }else{
         res.json({status: 0,mes:'暂无题目'});
     }
-};
+}
+
 
 module.exports.getImage = function(req, res){
     var _id = new mongo.ObjectId(req.query.imageId);

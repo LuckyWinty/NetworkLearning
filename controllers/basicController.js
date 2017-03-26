@@ -21,24 +21,28 @@ module.exports.focusSubject = function(req, res){
                     if (error) {
                         res.json({status: 0, mes: '关注失败'});
                     } else {
-                        Subject.beFocused.push(userId);
-                        Subject.save(function (err, sub) {
-                            if (err) {
-                                res.json({status: 0, mes: '关注失败'});
-                            } else {
-                                User.findOne({_id: userId})
-                                    .exec(function (err, person) {
-                                        person.mySubjects.subjects.push(sub);
-                                        person.save(function (err, user) {
-                                            if (err) {
-                                                res.json({status: 0, mes: '关注失败'});
-                                            } else {
-                                                res.json({status: 1, isFocus: 1, mes: '关注成功'});
-                                            }
+                        if(Subject.beFocused.indexOf(userId) == -1) {
+                            Subject.beFocused.push(userId);
+                            Subject.save(function (err, sub) {
+                                if (err) {
+                                    res.json({status: 0, mes: '关注失败'});
+                                } else {
+                                    User.findOne({_id: userId})
+                                        .exec(function (err, person) {
+                                            person.mySubjects.subjects.push(sub);
+                                            person.save(function (err, user) {
+                                                if (err) {
+                                                    res.json({status: 0, mes: '关注失败'});
+                                                } else {
+                                                    res.json({status: 1, isFocus: 1, num:sub.beFocused.length,mes: '关注成功'});
+                                                }
+                                            })
                                         })
-                                    })
-                            }
-                        })
+                                }
+                            })
+                        }else{
+                            res.json({status: 1, isFocus: 1, num:Subject.beFocused.length,mes: '关注成功'});
+                        }
                     }
                 })
         } else {
@@ -409,6 +413,21 @@ module.exports.focusQuestion = function(req, res){
                 })
         }
     }else{
+        res.json({status: 0, mes: '失败'});
+    }
+}
+module.exports.checkLogin = function(req, res){
+    if( req.body.userId){
+        var userId = req.body.userId;
+        User.findOne({_id: userId})
+            .exec(function (err, person) {
+                if (err) {
+                    res.json({status: 0, mes: '失败'});
+                } else {
+                    res.json({status: 1, person: person, mes: '查找成功'});
+                }
+            })
+    }else {
         res.json({status: 0, mes: '失败'});
     }
 }

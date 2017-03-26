@@ -6,9 +6,10 @@
         <el-menu-item class="nav-item" index="2"><i class="el-icon-document"></i><router-link to="/subjectLearn">课程学习</router-link></el-menu-item>
         <el-menu-item class="nav-item" index="3"><i class="el-icon-information"></i><router-link to="/forum">论坛</router-link></el-menu-item>
         <el-menu-item class="nav-item" index="4"><i class="el-icon-edit"></i><router-link to="/questions">题库练习</router-link></el-menu-item>
-        <el-menu-item class="nav-item" index="5"  v-show="isLogin"><router-link to="/personalCenter">{{person.userName}}|<a>注销</a></router-link></el-menu-item>
-        <el-menu-item class="nav-item" index="6" v-show="!isLogin">登录</el-menu-item>
-        <el-menu-item class="nav-item" index="7" v-show="!isAdmin"><router-link to="/adminIndex">进入管理系统</router-link></el-menu-item>
+        <el-menu-item class="nav-item float-right" index="6" v-show="isLogin">注销</el-menu-item>
+        <el-menu-item class="nav-item float-right" index="5"  v-show="isLogin"><router-link to="/personalCenter">欢迎您，{{person.userName}}</router-link></el-menu-item>
+        <el-menu-item class="nav-item float-right" index="7" v-show="!isLogin">登录</el-menu-item>
+        <el-menu-item class="nav-item" index="8" v-if="isAdmin"><router-link to="/adminIndex">进入管理系统</router-link></el-menu-item>
       </el-menu>
       <div class="line"></div>
     </nav>
@@ -31,14 +32,30 @@ export default {
         }
       }
     },
+    created () {
+      this.checkLogin()
+    },
     methods: {
+      getUrl () {
+        return this.$store.state.basicUrl
+      },
+      popTip (title, tips) {
+        this.$alert(tips, title, {
+        })
+      },
       handleSelect (key, keyPath) {
         if (key) {
           this.curIndex = key
         }
         console.log(Number(this.curIndex))
-        if (Number(this.curIndex) === 6) {
+        if (Number(this.curIndex) === 7) {
           this.showLoginFlag = !this.showLoginFlag
+        }
+        if (Number(this.curIndex) === 6) {
+          this.isLogin = false
+          window.sessionStorage.removeItem('userId')
+          this.showLoginFlag = false
+          window.location.reload()
         }
       },
       getLoginInfo (info) {
@@ -48,7 +65,20 @@ export default {
         if (this.person.power === 0) {
           this.isAdmin = true
         }
-        console.log('--------------', info)
+      },
+      checkLogin () {
+        var self = this
+        var userId = window.sessionStorage.getItem('userId') || ''
+        this.$http.post(self.getUrl() + '/checkLogin', {userId: userId}).then((response) => {
+          if (response.status === 200) {
+            if (response.data.status === 1) {
+              console.log(response.data.person)
+              self.getLoginInfo(response.data.person)
+            }
+          }
+        }, (response) => {
+          // error callback
+        })
       }
     },
     components: {
@@ -73,7 +103,7 @@ export default {
  }
  .float-right{
   display:block;
-  float:right;
+  float:right !important;
  }
  .mask{
  position:absolute;
