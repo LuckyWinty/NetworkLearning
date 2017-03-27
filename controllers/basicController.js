@@ -431,3 +431,27 @@ module.exports.checkLogin = function(req, res){
         res.json({status: 0, mes: '失败'});
     }
 }
+module.exports.updatePersonInfo = function(req, res){
+    if(req.body.userId){
+        User.findOne({_id:req.body.userId})
+            .exec(function(error,user){
+                if(error){
+                    console.log('.....查找用户出错',error);
+                }else{
+                    user.wechat = req.body.user.wechat;
+                    user.qq = req.body.user.qq;
+                    user.phone = req.body.user.phone;
+                    user.signature = req.body.user.signature;
+                    user.save(function (err, ques1) {
+                        if (err) {
+                            res.json({status: 0, mes: '修改失败!'});
+                        }else{
+                            res.json({status: 0, mes: '修改成功!'});
+                        }
+                    })
+                }
+            })
+    }else{
+        res.json({status: 0,mes:'查找用户失败！'});
+    }
+}

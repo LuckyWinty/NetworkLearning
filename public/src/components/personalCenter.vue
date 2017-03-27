@@ -109,10 +109,6 @@
                             action="//jsonplaceholder.typicode.com/posts/"
                             type="drag"
                             :multiple="true"
-                            :on-preview="handlePreview"
-                            :on-remove="handleRemovePic"
-                            :on-success="handleSuccess"
-                            :on-error="handleError"
                             :default-file-list="fileList"
                           >
                             <i class="el-icon-upload"></i>
@@ -137,7 +133,6 @@
                         </el-form-item>
                         <el-form-item>
                         <el-button type="primary" @click="onSubmit">确认修改</el-button>
-                        <el-button>保存</el-button>
                         </el-form-item>
                       </el-form>
                     </el-tab-pane>
@@ -250,6 +245,11 @@
               console.log('----------', response.data)
               self.subjectInfos = []
               self.subjectInfos = self.subjectInfos.concat(response.data.user.mySubjects.subjects)
+              self.formAlignRight.name = response.data.user.name
+              self.formAlignRight.wechat = response.data.user.wechat
+              self.formAlignRight.qq = response.data.user.qq
+              self.formAlignRight.phone = response.data.user.phone
+              self.formAlignRight.desc = response.data.user.desc
             } else {
               self.popTip(response.data.mes)
             }
@@ -269,6 +269,29 @@
         console.log(tab, event)
       },
       onSubmit () {
+        var self = this
+        var params = {}
+        var name, value
+        var str = window.location.href
+        var num = str.indexOf('?')
+        str = str.substr(num + 1)
+        var arr = str.split('&')
+        for (var i = 0; i < arr.length; i++) {
+          num = arr[i].indexOf('=')
+          if (num > 0) {
+            name = arr[i].substring(0, num)
+            value = arr[i].substr(num + 1)
+            params[name] = value
+          }
+        }
+        var userId = params.userId || window.sessionStorage.getItem('userId')
+        this.$http.post(self.getUrl() + '/updatePersonInfo', {userId: userId, user: self.formAlignRight}).then((response) => {
+          if (response.status === 200) {
+            self.popTip(response.data.mes)
+          }
+        }, (response) => {
+          // error callback
+        })
       },
       handleRemovePic (file, fileList) {
         console.log(file, fileList)
