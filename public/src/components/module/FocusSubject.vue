@@ -2,15 +2,17 @@
     <div class="focus-subject">
       <div class="focus-wrap" v-for="subjectInfo in subjectInfos">
         <div class="pic">
-          <img :src="subjectInfo.imgUrl" alt="">
+          <img :src="`${basicUrl}/image?imageId=${subjectInfo.imageId}`" alt="">
         </div>
         <div class="content">
-          <h3>{{subjectInfo.title}}<span class="subject-progress">{{subjectInfo.progress}}</span></h3>
+          <h3>{{subjectInfo.title}}<span class="subject-progress">更新完成</span></h3>
           <p class="learn-progress">{{subjectInfo.desc}}</p>
-          <p class="detail-info"><span>等级:<i>{{subjectInfo.level}}</i></span><span>关注:<i>{{subjectInfo.focus}}</i></span><span>评论:<i>{{subjectInfo.num}}</i></span></p>
+          <p class="detail-info"><span>等级:<i>{{subjectInfo.level}}</i></span><span>评论:<i>{{subjectInfo.comments.length}}</i></span></p>
         </div>
         <div class="learn-btn">
+          <a :href="`/#/subjectSpots?subjectId=${subjectInfo._id}`">
           <el-button type="info" class="continue-btn">继续学习</el-button>
+          </a>
         </div>
       </div>
 
@@ -85,30 +87,15 @@
 </style>
 <script>
     export default{
+      props: ['subjectInfos'],
       data () {
         return {
-          subjectInfos: [{
-            id: '123',
-            imgUrl: 'http://img.mukewang.com/529dc3380001379906000338-240-135.jpg',
-            level: '初',
-            title: '网络安全',
-            desc: '8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。',
-            focus: '2000',
-            progress: '更新完毕',
-            learnTo: '第二章第一节',
-            num: '100'
-          },
-          {
-            id: '123',
-            imgUrl: 'http://img.mukewang.com/529dc3380001379906000338-240-135.jpg',
-            level: '初',
-            title: '网络安全',
-            desc: '8小时带领大家步步深入学习标签的基础知识，掌握各种样式的基本用法。',
-            focus: '2000',
-            progress: '更新完毕',
-            learnTo: '第二章第一节',
-            num: '100'
-          }]
+          basicUrl: this.getUrl()
+        }
+      },
+      methods: {
+        getUrl () {
+          return this.$store.state.basicUrl
         }
       }
     }

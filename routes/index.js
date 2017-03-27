@@ -48,6 +48,7 @@ router.post("/ask",basicController.ask);
 router.post("/reply",basicController.reply);
 router.post("/checkLogin",basicController.checkLogin);
 router.post("/showPractice",showInfoController.showPractice);
+router.post("/showPersonInfo",showInfoController.showPersonInfo);
 
 //论坛
 router.post("/showQuestions",showInfoController.showQuestions);

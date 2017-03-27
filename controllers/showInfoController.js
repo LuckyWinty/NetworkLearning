@@ -129,6 +129,20 @@ module.exports.showPractice = function(req, res){
         res.json({status: 0,mes:'暂无题目'});
     }
 }
+module.exports.showPersonInfo = function(req, res){
+    if(req.body.userId){
+        User.findOne({_id:req.body.userId})
+            .exec(function(error,user){
+                if(error){
+                    console.log('.....查找用户出错',error);
+                }else{
+                    res.json({status: 1,user:user, mes: '查找用户成功！'});
+                }
+            })
+    }else{
+        res.json({status: 0,mes:'查找用户失败！'});
+    }
+}
 
 
 module.exports.getImage = function(req, res){

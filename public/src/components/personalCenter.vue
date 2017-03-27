@@ -25,7 +25,7 @@
                 <div class="tabs-wrap">
                 <el-tabs type="card">
                   <el-tab-pane label="我关注的">
-                    <FocusSubject></FocusSubject>
+                    <FocusSubject :subjectInfos="subjectInfos"></FocusSubject>
                     <Page></Page>
                   </el-tab-pane>
                 </el-tabs>
@@ -198,6 +198,7 @@
   export default {
     data () {
       return {
+        subjectInfos: [],
         person: {
           name: '学生乙',
           portrait: 'https://gss0.baidu.com/8_BXsjip0QIZ8tyhnq/timg?wh_rate=0&wapiknow&quality=100&size=w250&sec=0&di=755e2d919a2414a6a2de820f555d44ae&src=http%3A%2F%2Fiknow02.bosstatic.bdimg.com%2Fzhidaoribao%2F2016%2F1221%2Fdz.jpg',
@@ -215,7 +216,48 @@
         fileList: [{name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
       }
     },
+    created () {
+      this.getUserInfo()
+    },
     methods: {
+      getUrl () {
+        return this.$store.state.basicUrl
+      },
+      popTip (title, tips) {
+        this.$alert(tips, title, {
+        })
+      },
+      getUserInfo () {
+        var self = this
+        var params = {}
+        var name, value
+        var str = window.location.href
+        var num = str.indexOf('?')
+        str = str.substr(num + 1)
+        var arr = str.split('&')
+        for (var i = 0; i < arr.length; i++) {
+          num = arr[i].indexOf('=')
+          if (num > 0) {
+            name = arr[i].substring(0, num)
+            value = arr[i].substr(num + 1)
+            params[name] = value
+          }
+        }
+        var userId = params.userId || window.sessionStorage.getItem('userId')
+        this.$http.post(self.getUrl() + '/showPersonInfo', {userId: userId}).then((response) => {
+          if (response.status === 200) {
+            if (response.data.status === 1) {
+              console.log('----------', response.data)
+              self.subjectInfos = []
+              self.subjectInfos = self.subjectInfos.concat(response.data.user.mySubjects.subjects)
+            } else {
+              self.popTip(response.data.mes)
+            }
+          }
+        }, (response) => {
+          // error callback
+        })
+      },
       changeModule (index, indexPath) {
         this.showModule = index
         console.log('有反应不？', index, this.showModule)
