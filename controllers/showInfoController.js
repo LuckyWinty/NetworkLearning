@@ -144,6 +144,21 @@ module.exports.showPersonInfo = function(req, res){
     }
 }
 
+module.exports.showSingleQuestion = function(req, res){
+    if(req.body.qusetionId){
+        Question.findOne({_id:req.body.qusetionId})
+            .exec(function(error,Question){
+                if(error){
+                    console.log('.....查找出错',error);
+                }else{
+                    res.json({status: 1,Question:Question, mes: '查找成功！'});
+                }
+            })
+    }else{
+        res.json({status: 0,mes:'查找失败！'});
+    }
+}
+
 
 module.exports.getImage = function(req, res){
     var _id = new mongo.ObjectId(req.query.imageId);

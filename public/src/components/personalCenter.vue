@@ -15,7 +15,6 @@
               <el-menu default-active="1" class="el-menu-vertical-demo" @select="changeModule" >
                 <el-menu-item index="1" ><i class="el-icon-message"></i>课程</el-menu-item>
                 <el-menu-item index="2"><i class="el-icon-menu"></i>我的提问</el-menu-item>
-                <el-menu-item index="3"><i class="el-icon-document"></i>我的回答</el-menu-item>
                 <el-menu-item index="4"><i class="el-icon-warning"></i>我关注的问题</el-menu-item>
                 <el-menu-item index="5"><i class="el-icon-setting"></i>基本信息</el-menu-item>
               </el-menu>
@@ -34,43 +33,19 @@
 
               <div class="module-wrap" v-show="showModule==2">
                 <div class="tabs-wrap">
-                  <el-tabs type="card" @tab-click="handleClick" @tab-remove="handleRemove">
-                    <el-tab-pane label="最近提问">
-                      <FocusSubject></FocusSubject>
-                      <Page></Page>
-                    </el-tab-pane>
+                  <el-tabs type="card">
                     <el-tab-pane label="我关注的">
-                      <FocusSubject></FocusSubject>
+                      <singleQuestion></singleQuestion>
                       <Page></Page>
                     </el-tab-pane>
                   </el-tabs>
                 </div>
               </div>
-
-              <div class="module-wrap" v-show="showModule==3">
-                <div class="tabs-wrap">
-                  <el-tabs type="card" @tab-click="handleClick" @tab-remove="handleRemove">
-                    <el-tab-pane label="最近回答">
-                      <FocusSubject></FocusSubject>
-                      <Page></Page>
-                    </el-tab-pane>
-                    <el-tab-pane label="我关注的">
-                      <FocusSubject></FocusSubject>
-                      <Page></Page>
-                    </el-tab-pane>
-                  </el-tabs>
-                </div>
-              </div>
-
               <div class="module-wrap" v-show="showModule==4">
                 <div class="tabs-wrap">
-                  <el-tabs type="card" @tab-click="handleClick" @tab-remove="handleRemove">
-                    <el-tab-pane label="最近关注">
-                      <FocusSubject></FocusSubject>
-                      <Page></Page>
-                    </el-tab-pane>
+                  <el-tabs type="card">
                     <el-tab-pane label="最热关注">
-                      <FocusSubject></FocusSubject>
+                      <singleQuestion></singleQuestion>
                       <Page></Page>
                     </el-tab-pane>
                   </el-tabs>
@@ -189,6 +164,7 @@
 </style>
 <script>
   import FocusSubject from 'components/module/FocusSubject.vue'
+  import singleQuestion from 'components/module/singleQuestion.vue'
   import Page from 'components/module/Page.vue'
   export default {
     data () {
@@ -302,6 +278,7 @@
     },
     components: {
       FocusSubject: FocusSubject,
+      singleQuestion: singleQuestion,
       Page: Page
     }
   }

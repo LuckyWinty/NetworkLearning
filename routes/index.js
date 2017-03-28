@@ -51,6 +51,7 @@ router.post("/showPractice",showInfoController.showPractice);
 router.post("/showPersonInfo",showInfoController.showPersonInfo);
 router.post("/updatePersonInfo",basicController.updatePersonInfo);
 
+router.post("/showSingleQuestion",showInfoController.showSingleQuestion);
 //论坛
 router.post("/showQuestions",showInfoController.showQuestions);
 router.post("/getPerson",showInfoController.goodPerson);
