@@ -444,7 +444,7 @@ module.exports.updatePersonInfo = function(req, res){
                     user.signature = req.body.user.signature;
                     user.save(function (err, ques1) {
                         if (err) {
-                            res.json({status: 0, mes: '修改失败!'});
+                            res.json({status: 0, mes: '修改失败72!'});
                         }else{
                             res.json({status: 0, mes: '修改成功!'});
                         }
