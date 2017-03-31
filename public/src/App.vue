@@ -73,7 +73,11 @@ export default {
           if (response.status === 200) {
             if (response.data.status === 1) {
               console.log(response.data.person)
-              self.getLoginInfo(response.data.person)
+              if (response.data.person) {
+                self.getLoginInfo(response.data.person)
+              } else {
+                window.sessionStorage.removeItem('userId')
+              }
             }
           }
         }, (response) => {

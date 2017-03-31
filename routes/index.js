@@ -10,6 +10,8 @@ var forturnController = require("../controllers/forturnController");
 var addUserCtrol = require("../controllers/admin/addUserCtrol");
 var addSubjectCtrol = require("../controllers/admin/addSubject");
 var addPracticeCtrol = require("../controllers/admin/addPractice");
+var showInfoCtrol = require("../controllers/admin/showInfo");
+var basicCtrol = require("../controllers/admin/basicCtrol");
 
 var fs = require('fs');
 var mongoose = require("mongoose");
@@ -33,6 +35,15 @@ router.post('/admin/addSubjectInfo',function(req,res){
 })
 router.post('/admin/addPractice',function(req,res){
     addPracticeCtrol.addPractice(req,res);
+})
+router.post('/admin/showUsers',function(req,res){
+  showInfoCtrol.showUsers(req,res);
+})
+router.post('/admin/resetPassword',function(req,res){
+  basicCtrol.resetPassword(req,res);
+})
+router.post('/admin/deletUser',function(req,res){
+  basicCtrol.deletUser(req,res);
 })
 
 

@@ -22,23 +22,23 @@
                     <th rowspan="1" colspan="1">用户名</th>
                     <th rowspan="1" colspan="1">用户权限</th>
                     <th rowspan="1" colspan="1">手机号码</th>
-                    <th rowspan="1" colspan="1">注册日期</th>
+                    <th rowspan="1" colspan="1">微信</th>
                     <th rowspan="1" colspan="1">操作</th>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>11</td>
-                    <td>12</td>
-                    <td>13</td>
-                    <td>14</td>
+                  <tr v-if="users.length > 0" v-for="user in users">
+                    <td>{{user.userName}}</td>
+                    <td>{{user.power}}</td>
+                    <td>{{user.phone}}</td>
+                    <td>{{user.wechat}}</td>
                     <td>
                       <el-button
                         size="small"
-                        @click="handleEdit(scope.$index, scope.row)">重置密码</el-button>
+                        @click="resetPassword(user)">重置密码</el-button>
                       <el-button
                         size="small"
                         type="danger"
-                        @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                        @click="DeleteUser(user)">删除</el-button>
                     </td>
                   </tr>
                   </tbody>
@@ -354,45 +354,59 @@
         },
         active: 1,
         showModule: 1,
-        tableData3: [{
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-          tag: '家'
-        }, {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-          tag: '家'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-          tag: '家'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-          tag: '家'
-        }, {
-          date: '2016-05-08',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-          tag: '家'
-        }, {
-          date: '2016-05-06',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-          tag: '家'
-        }, {
-          date: '2016-05-07',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-          tag: '家'
-        }]
+        users: []
       }
     },
+    created () {
+      this.getUserInfo()
+    },
     methods: {
+      getUrl () {
+        return this.$store.state.basicUrl
+      },
+      getUserInfo () {
+        var self = this
+        this.$http.post(self.getUrl() + '/admin/showUsers').then((response) => {
+          if (response.status === 200) {
+            if (response.data.status === 1) {
+              console.log('----------', response.data)
+              self.users = response.data.users
+            } else {
+              self.popTip(response.data.mes)
+            }
+          }
+        }, (response) => {
+          // error callback
+        })
+      },
+      resetPassword (user) {
+        var self = this
+        this.$http.post(self.$store.state.basicUrl + '/admin/resetPassword', {user: user}).then((response) => {
+          if (response.status === 200) {
+            self.popTip(response.data.mes)
+          }
+        }, (response) => {
+          // error callback
+        })
+      },
+      DeleteUser (user) {
+        var self = this
+        this.$http.post(self.$store.state.basicUrl + '/admin/deletUser', {user: user}).then((response) => {
+          if (response.status === 200) {
+            if (response.data.status === 1) {
+              for (var i = 0; i < self.users.length; i++) {
+                if (user._id.toString === self.users[i]._id.toString) {
+                  self.users.splice(i, 1)
+                  break
+                }
+              }
+            }
+            self.popTip(response.data.mes)
+          }
+        }, (response) => {
+          // error callback
+        })
+      },
       doAdd () {
         var self = this
         var formData = new window.FormData(document.getElementById('personInfo1'))
@@ -401,6 +415,7 @@
             if (response.data.status === 1) {
               console.log('--------------成功')
               self.popTip('注册成功！', '点击右上角登陆吧！')
+              self.users.push(response.data.user)
               self.formLabelAlign.portrait = ''
               self.formLabelAlign.userName = ''
               self.formLabelAlign.password = ''

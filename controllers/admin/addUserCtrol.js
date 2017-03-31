@@ -41,7 +41,7 @@ module.exports.doAdd = function(req, res){
                   if (error) {
                       res.json({status: 0, mes: '增加用户失败！'});
                   } else {
-                      res.json({status: 1, mes: '增加用户成功！'});
+                      res.json({status: 1, user:User,mes: '增加用户成功！'});
                   }
               })
           }
