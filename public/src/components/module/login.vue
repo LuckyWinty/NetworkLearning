@@ -5,7 +5,7 @@
       <div class="close">
         <i class="el-icon-close close-icon" @click="doClose"></i>
       </div>
-      <h5 class="title">还没有账号？去<a href="#">注册</a></h5>
+      <h5 class="title">还没有账号？去<a href="/#/regist" @click="doClose">注册</a></h5>
       <el-form :model="userInfo" label-width="80px" id="personInfo" enctype="multipart/form-data">
         <el-form-item label="用户名">
           <el-input name="userName" v-model="userInfo.userName"></el-input>
@@ -85,6 +85,9 @@
             if (response.data.status === 1) {
               window.sessionStorage.setItem('userId', response.data.person._id)
               self.deliverInfo(response.data.person)
+              if (window.location.href.indexOf('regist') !== -1) {
+                window.location.href = '/#/'
+              }
             } else {
               self.popTip(response.data.mes)
             }

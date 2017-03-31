@@ -2,10 +2,10 @@
   <div id="app">
     <nav>
       <el-menu theme="dark" default-active="1" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-        <el-menu-item class="nav-item" index="1"><i class="el-icon-menu"></i><router-link to="/">首页</router-link></el-menu-item>
-        <el-menu-item class="nav-item" index="2"><i class="el-icon-document"></i><router-link to="/subjectLearn">课程学习</router-link></el-menu-item>
-        <el-menu-item class="nav-item" index="3"><i class="el-icon-information"></i><router-link to="/forum">论坛</router-link></el-menu-item>
-        <el-menu-item class="nav-item" index="4"><i class="el-icon-edit"></i><router-link to="/questions">题库练习</router-link></el-menu-item>
+        <el-menu-item class="nav-item" index="1"><router-link to="/"><i class="el-icon-menu"></i>首页</router-link></el-menu-item>
+        <el-menu-item class="nav-item" index="2"><router-link to="/subjectLearn"><i class="el-icon-document"></i>课程学习</router-link></el-menu-item>
+        <el-menu-item class="nav-item" index="3"><router-link to="/forum"><i class="el-icon-information"></i>论坛</router-link></el-menu-item>
+        <el-menu-item class="nav-item" index="4"><router-link to="/questions"><i class="el-icon-edit"></i>题库练习</router-link></el-menu-item>
         <el-menu-item class="nav-item float-right" index="6" v-show="isLogin">注销</el-menu-item>
         <el-menu-item class="nav-item float-right" index="5"  v-show="isLogin"><router-link to="/personalCenter">欢迎您，{{person.userName}}</router-link></el-menu-item>
         <el-menu-item class="nav-item float-right" index="7" v-show="!isLogin">登录</el-menu-item>
@@ -115,4 +115,7 @@ export default {
  opacity:0.5;
  z-index:1;
  }
+  #app .is-active a, #app .is-active i{
+    color:#20a0ff;
+  }
 </style>

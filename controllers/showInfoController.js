@@ -109,7 +109,7 @@ module.exports.goodPerson = function(req, res){
                    return b.myQuestions.questions.length - a.myQuestions.questions.length
                }).slice(0,5)
                answerPersons = users.sort(function(a,b){
-                    return b.mmyAnswers.answers.length - a.myAnswers.answers.length
+                    return b.myAnswers.answers.length - a.myAnswers.answers.length
                 }).slice(0,5)
             res.json({status: 1,askPersons:askPersons,answerPersons:answerPersons, mes: '查找所有课程成功！'});
             }

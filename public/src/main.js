@@ -10,7 +10,7 @@ import forum from './components/forum.vue'
 import questions from './components/questions.vue'
 import personalCenter from './components/personalCenter.vue'
 import adminIndex from './components/admin/index.vue'
-import login from './components/module/login.vue'
+import regist from './components/regist.vue'
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
@@ -37,7 +37,7 @@ const routes = [
   { path: '/questions', component: questions },
   { path: '/personalCenter', component: personalCenter },
   { path: '/adminIndex', component: adminIndex },
-  {path: '/login', component: login}
+  {path: '/regist', component: regist}
 ]
 
 const router = new VueRouter({
