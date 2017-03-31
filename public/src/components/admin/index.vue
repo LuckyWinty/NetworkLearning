@@ -116,7 +116,7 @@
                   <el-form :model="subject" label-width="150px">
                     <el-form-item label="课程展示图">
                       <el-upload
-                        action="http://localhost:3000/admin/addSubject"
+                        action="http://localhost:3000/admin/addImage"
                         type="drag"
                         :thumbnail-mode="true"
                         :multiple = "false"

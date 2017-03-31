@@ -132,6 +132,10 @@ module.exports.showPractice = function(req, res){
 module.exports.showPersonInfo = function(req, res){
     if(req.body.userId){
         User.findOne({_id:req.body.userId})
+            .populate('myQuestions.questions.user')
+            .populate('myQuestions.questions.answers.user')
+            .populate('myFocusQuestions.questions.user')
+            .populate('myFocusQuestions.questions.answers.user')
             .exec(function(error,user){
                 if(error){
                     console.log('.....查找用户出错',error);
@@ -145,8 +149,11 @@ module.exports.showPersonInfo = function(req, res){
 }
 
 module.exports.showSingleQuestion = function(req, res){
-    if(req.body.qusetionId){
-        Question.findOne({_id:req.body.qusetionId})
+    if(req.body.questionId){
+        console.log('.....查找出错',req.body.questionId);
+        Question.findOne({_id:req.body.questionId})
+            .populate('user')
+            .populate('answers.user')
             .exec(function(error,Question){
                 if(error){
                     console.log('.....查找出错',error);

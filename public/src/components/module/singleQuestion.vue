@@ -6,7 +6,7 @@
           <img :src="question.user.portrait?`${basicUrl}/image?imageId=${question.user.portrait}`:`${basicUrl}/image?imageId=58c4d44ad68eca1eb831a2b6`" alt="">
         </div>
         <div class="info">
-          <a :href="`/#/subjectSpots?subjectId=${info._id}`">
+          <a :href="`/#/singleQuestion?questionId=${question._id}`">
             <h4 class="user-info">提问来自  <span class="user-name">{{question.user.userName}}</span>
             </h4>
             <p class="content">{{question.content}}</p>

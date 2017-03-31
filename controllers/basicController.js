@@ -438,13 +438,14 @@ module.exports.updatePersonInfo = function(req, res){
                 if(error){
                     console.log('.....查找用户出错',error);
                 }else{
+                    user.portrait = req.body.user.portrait;
                     user.wechat = req.body.user.wechat;
                     user.qq = req.body.user.qq;
                     user.phone = req.body.user.phone;
                     user.signature = req.body.user.signature;
                     user.save(function (err, ques1) {
                         if (err) {
-                            res.json({status: 0, mes: '修改失败72!'});
+                            res.json({status: 0, mes: '修改失败!'});
                         }else{
                             res.json({status: 0, mes: '修改成功!'});
                         }

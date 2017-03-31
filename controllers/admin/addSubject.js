@@ -22,8 +22,7 @@ db.open(function (err) {
     gfs = Grid(db, mongo);
 });
 
-module.exports.addSubject = function(req, res){
-    //console.log('---------------看看user',req.session.user);
+module.exports.addImage = function(req, res){
     var form = new formidable.IncomingForm()
     form.parse(req, function(err, fields, files) {
         console.log('-----files',files )

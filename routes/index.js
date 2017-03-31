@@ -25,8 +25,8 @@ router.get('/', function(req, res, next) {
 router.post('/admin/add',function(req,res){
   addUserCtrol.doAdd(req,res);
 })
-router.post('/admin/addSubject',function(req,res){
-  addSubjectCtrol.addSubject(req,res);
+router.post('/admin/addImage',function(req,res){
+  addSubjectCtrol.addImage(req,res);
 })
 router.post('/admin/addSubjectInfo',function(req,res){
   addSubjectCtrol.addSubjectInfo(req,res);

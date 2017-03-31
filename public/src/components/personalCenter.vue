@@ -2,9 +2,9 @@
     <div class="personalCenter">
         <div class="personalInfo">
           <div class="personalInfo-wrap">
-            <div class="portrait"><img :src="person.portrait" alt=""></div>
+            <div class="portrait"><img :src="`${basicUrl}/image?imageId=${person.portrait}`" alt=""></div>
             <div class="more-info">
-              <h2>{{person.name}}</h2>
+              <h2>{{person.userName}}</h2>
               <p>个性签名:  {{person.signature}}</p>
             </div>
           </div>
@@ -34,8 +34,8 @@
               <div class="module-wrap" v-show="showModule==2">
                 <div class="tabs-wrap">
                   <el-tabs type="card">
-                    <el-tab-pane label="我关注的">
-                      <singleQuestion></singleQuestion>
+                    <el-tab-pane label="我的提问">
+                      <singleQuestion :questions="person.myFocusQuestions.questions"></singleQuestion>
                       <Page></Page>
                     </el-tab-pane>
                   </el-tabs>
@@ -44,8 +44,8 @@
               <div class="module-wrap" v-show="showModule==4">
                 <div class="tabs-wrap">
                   <el-tabs type="card">
-                    <el-tab-pane label="最热关注">
-                      <singleQuestion></singleQuestion>
+                    <el-tab-pane label="我关注的问题">
+                      <singleQuestion :questions="person.myFocusQuestions.questions"></singleQuestion>
                       <Page></Page>
                     </el-tab-pane>
                   </el-tabs>
@@ -56,34 +56,37 @@
                 <div class="tabs-wrap">
                   <el-tabs type="card" @tab-click="handleClick" @tab-remove="handleRemove">
                     <el-tab-pane label="个人信息">
-                      <el-form :model="formAlignRight" label-width="80px">
+                      <el-form :model="person" label-width="80px">
                         <el-form-item label="头像">
-                          <img :src="person.portrait" alt="">
+                          <img :src="`${basicUrl}/image?imageId=${person.portrait}`" alt="">
                         </el-form-item>
                         <el-form-item label="用户名">
-                          <el-input v-model="formAlignRight.name"></el-input>
+                          <el-input v-model="person.userName"></el-input>
                         </el-form-item>
                         <el-form-item label="微信">
-                          <el-input v-model="formAlignRight.wechat"></el-input>
+                          <el-input v-model="person.wechat"></el-input>
                         </el-form-item>
                         <el-form-item label="QQ">
-                          <el-input v-model="formAlignRight.qq"></el-input>
+                          <el-input v-model="person.qq"></el-input>
                         </el-form-item>
                         <el-form-item label="手机">
-                          <el-input v-model="formAlignRight.phone"></el-input>
+                          <el-input v-model="person.phone"></el-input>
                         </el-form-item>
                         <el-form-item label="个性签名">
-                          <el-input type="textarea" v-model="formAlignRight.desc"></el-input>
+                          <el-input type="textarea" v-model="person.signature"></el-input>
                         </el-form-item>
                       </el-form>
                     </el-tab-pane>
                     <el-tab-pane label="修改信息">
-                      <el-form :model="formAlignRight" label-width="80px">
+                      <el-form :model="person" label-width="80px">
                         <el-form-item label="头像">
                           <el-upload
-                            action="//jsonplaceholder.typicode.com/posts/"
+                            action="http://localhost:3000/admin/addImage"
                             type="drag"
-                            :multiple="true"
+                            :thumbnail-mode="true"
+                            :multiple="false"
+                            :on-remove="handleRemove"
+                            :on-success="handlePicSucess"
                             :default-file-list="fileList"
                           >
                             <i class="el-icon-upload"></i>
@@ -91,20 +94,17 @@
                             <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
                           </el-upload>
                         </el-form-item>
-                        <el-form-item label="用户名">
-                          <el-input v-model="formAlignRight.name"></el-input>
-                        </el-form-item>
                         <el-form-item label="微信">
-                          <el-input v-model="formAlignRight.wechat"></el-input>
+                          <el-input v-model="person.wechat"></el-input>
                         </el-form-item>
                         <el-form-item label="QQ">
-                          <el-input v-model="formAlignRight.qq"></el-input>
+                          <el-input v-model="person.qq"></el-input>
                         </el-form-item>
                         <el-form-item label="手机">
-                          <el-input v-model="formAlignRight.phone"></el-input>
+                          <el-input v-model="person.phone"></el-input>
                         </el-form-item>
                         <el-form-item label="个性签名">
-                          <el-input type="textarea" v-model="formAlignRight.desc"></el-input>
+                          <el-input type="textarea" v-model="person.signature"></el-input>
                         </el-form-item>
                         <el-form-item>
                         <el-button type="primary" @click="onSubmit">确认修改</el-button>
@@ -170,21 +170,10 @@
     data () {
       return {
         subjectInfos: [],
-        person: {
-          name: '学生乙',
-          portrait: 'https://gss0.baidu.com/8_BXsjip0QIZ8tyhnq/timg?wh_rate=0&wapiknow&quality=100&size=w250&sec=0&di=755e2d919a2414a6a2de820f555d44ae&src=http%3A%2F%2Fiknow02.bosstatic.bdimg.com%2Fzhidaoribao%2F2016%2F1221%2Fdz.jpg',
-          signature: '技术改变未来',
-          subject: ''
-        },
+        basicUrl: this.getUrl(),
+        person: {myFocusQuestions: {}},
         showModule: 1,
-        formAlignRight: {
-          name: '',
-          wechat: '',
-          qq: '',
-          phone: '',
-          desc: ''
-        },
-        fileList: [{name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
+        fileList: []
       }
     },
     created () {
@@ -219,13 +208,9 @@
           if (response.status === 200) {
             if (response.data.status === 1) {
               console.log('----------', response.data)
+              self.person = response.data.user
               self.subjectInfos = []
               self.subjectInfos = self.subjectInfos.concat(response.data.user.mySubjects.subjects)
-              self.formAlignRight.name = response.data.user.name
-              self.formAlignRight.wechat = response.data.user.wechat
-              self.formAlignRight.qq = response.data.user.qq
-              self.formAlignRight.phone = response.data.user.phone
-              self.formAlignRight.desc = response.data.user.desc
             } else {
               self.popTip(response.data.mes)
             }
@@ -261,13 +246,17 @@
           }
         }
         var userId = params.userId || window.sessionStorage.getItem('userId')
-        this.$http.post(self.getUrl() + '/updatePersonInfo', {userId: userId, user: self.formAlignRight}).then((response) => {
+        this.$http.post(self.getUrl() + '/updatePersonInfo', {userId: userId, user: self.person}).then((response) => {
           if (response.status === 200) {
             self.popTip(response.data.mes)
           }
         }, (response) => {
           // error callback
         })
+      },
+      handlePicSucess (response, file, fileList) {
+        this.handleRemovePic(file, fileList)
+        this.person.portrait = response.fileId
       },
       handleRemovePic (file, fileList) {
         console.log(file, fileList)
