@@ -123,7 +123,13 @@
         var m = times.getMinutes()
         var S = times.getSeconds()
 
-        return Y + '-' + M + '-' + D + '  ' + H + ' : ' + m + ' : ' + S
+        return Y + '-' + this.checkTime(M) + '-' + this.checkTime(D) + '  ' + this.checkTime(H) + ' : ' + this.checkTime(m) + ' : ' + this.checkTime(S)
+      },
+      checkTime (i) {
+        if (i < 10) {
+          i = '0' + i
+        }
+        return i
       },
       open3 (question) {
         var userId = window.sessionStorage.getItem('userId') || ''

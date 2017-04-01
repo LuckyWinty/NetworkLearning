@@ -82,19 +82,19 @@
                     <th rowspan="1" colspan="1">操作</th>
                     </thead>
                     <tbody>
-                    <tr>
-                      <td>11</td>
-                      <td>12</td>
-                      <td>13</td>
-                      <td>14</td>
+                    <tr v-for="subject in subjects">
+                      <td>{{subject.title}}</td>
+                      <td>{{formatDate(subject.created)}}</td>
+                      <td>{{subject.level}}</td>
+                      <td>{{subject.learnTime}}</td>
                       <td>
                         <el-button
                           size="small"
-                          @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                          @click="editSubject(subject)">编辑</el-button>
                         <el-button
                           size="small"
                           type="danger"
-                          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                          @click="deleteSubject(subject)">删除</el-button>
                       </td>
                     </tr>
                     </tbody>
@@ -354,11 +354,13 @@
         },
         active: 1,
         showModule: 1,
-        users: []
+        users: [],
+        subjects: []
       }
     },
     created () {
       this.getUserInfo()
+      this.getSubjectInfo()
     },
     methods: {
       getUrl () {
@@ -437,7 +439,6 @@
         })
       },
       pre () {
-        console.log('--------------subject', this.subject)
         if (window.localStorage) {
           window.localStorage.setItem('subject', this.subject)
         } else {
@@ -472,6 +473,49 @@
       },
       handleClick (tab, event) {
         console.log(tab, event)
+      },
+      getSubjectInfo () {
+        var self = this
+        this.$http.post(self.getUrl() + '/admin/showSubjects').then((response) => {
+          if (response.status === 200) {
+            if (response.data.status === 1) {
+              console.log('----------', response.data)
+              self.subjects = response.data.subjects
+            } else {
+              self.popTip(response.data.mes)
+            }
+          }
+        }, (response) => {
+          // error callback
+        })
+      },
+      editSubject (user) {
+        var self = this
+        this.$http.post(self.$store.state.basicUrl + '/admin/resetPassword', {user: user}).then((response) => {
+          if (response.status === 200) {
+            self.popTip(response.data.mes)
+          }
+        }, (response) => {
+            // error callback
+        })
+      },
+      DeleteSubject (user) {
+        var self = this
+        this.$http.post(self.$store.state.basicUrl + '/admin/deletUser', {user: user}).then((response) => {
+          if (response.status === 200) {
+            if (response.data.status === 1) {
+              for (var i = 0; i < self.users.length; i++) {
+                if (user._id.toString === self.users[i]._id.toString) {
+                  self.users.splice(i, 1)
+                  break
+                }
+              }
+            }
+            self.popTip(response.data.mes)
+          }
+        }, (response) => {
+          // error callback
+        })
       },
       insertSubject () {
         var self = this
@@ -531,6 +575,24 @@
       },
       filterTag (value, row) {
         return row.tag === value
+      },
+      formatDate (date) {
+        var times = new Date(date)
+        var Y = times.getFullYear()
+        var M = times.getMonth() > 8 ? times.getMonth() + 1 : '0' + (times.getMonth() + 1)
+        var D = times.getDate() > 9 ? times.getDate() : '0' + times.getDate()
+
+        var H = times.getHours()
+        var m = times.getMinutes()
+        var S = times.getSeconds()
+
+        return Y + '-' + this.checkTime(M) + '-' + this.checkTime(D) + '  ' + this.checkTime(H) + ' : ' + this.checkTime(m) + ' : ' + this.checkTime(S)
+      },
+      checkTime (i) {
+        if (i < 10) {
+          i = '0' + i
+        }
+        return i
       },
       handleEdit (index, row) {
         console.log(index, row)

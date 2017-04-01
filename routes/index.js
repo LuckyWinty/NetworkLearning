@@ -39,6 +39,9 @@ router.post('/admin/addPractice',function(req,res){
 router.post('/admin/showUsers',function(req,res){
   showInfoCtrol.showUsers(req,res);
 })
+router.post('/admin/showSubjects',function(req,res){
+  showInfoCtrol.showSubjects(req,res);
+})
 router.post('/admin/resetPassword',function(req,res){
   basicCtrol.resetPassword(req,res);
 })

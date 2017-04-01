@@ -47,7 +47,7 @@ module.exports.deletUser = function(req, res){
         res.json({status: 0, mes: '失败'});
     }
 }
-module.exports.ask = function(req, res){
+module.exports.editSubject = function(req, res){
     if(req.body.subjectId && req.body.userId){
         var SubjectId = req.body.subjectId;
         var userId = req.body.userId;
@@ -91,7 +91,7 @@ module.exports.ask = function(req, res){
         res.json({status: 0, mes: '失败'});
     }
 }
-module.exports.reply = function(req, res){
+module.exports.DeleteSubject = function(req, res){
     if(req.body.subjectId && req.body.userId && req.body.questionId){
         var SubjectId = req.body.subjectId;
         var userId = req.body.userId;
