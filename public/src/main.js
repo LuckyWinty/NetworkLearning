@@ -10,6 +10,7 @@ import forum from './components/forum.vue'
 import questions from './components/questions.vue'
 import personalCenter from './components/personalCenter.vue'
 import adminIndex from './components/admin/index.vue'
+import subjectEdit from './components/admin/subjectEdit.vue'
 import regist from './components/regist.vue'
 
 import ElementUI from 'element-ui'
@@ -37,6 +38,7 @@ const routes = [
   { path: '/questions', component: questions },
   { path: '/personalCenter', component: personalCenter },
   { path: '/adminIndex', component: adminIndex },
+  { path: '/subjectEdit', component: subjectEdit },
   {path: '/regist', component: regist}
 ]
 

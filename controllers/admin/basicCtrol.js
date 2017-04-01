@@ -48,9 +48,8 @@ module.exports.deletUser = function(req, res){
     }
 }
 module.exports.editSubject = function(req, res){
-    if(req.body.subjectId && req.body.userId){
-        var SubjectId = req.body.subjectId;
-        var userId = req.body.userId;
+    if(req.body.subject){
+        var SubjectId = req.body.subject.subjectId;
         Subject.findById({'_id': SubjectId})
             .exec(function (error, Subject1) {
                 if (error) {

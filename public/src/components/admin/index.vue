@@ -178,6 +178,35 @@
           </div>
 
           <div class="module-wrap" v-show="showModule==3">
+            <el-tabs type="card" @tab-click="handleClick" @tab-remove="handleRemove">
+              <el-tab-pane label="全部问题">
+                <div class="tabs-wrap">
+                  <table class="primary-table top-margin">
+                    <thead>
+                    <th rowspan="1" colspan="1">问题详情</th>
+                    <th rowspan="1" colspan="1">提问日期</th>
+                    <th rowspan="1" colspan="1">被关注人数</th>
+                    <th rowspan="1" colspan="1">回答数量</th>
+                    <th rowspan="1" colspan="1">操作</th>
+                    </thead>
+                    <tbody>
+                    <tr v-for="question in questions">
+                      <td>{{question.content}}</td>
+                      <td>{{formatDate(question.created)}}</td>
+                      <td>{{question.beFocused.length}}</td>
+                      <td>{{question.answers.length}}</td>
+                      <td>
+                          size="small"
+                          type="danger"
+                          @click="deleteQuestion(question)">删除</el-button>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <Page></Page>
+                </div>
+              </el-tab-pane>
+              </el-tabs>
           </div>
 
           <div class="module-wrap" v-show="showModule==4">
@@ -355,7 +384,9 @@
         active: 1,
         showModule: 1,
         users: [],
-        subjects: []
+        subjects: [],
+        questions: [],
+        items: []
       }
     },
     created () {
@@ -489,15 +520,8 @@
           // error callback
         })
       },
-      editSubject (user) {
-        var self = this
-        this.$http.post(self.$store.state.basicUrl + '/admin/resetPassword', {user: user}).then((response) => {
-          if (response.status === 200) {
-            self.popTip(response.data.mes)
-          }
-        }, (response) => {
-            // error callback
-        })
+      editSubject (subject) {
+        window.location.href = '/#/subjectEdit?subjectId=' + subject._id
       },
       DeleteSubject (user) {
         var self = this
