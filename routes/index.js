@@ -48,6 +48,30 @@ router.post('/admin/resetPassword',function(req,res){
 router.post('/admin/deletUser',function(req,res){
   basicCtrol.deletUser(req,res);
 })
+router.post('/admin/DeleteSubject',function(req,res){
+  basicCtrol.DeleteSubject(req,res);
+})
+router.post('/admin/updateSubject',function(req,res){
+  basicCtrol.updateSubject(req,res);
+})
+router.post('/admin/showQuestions',function(req,res){
+  showInfoCtrol.showQuestions(req,res);
+})
+router.post('/admin/deleteQuestion',function(req,res){
+  basicCtrol.deleteQuestion(req,res);
+})
+router.post('/admin/showItems',function(req,res){
+  showInfoCtrol.showItems(req,res);
+})
+router.post('/admin/showOneItem',function(req,res){
+  showInfoCtrol.showOneItem(req,res);
+})
+router.post('/admin/updateItem',function(req,res){
+  basicCtrol.updateItem(req,res);
+})
+router.post('/admin/deleteItem',function(req,res){
+  basicCtrol.deleteItem(req,res);
+})
 
 
 

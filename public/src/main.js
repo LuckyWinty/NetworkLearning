@@ -11,6 +11,7 @@ import questions from './components/questions.vue'
 import personalCenter from './components/personalCenter.vue'
 import adminIndex from './components/admin/index.vue'
 import subjectEdit from './components/admin/subjectEdit.vue'
+import itemEdit from './components/admin/itemEdit.vue'
 import regist from './components/regist.vue'
 
 import ElementUI from 'element-ui'
@@ -39,6 +40,7 @@ const routes = [
   { path: '/personalCenter', component: personalCenter },
   { path: '/adminIndex', component: adminIndex },
   { path: '/subjectEdit', component: subjectEdit },
+  { path: '/itemEdit', component: itemEdit },
   {path: '/regist', component: regist}
 ]
 

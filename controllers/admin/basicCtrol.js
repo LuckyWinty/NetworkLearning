@@ -8,7 +8,8 @@ var Subject = mongoose.model('Subject');
 var Comment = mongoose.model('Comment');
 var Question = mongoose.model('Question');
 var Answer = mongoose.model('Answer');
-
+var Link = mongoose.model('Link');
+var Item = mongoose.model('Item');
 
 module.exports.resetPassword = function(req, res){
     if(req.body.user){
@@ -47,327 +48,126 @@ module.exports.deletUser = function(req, res){
         res.json({status: 0, mes: '失败'});
     }
 }
-module.exports.editSubject = function(req, res){
+module.exports.updateSubject = function(req, res){
     if(req.body.subject){
-        var SubjectId = req.body.subject.subjectId;
-        Subject.findById({'_id': SubjectId})
-            .exec(function (error, Subject1) {
-                if (error) {
-                    res.json({status: 0, mes: '提问失败'});
-                } else {
-                    var com = new Question;
-                    com.content = req.body.question;
-                    com.user = userId;
-                    Subject1.Questions.push(com);
-                    Subject1.save(function (err, sub) {
-                        if (err) {
-                            res.json({status: 0, mes: '提问失败'});
+        Subject.findOne({'_id': req.body.subject._id})
+            .exec(function(error,Subject){
+                if(error){
+                    console.log('.....查找课程出错',error);
+                }else{
+                    var practices = analysisLink(req.body.subject.practice);
+                    var moreInfos = analysisLink(req.body.subject.moreInfo);
+                    Subject.title = req.body.subject.title;
+                    Subject.desc = req.body.subject.desc;
+                    Subject.level = req.body.subject.level;
+                    Subject.learnTime = req.body.subject.learnTime;
+                    Subject.content = req.body.subject.content;
+                    Subject.mustKnow = req.body.subject.mustKnow;
+                    Subject.practices = practices;
+                    Subject.moreInfos = moreInfos;
+                    Subject.save(function (error, Subj) {
+                        if (error) {
+                            console.log('-----------error',error)
+                            res.json({status: 0, mes: '更新课程失败！'});
                         } else {
-                            User.findOne({_id: userId})
-                                .exec(function (err, person) {
-                                    person.myQuestions.questions.push(com);
-                                    person.save(function (err, user) {
-                                        if (err) {
-                                            res.json({status: 0, mes: '提问失败'});
-                                        } else {
-                                            Subject.findById({'_id': SubjectId})
-                                                .populate('Questions.user')
-                                                .exec(function(error,Subject2){
-                                                    if(error){
-                                                        res.json({status: 0, mes: '提问失败'});
-                                                    }else{
-                                                        res.json({status: 1, questions: Subject2.Questions, mes: '提问成功'});
-                                                    }
-                                                })
-                                        }
-                                    })
-                                })
+                            res.json({status: 1, mes: '更新课程成功！'});
                         }
                     })
                 }
-            })
-    } else{
-        res.json({status: 0, mes: '失败'});
+        })
     }
-}
-module.exports.DeleteSubject = function(req, res){
-    if(req.body.subjectId && req.body.userId && req.body.questionId){
-        var SubjectId = req.body.subjectId;
-        var userId = req.body.userId;
-        var questionId = req.body.questionId;
-        Subject.findById({'_id': SubjectId})
-            .exec(function (error, Subject1) {
-                if (error) {
-                    res.json({status: 0, mes: '回复失败'});
-                } else {
-                    var com = new Answer;
-                    com.content = req.body.reply;
-                    com.user = userId;
-                    for(var i = 0; i < Subject1.Questions.length; i++){
-                        if(Subject1.Questions[i]._id.toString() == questionId){
-                            Subject1.Questions[i].answers.push(com);
-                            break;
-                        }
-                    }
-                    Subject1.save(function (err, sub) {
-                        if (err) {
-                            res.json({status: 0, mes: '回复失败'});
-                        } else {
-                            Subject.findById({'_id': SubjectId})
-                                .populate('Questions.user')
-                                .populate('Questions.answers.user')
-                                .exec(function(error,Subject2){
-                                    if(error){
-                                        res.json({status: 0, mes: '回复失败'});
-                                    }else{
-                                        res.json({status: 1, questions: Subject2.Questions, mes: '回复成功'});
-                                    }
-                                })
-                        }
-                    })
-                }
-            })
-    }else if(req.body.userId && req.body.questionId){
-        var userId = req.body.userId;
-        var questionId = req.body.questionId;
-        Question.findById({'_id': questionId})
-            .exec(function (error, ques) {
-                if (error) {
-                    res.json({status: 0, mes: '回答失败'});
-                } else {
-                    var com = new Answer;
-                    com.content = req.body.reply;
-                    com.user = userId;
-                    ques.answers.push(com);
-                    ques.save(function (err, ques1) {
-                        if (err) {
-                            res.json({status: 0, mes: '回答失败'});
-                        } else {
-                            Question.find({})
-                                .populate('user')
-                                .populate('answers.user')
-                                .sort({'created':-1})
-                                .exec(function (error, ques2) {
-                                    if (error) {
-                                        res.json({status: 0, mes: '回复失败'});
-                                    } else {
-                                        res.json({status: 1, questions: ques2, mes: '回复成功'});
-                                    }
-                                })
-                        }
-                    })
-                }
-            })
-    }
-    else{
-        res.json({status: 0, mes: '失败'});
-    }
-}
-module.exports.doLike = function(req, res){
-    var likeFlag = true;  //默认是点赞
-    var linkNum = 0;
-    if(req.body.userId){
-        User.findOne({id: userId}, function (error, person) {
-            if (error) {
-                res.json({status: 0, mes: '失败！'});
-            } else if (person) {
-                for(var i = 0; i < person.myLikes.answers.length; i++){
-                    if(person.myLikes.answers[i].toString() == answerId.toString()){
-                        likeFlag = false;
-                        person.myLikes.answers.splice(i,1);
-                        break;
-                    }
-                }
-                if(likeFlag){
-                    person.myLikes.answers.push(answerId)
-                }
-                person.save(function (err, ques1) {
-                    if (err) {
-                        res.json({status: 0, mes: '点赞失败'});
-                        return;
-                    }
-                })
-            }else{
-                res.json({status: 0, mes:'该账户不存在，请注册'});
-            }
-        });
-    }
-    if(req.body.subjectId && req.body.questionId){
-        var SubjectId = req.body.subjectId;
-        var userId = req.body.userId;
-        var questionId = req.body.questionId;
-        Subject.findById({'_id': SubjectId})
-            .exec(function (error, Subject1) {
-                if (error) {
-                    res.json({status: 0, mes: '点赞失败'});
-                } else {
-                    for(var i = 0; i < Subject1.Questions.length; i++){
-                        if(Subject1.Questions[i]._id.toString() == questionId){
-                            for(var j = 0 ;j < Subject1.Questions[i].answers.length;j++){
-                                var ans = Subject1.Questions[i].answers[j];
-                                if(ans._id.toString() == req.body.answerId.toString()){
-                                    if(likeFlag){
-                                        ans.likeNum++;
-                                    }else{
-                                        ans.likeNum--;
-                                    }
-                                    linkNum = ans.likeNum;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    Subject1.save(function (err, sub) {
-                        if (err) {
-                            res.json({status: 0, mes: '点赞失败'});
-                        } else {
-                            res.json({status: 1, likeNum: linkNum, mes: '成功'});
-                        }
-                    })
-                }
-            })
-    }else if(req.body.userId && req.body.questionId){
-        var answerId = req.body.answerId
-        var questionId = req.body.questionId;
-        Question.findById({'_id': questionId})
-            .exec(function (error, ques) {
-                if (error) {
-                    res.json({status: 0, mes: '点赞失败'});
-                } else {
-                    for(var j = 0 ;j < ques.answers.length;j++) {
-                        var ans = ques.answers[j];
-                        if (ans._id.toString() == answerId.toString()) {
-                            if (likeFlag) {
-                                ans.likeNum++;
-                            } else {
-                                ans.likeNum--;
-                            }
-                            linkNum = ans.likeNum;
-                            break;
-                        }
-                    }
-                    ques.save(function (err, ques1) {
-                        if (err) {
-                            res.json({status: 0, mes: '点赞失败'});
-                        } else {
-                            res.json({status: 1, likeNum: linkNum, mes: '成功'});
-                        }
-                    })
-                }
-            })
-    } else{
-        res.json({status: 0, mes: '失败'});
-    }
-}
-module.exports.focusQuestion = function(req, res){
-    if(req.body.questionId && req.body.userId){
-        var questionId = req.body.questionId;
-        var userId = req.body.userId;
-        if (req.body.isFocus == 0) {
-            Question.findById({'_id': questionId})
-                .exec(function (error, question) {
-                    if (error) {
-                        res.json({status: 0, mes: '关注失败'});
-                    } else {
-                        question.beFocused.push(userId);
-                        question.save(function (err, sub) {
-                            if (err) {
-                                res.json({status: 0, mes: '关注失败'});
-                            } else {
-                                User.findOne({_id: userId})
-                                    .exec(function (err, person) {
-                                        person.myFocusQuestions.questions.push(sub);
-                                        person.save(function (err, user) {
-                                            if (err) {
-                                                res.json({status: 0, mes: '关注失败'});
-                                            } else {
-                                                res.json({status: 1, isFocus: 1, mes: '关注成功'});
-                                            }
-                                        })
-                                    })
-                            }
-                        })
-                    }
-                })
-        } else {
-            Question.findById({'_id': questionId})
-                .exec(function (error, question) {
-                    if (error) {
-                        res.json({status: 0, mes: '取关失败'});
-                    } else {
-                        var index = question.beFocused.indexOf(userId);
-                        if(index > -1){
-                            question.beFocused.splice(index,1);
-                        }else{
-                            res.json({status: 0, mes: '取关失败'});
-                            return;
-                        }
-                        question.save(function (err, sub) {
-                            if (err) {
-                                res.json({status: 0, mes: '取关失败'});
-                            } else {
-                                User.findOne({_id: userId})
-                                    .exec(function (err, person) {
-                                        for (var i = 0; i < person.myFocusQuestions.questions.length; i++) {
-                                            if (person.myFocusQuestions.questions[i]._id.toString() == sub._id.toString()) {
-                                                person.myFocusQuestions.questions.splice(i, 1);
-                                                break;
-                                            }
-                                        }
-                                        person.save(function (err, use) {
-                                            if (err) {
-                                                res.json({status: 0, mes: '取关失败'});
-                                            } else {
-                                                res.json({status: 1,isFocus:0, mes: '取关成功'});
-                                            }
-                                        })
-                                    })
-                            }
-                        })
-                    }
-                })
+    function analysisLink(str){
+        var arr = [];
+        var strs = str.split(',');
+
+        var i = 0;
+        while (i < strs.length) {
+            var practice = new Link;
+            practice.name = strs[i].split('|')[0];
+            practice.url = strs[i].split('|')[1]?strs[i].split('|')[1]:'';
+            arr.push(practice);
+            i++;
         }
-    }else{
-        res.json({status: 0, mes: '失败'});
+        return arr;
     }
-}
-module.exports.checkLogin = function(req, res){
-    if( req.body.userId){
-        var userId = req.body.userId;
-        User.findOne({_id: userId})
-            .exec(function (err, person) {
+};
+module.exports.DeleteSubject = function(req, res){
+    if(req.body.subject){
+        var subjectId = req.body.subject._id;
+        Subject.remove({_id: subjectId})
+            .exec(function (err, Subject) {
                 if (err) {
                     res.json({status: 0, mes: '失败'});
                 } else {
-                    res.json({status: 1, person: person, mes: '查找成功'});
+                    res.json({status: 1, mes: '删除成功!'});
                 }
             })
-    }else {
+    }else{
         res.json({status: 0, mes: '失败'});
     }
 }
-module.exports.updatePersonInfo = function(req, res){
-    if(req.body.userId){
-        User.findOne({_id:req.body.userId})
-            .exec(function(error,user){
+module.exports.deleteQuestion = function(req, res){
+    if(req.body.question){
+        var questionId = req.body.question._id;
+        Question.remove({_id: questionId})
+            .exec(function (err, question) {
+                if (err) {
+                    res.json({status: 0, mes: '失败'});
+                } else {
+                    res.json({status: 1, mes: '删除成功!'});
+                }
+            })
+    }else{
+        res.json({status: 0, mes: '失败'});
+    }
+}
+module.exports.deleteItem = function(req, res){
+    if(req.body.item){
+        var itemId = req.body.item._id;
+        Item.remove({_id: itemId})
+            .exec(function (err, item) {
+                if (err) {
+                    res.json({status: 0, mes: '失败'});
+                } else {
+                    res.json({status: 1, mes: '删除成功!'});
+                }
+            })
+    }else{
+        res.json({status: 0, mes: '失败'});
+    }
+}
+module.exports.updateItem = function(req, res){
+    if(req.body.item){
+        Item.findOne({'_id': req.body.item._id})
+            .exec(function(error,item){
                 if(error){
-                    console.log('.....查找用户出错',error);
+                    console.log('.....查找课程出错',error);
                 }else{
-                    user.portrait = req.body.user.portrait;
-                    user.wechat = req.body.user.wechat;
-                    user.qq = req.body.user.qq;
-                    user.phone = req.body.user.phone;
-                    user.signature = req.body.user.signature;
-                    user.save(function (err, ques1) {
-                        if (err) {
-                            res.json({status: 0, mes: '修改失败!'});
-                        }else{
-                            res.json({status: 0, mes: '修改成功!'});
+                    var practices = handlerChoice(req.body.item.choice);
+                    var moreInfos = req.body.item.correctChoice.split(',');
+                    item.content = req.body.item.content;
+                    item.explain = req.body.item.explain;
+                    item.belong = req.body.item.belong;
+                    item.choice = practices;
+                    item.correctChoice = moreInfos;
+                    item.save(function (error, It) {
+                        if (error) {
+                            console.log('-----------error',error)
+                            res.json({status: 0, mes: '更新习题失败！'});
+                        } else {
+                            res.json({status: 1, mes: '更新习题成功！'});
                         }
                     })
                 }
             })
-    }else{
-        res.json({status: 0,mes:'查找用户失败！'});
+    }
+    function handlerChoice(choice){
+        var arr = [];
+        var temp = {0:'A',1:'B',2:'C',3:'D',4:'E',5:'F',6:'G',7:'H',8:'I',9:'J'};
+        var arr1 = choice.split(',');
+        for(var i = 0;i < arr1.length;i++){
+            arr.push({option:temp[i]+': '+arr1[i]})
+        }
+        return arr;
     }
 }

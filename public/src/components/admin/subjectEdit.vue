@@ -80,18 +80,6 @@
   .person-detail{
     margin-top: 50px;
   }
-  .my-nav{
-    margin-top:20px;
-  }
-  .top-margin{
-    margin-top: 20px;
-  }
-  .primary-table{
-    width:100%;
-    border-collapse:collapse;
-    border:1px solid #e0e6ed;
-    border-radius: 5px;
-  }
   .primary-table thead{
     background-color: #EFF2F7;
   }
@@ -117,16 +105,13 @@
     padding-bottom: 10px;
     margin-bottom: 30px;
   }
-  .el-icon-view{
-    display: none;
-  }
   /*富文本*/
   .ql-container .ql-editor {
     min-height: 450px;
     padding-bottom: 10px;
     max-height: 700px;
   }
-  .module-wrap .top-btn{
+  .step-3 .top-btn{
     margin-top: 20px;
   }
   .pull-right{
@@ -160,6 +145,7 @@
       }
     },
     created () {
+      this.getEditSubjectInfo()
     },
     methods: {
       getUrl () {
@@ -167,11 +153,38 @@
       },
       getEditSubjectInfo () {
         var self = this
-        this.$http.post(self.getUrl() + '/admin/showUsers').then((response) => {
+        var params = {}
+        var name, value
+        var str = window.location.href
+        var num = str.indexOf('?')
+        str = str.substr(num + 1)
+        var arr = str.split('&')
+        for (var i = 0; i < arr.length; i++) {
+          num = arr[i].indexOf('=')
+          if (num > 0) {
+            name = arr[i].substring(0, num)
+            value = arr[i].substr(num + 1)
+            params[name] = value
+          }
+        }
+        var subjectId = params.subjectId || ''
+        this.$http.post(self.getUrl() + '/subjectSpots', {subjectId: subjectId}).then((response) => {
           if (response.status === 200) {
             if (response.data.status === 1) {
               console.log('----------', response.data)
-              self.users = response.data.users
+              var practice = []
+              var moreInfo = []
+              self.subject = response.data.Subject
+              for (var i = 0; i < response.data.Subject.moreInfos.length; i++) {
+                var temp = response.data.Subject.moreInfos[i]
+                moreInfo.push(temp.name + '|' + temp.url)
+              }
+              self.subject.moreInfo = moreInfo.join(',')
+              for (var ii = 0; ii < response.data.Subject.moreInfos.length; ii++) {
+                var temp1 = response.data.Subject.moreInfos[ii]
+                practice.push(temp1.name + '|' + temp1.url)
+              }
+              self.subject.practice = practice.join(',')
             } else {
               self.popTip(response.data.mes)
             }
@@ -181,6 +194,29 @@
         })
       },
       updateSubject () {
+        var self = this
+        this.$http.post(self.$store.state.basicUrl + '/admin/updateSubject', {subject: self.subject}).then((response) => {
+          if (response.status === 200) {
+            if (response.data.status === 1) {
+              self.popTip(response.data.mes)
+              self.subject.title = ''
+              self.subject.imageId = ''
+              self.subject.desc = ''
+              self.subject.level = ''
+              self.subject.learnTime = ''
+              self.subject.practice = ''
+              self.subject.moreInfo = ''
+              self.subject.content = ''
+              self.subject.mustKnow = ''
+              self.active = 1
+              window.location.href = '/#/adminIndex'
+            } else {
+              self.popTip(response.data.mes)
+            }
+          }
+        }, (response) => {
+          // error callback
+        })
       },
       popTip (title, tips) {
         this.$alert(tips, title, {

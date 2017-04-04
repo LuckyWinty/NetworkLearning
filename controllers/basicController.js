@@ -9,6 +9,7 @@ var Subject = mongoose.model('Subject');
 var Comment = mongoose.model('Comment');
 var Question = mongoose.model('Question');
 var Answer = mongoose.model('Answer');
+var Link = mongoose.model('Link');
 
 
 module.exports.focusSubject = function(req, res){

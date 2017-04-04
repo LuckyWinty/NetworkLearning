@@ -1,5 +1,5 @@
 <template>
-  <div class="personalCenter">
+  <div class="personalCenter admin-wrap">
     <h1 class="head-title">后台管理系统</h1>
     <div class="person-detail">
       <el-row :gutter="20">
@@ -19,6 +19,7 @@
               <div class="tabs-wrap">
                 <table class="primary-table top-margin">
                   <thead>
+                    <th rowspan="1" colspan="1">序号</th>
                     <th rowspan="1" colspan="1">用户名</th>
                     <th rowspan="1" colspan="1">用户权限</th>
                     <th rowspan="1" colspan="1">手机号码</th>
@@ -26,7 +27,8 @@
                     <th rowspan="1" colspan="1">操作</th>
                   </thead>
                   <tbody>
-                  <tr v-if="users.length > 0" v-for="user in users">
+                  <tr v-if="users.length > 0" v-for="(user, index) in users">
+                    <td>{{index}}</td>
                     <td>{{user.userName}}</td>
                     <td>{{user.power}}</td>
                     <td>{{user.phone}}</td>
@@ -75,6 +77,7 @@
                 <div class="tabs-wrap">
                   <table class="primary-table top-margin">
                     <thead>
+                    <th rowspan="1" colspan="1">序号</th>
                     <th rowspan="1" colspan="1">课程名称</th>
                     <th rowspan="1" colspan="1">录入日期</th>
                     <th rowspan="1" colspan="1">课程难度</th>
@@ -82,7 +85,8 @@
                     <th rowspan="1" colspan="1">操作</th>
                     </thead>
                     <tbody>
-                    <tr v-for="subject in subjects">
+                    <tr v-for="(subject, index) in subjects">
+                      <td>{{index}}</td>
                       <td>{{subject.title}}</td>
                       <td>{{formatDate(subject.created)}}</td>
                       <td>{{subject.level}}</td>
@@ -183,6 +187,7 @@
                 <div class="tabs-wrap">
                   <table class="primary-table top-margin">
                     <thead>
+                    <th rowspan="1" colspan="1">序号</th>
                     <th rowspan="1" colspan="1">问题详情</th>
                     <th rowspan="1" colspan="1">提问日期</th>
                     <th rowspan="1" colspan="1">被关注人数</th>
@@ -190,12 +195,14 @@
                     <th rowspan="1" colspan="1">操作</th>
                     </thead>
                     <tbody>
-                    <tr v-for="question in questions">
+                    <tr v-for="(question, index) in questions">
+                      <td>{{index}}</td>
                       <td>{{question.content}}</td>
                       <td>{{formatDate(question.created)}}</td>
                       <td>{{question.beFocused.length}}</td>
                       <td>{{question.answers.length}}</td>
                       <td>
+                        <el-button
                           size="small"
                           type="danger"
                           @click="deleteQuestion(question)">删除</el-button>
@@ -215,26 +222,28 @@
                 <div class="tabs-wrap">
                   <table class="primary-table top-margin">
                     <thead>
+                    <th rowspan="1" colspan="1">序号</th>
                     <th rowspan="1" colspan="1">练习名称</th>
                     <th rowspan="1" colspan="1">录入日期</th>
                     <th rowspan="1" colspan="1">选项个数</th>
-                    <th rowspan="1" colspan="1">课程时长</th>
+                    <th rowspan="1" colspan="1">所属章节</th>
                     <th rowspan="1" colspan="1">操作</th>
                     </thead>
                     <tbody>
-                    <tr>
-                      <td>11</td>
-                      <td>12</td>
-                      <td>13</td>
-                      <td>14</td>
+                    <tr v-for="(item, index) in items">
+                      <td>{{index}}</td>
+                      <td>{{item.content}}</td>
+                      <td>{{formatDate(item.created)}}</td>
+                      <td>{{item.choice.length}}</td>
+                      <td>{{item.belong}}</td>
                       <td>
                         <el-button
                           size="small"
-                          @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                          @click="editItem(item)">编辑</el-button>
                         <el-button
                           size="small"
                           type="danger"
-                          @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                          @click="deleteItem(item)">删除</el-button>
                       </td>
                     </tr>
                     </tbody>
@@ -272,6 +281,9 @@
   </div>
 </template>
 <style>
+  .admin-wrap{
+    min-width: 1300px;
+  }
   .head-title{
     font-weight: 500;
     text-align: center;
@@ -392,6 +404,8 @@
     created () {
       this.getUserInfo()
       this.getSubjectInfo()
+      this.getQuestionInfo()
+      this.getItemInfo()
     },
     methods: {
       getUrl () {
@@ -523,14 +537,14 @@
       editSubject (subject) {
         window.location.href = '/#/subjectEdit?subjectId=' + subject._id
       },
-      DeleteSubject (user) {
+      deleteSubject (subject) {
         var self = this
-        this.$http.post(self.$store.state.basicUrl + '/admin/deletUser', {user: user}).then((response) => {
+        this.$http.post(self.$store.state.basicUrl + '/admin/DeleteSubject', {subject: subject}).then((response) => {
           if (response.status === 200) {
             if (response.data.status === 1) {
-              for (var i = 0; i < self.users.length; i++) {
-                if (user._id.toString === self.users[i]._id.toString) {
-                  self.users.splice(i, 1)
+              for (var i = 0; i < self.subjects.length; i++) {
+                if (subject._id.toString === self.subjects[i]._id.toString) {
+                  self.subjects.splice(i, 1)
                   break
                 }
               }
@@ -562,6 +576,75 @@
             } else {
               self.popTip(response.data.mes)
             }
+          }
+        }, (response) => {
+          // error callback
+        })
+      },
+      getQuestionInfo () {
+        var self = this
+        this.$http.post(self.getUrl() + '/admin/showQuestions').then((response) => {
+          if (response.status === 200) {
+            if (response.data.status === 1) {
+              console.log('----------', response.data)
+              self.questions = response.data.questions
+            } else {
+              self.popTip(response.data.mes)
+            }
+          }
+        }, (response) => {
+          // error callback
+        })
+      },
+      deleteQuestion (question) {
+        var self = this
+        this.$http.post(self.$store.state.basicUrl + '/admin/deleteQuestion', {question: question}).then((response) => {
+          if (response.status === 200) {
+            if (response.data.status === 1) {
+              for (var i = 0; i < self.subjects.length; i++) {
+                if (question._id.toString === self.questions[i]._id.toString) {
+                  self.questions.splice(i, 1)
+                  break
+                }
+              }
+            }
+            self.popTip(response.data.mes)
+          }
+        }, (response) => {
+          // error callback
+        })
+      },
+      getItemInfo () {
+        var self = this
+        this.$http.post(self.getUrl() + '/admin/showItems').then((response) => {
+          if (response.status === 200) {
+            if (response.data.status === 1) {
+              console.log('----------', response.data)
+              self.items = response.data.items
+            } else {
+              self.popTip(response.data.mes)
+            }
+          }
+        }, (response) => {
+          // error callback
+        })
+      },
+      editItem (item) {
+        window.location.href = '/#/itemEdit?itemId=' + item._id
+      },
+      deleteItem (item) {
+        var self = this
+        this.$http.post(self.$store.state.basicUrl + '/admin/deleteItem', {item: item}).then((response) => {
+          if (response.status === 200) {
+            if (response.data.status === 1) {
+              for (var i = 0; i < self.items.length; i++) {
+                if (item._id.toString === self.items[i]._id.toString) {
+                  self.items.splice(i, 1)
+                  break
+                }
+              }
+            }
+            self.popTip(response.data.mes)
           }
         }, (response) => {
           // error callback
@@ -606,29 +689,11 @@
         var M = times.getMonth() > 8 ? times.getMonth() + 1 : '0' + (times.getMonth() + 1)
         var D = times.getDate() > 9 ? times.getDate() : '0' + times.getDate()
 
-        var H = times.getHours()
-        var m = times.getMinutes()
-        var S = times.getSeconds()
+        var H = times.getHours() > 9 ? times.getHours() : '0' + times.getHours()
+        var m = times.getMinutes() > 9 ? times.getMinutes() : '0' + times.getMinutes()
+        var S = times.getSeconds() > 9 ? times.getSeconds() : '0' + times.getSeconds()
 
-        return Y + '-' + this.checkTime(M) + '-' + this.checkTime(D) + '  ' + this.checkTime(H) + ' : ' + this.checkTime(m) + ' : ' + this.checkTime(S)
-      },
-      checkTime (i) {
-        if (i < 10) {
-          i = '0' + i
-        }
-        return i
-      },
-      handleEdit (index, row) {
-        console.log(index, row)
-      },
-      handleDelete (index, row) {
-        console.log(index, row)
-      },
-      handleSuccess (index, row) {
-        console.log(index, row)
-      },
-      handleError (index, row) {
-        console.log(index, row)
+        return Y + '-' + M + '-' + D + '  ' + H + ' : ' + m + ' : ' + S
       }
     },
     components: {
