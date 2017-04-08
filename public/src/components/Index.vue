@@ -10,10 +10,10 @@
               <h4>概述</h4>
               <div class="rhombus">
                 <ul class="content-list">
-                <li><a href="#">因特网的组成</a></li>
-                <li><a href="#">计算机网络的类别</a></li>
-                <li><a href="#">计算机网络的性能</a></li>
-                <li><a href="#">计算机网络体系结构</a></li>
+                <li><a href="/#/subjectSpots?subjectId=58e85bea292b422aaca79943">因特网的组成</a></li>
+                <li><a href="/#/subjectSpots?subjectId=58e85f0f292b422aaca79949">计算机网络的类别</a></li>
+                <li><a href="/#/subjectSpots?subjectId=58e860a3292b422aaca7994f">计算机网络的性能</a></li>
+                <li><a href="/#/subjectSpots?subjectId=58e888b5292b422aaca79957">计算机网络体系结构</a></li>
                 </ul>
                <div class="line">
                  <span class="long-line"></span>
