@@ -14,15 +14,6 @@
         <p class="content">{{question.content}}</p>
         <div class="more-detail">
           <span class="time">提问时间：{{formatDate(question.created)}}</span>
-          <!--<div class="question-rate">-->
-            <!--<span>评分：</span>-->
-            <!--<el-rate class="rate-lever"-->
-              <!--v-model="question.grade"-->
-              <!--disabled-->
-              <!--change ="submitValue"-->
-              <!--text-color="#ff9900">-->
-            <!--</el-rate>-->
-          <!--</div>-->
         </div>
       </div>
       </div>

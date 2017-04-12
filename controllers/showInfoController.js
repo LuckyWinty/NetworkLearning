@@ -147,7 +147,6 @@ module.exports.showPersonInfo = function(req, res){
         res.json({status: 0,mes:'查找用户失败！'});
     }
 }
-
 module.exports.showSingleQuestion = function(req, res){
     if(req.body.questionId){
         console.log('.....查找出错',req.body.questionId);
@@ -165,8 +164,6 @@ module.exports.showSingleQuestion = function(req, res){
         res.json({status: 0,mes:'查找失败！'});
     }
 }
-
-
 module.exports.getImage = function(req, res){
     var _id = new mongo.ObjectId(req.query.imageId);
     console.log("_id--------------------" , _id);
