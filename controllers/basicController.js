@@ -133,121 +133,121 @@ module.exports.comment = function(req, res){
     }
 }
 module.exports.ask = function(req, res){
-    if(req.body.subjectId && req.body.userId){
-        var SubjectId = req.body.subjectId;
-        var userId = req.body.userId;
-        Subject.findById({'_id': SubjectId})
-            .exec(function (error, Subject1) {
-                if (error) {
-                    res.json({status: 0, mes: '提问失败'});
-                } else {
-                    var com = new Question;
-                    com.content = req.body.question;
-                    com.user = userId;
-                    Subject1.Questions.push(com);
-                    Subject1.save(function (err, sub) {
-                        if (err) {
-                            res.json({status: 0, mes: '提问失败'});
-                        } else {
-                            User.findOne({_id: userId})
-                                .exec(function (err, person) {
-                                    person.myQuestions.questions.push(com);
-                                    person.save(function (err, user) {
-                                        if (err) {
-                                            res.json({status: 0, mes: '提问失败'});
-                                        } else {
-                                            Subject.findById({'_id': SubjectId})
-                                                .populate('Questions.user')
-                                                .exec(function(error,Subject2){
-                                                    if(error){
-                                                        res.json({status: 0, mes: '提问失败'});
-                                                    }else{
-                                                        res.json({status: 1, questions: Subject2.Questions, mes: '提问成功'});
-                                                    }
-                                                })
-                                        }
-                                    })
-                                })
-                        }
-                    })
-                }
-            })
-    } else{
-        res.json({status: 0, mes: '失败'});
-    }
+if(req.body.subjectId && req.body.userId){
+var SubjectId = req.body.subjectId;
+var userId = req.body.userId;
+Subject.findById({'_id': SubjectId})
+.exec(function (error, Subject1) {
+if (error) {
+res.json({status: 0, mes: '提问失败'});
+} else {
+var com = new Question;
+com.content = req.body.question;
+com.user = userId;
+Subject1.Questions.push(com);
+Subject1.save(function (err, sub) {
+if (err) {
+res.json({status: 0, mes: '提问失败'});
+} else {
+User.findOne({_id: userId})
+.exec(function (err, person) {
+    person.myQuestions.questions.push(com);
+    person.save(function (err, user) {
+        if (err) {
+            res.json({status: 0, mes: '提问失败'});
+        } else {
+            Subject.findById({'_id': SubjectId})
+                .populate('Questions.user')
+                .exec(function(error,Subject2){
+                    if(error){
+                        res.json({status: 0, mes: '提问失败'});
+                    }else{
+                        res.json({status: 1, questions: Subject2.Questions, mes: '提问成功'});
+                    }
+                })
+        }
+    })
+})
+}
+})
+}
+})
+} else{
+res.json({status: 0, mes: '失败'});
+}
 }
 module.exports.reply = function(req, res){
-    if(req.body.subjectId && req.body.userId && req.body.questionId){
-        var SubjectId = req.body.subjectId;
-        var userId = req.body.userId;
-        var questionId = req.body.questionId;
-        Subject.findById({'_id': SubjectId})
-            .exec(function (error, Subject1) {
-                if (error) {
-                    res.json({status: 0, mes: '回复失败'});
-                } else {
-                    var com = new Answer;
-                    com.content = req.body.reply;
-                    com.user = userId;
-                    for(var i = 0; i < Subject1.Questions.length; i++){
-                        if(Subject1.Questions[i]._id.toString() == questionId){
-                            Subject1.Questions[i].answers.push(com);
-                            break;
+if(req.body.subjectId && req.body.userId && req.body.questionId){
+var SubjectId = req.body.subjectId;
+var userId = req.body.userId;
+var questionId = req.body.questionId;
+Subject.findById({'_id': SubjectId})
+.exec(function (error, Subject1) {
+    if (error) {
+        res.json({status: 0, mes: '回复失败'});
+    } else {
+        var com = new Answer;
+        com.content = req.body.reply;
+        com.user = userId;
+        for(var i = 0; i < Subject1.Questions.length; i++){
+            if(Subject1.Questions[i]._id.toString() == questionId){
+                Subject1.Questions[i].answers.push(com);
+                break;
+            }
+        }
+        Subject1.save(function (err, sub) {
+            if (err) {
+                res.json({status: 0, mes: '回复失败'});
+            } else {
+                Subject.findById({'_id': SubjectId})
+                    .populate('Questions.user')
+                    .populate('Questions.answers.user')
+                    .exec(function(error,Subject2){
+                        if(error){
+                            res.json({status: 0, mes: '回复失败'});
+                        }else{
+                            res.json({status: 1, questions: Subject2.Questions, mes: '回复成功'});
                         }
-                    }
-                    Subject1.save(function (err, sub) {
-                        if (err) {
+                    })
+            }
+        })
+    }
+})
+}else if(req.body.userId && req.body.questionId){
+var userId = req.body.userId;
+var questionId = req.body.questionId;
+Question.findById({'_id': questionId})
+.exec(function (error, ques) {
+    if (error) {
+        res.json({status: 0, mes: '回答失败'});
+    } else {
+        var com = new Answer;
+        com.content = req.body.reply;
+        com.user = userId;
+        ques.answers.push(com);
+        ques.save(function (err, ques1) {
+            if (err) {
+                res.json({status: 0, mes: '回答失败'});
+            } else {
+                Question.find({})
+                    .populate('user')
+                    .populate('answers.user')
+                    .sort({'created':-1})
+                    .exec(function (error, ques2) {
+                        if (error) {
                             res.json({status: 0, mes: '回复失败'});
                         } else {
-                            Subject.findById({'_id': SubjectId})
-                                .populate('Questions.user')
-                                .populate('Questions.answers.user')
-                                .exec(function(error,Subject2){
-                                    if(error){
-                                        res.json({status: 0, mes: '回复失败'});
-                                    }else{
-                                        res.json({status: 1, questions: Subject2.Questions, mes: '回复成功'});
-                                    }
-                                })
+                            res.json({status: 1, questions: ques2, mes: '回复成功'});
                         }
-                    })
-                }
-            })
-    }else if(req.body.userId && req.body.questionId){
-        var userId = req.body.userId;
-        var questionId = req.body.questionId;
-        Question.findById({'_id': questionId})
-            .exec(function (error, ques) {
-                if (error) {
-                    res.json({status: 0, mes: '回答失败'});
-                } else {
-                    var com = new Answer;
-                    com.content = req.body.reply;
-                    com.user = userId;
-                    ques.answers.push(com);
-                    ques.save(function (err, ques1) {
-                        if (err) {
-                            res.json({status: 0, mes: '回答失败'});
-                        } else {
-                            Question.find({})
-                                .populate('user')
-                                .populate('answers.user')
-                                .sort({'created':-1})
-                                .exec(function (error, ques2) {
-                                    if (error) {
-                                        res.json({status: 0, mes: '回复失败'});
-                                    } else {
-                                        res.json({status: 1, questions: ques2, mes: '回复成功'});
-                                    }
-                            })
-                        }
-                    })
-                }
-            })
+                })
+            }
+        })
     }
-    else{
-        res.json({status: 0, mes: '失败'});
-    }
+})
+}
+else{
+res.json({status: 0, mes: '失败'});
+}
 }
 module.exports.doLike = function(req, res){
     var likeFlag = true;  //默认是点赞

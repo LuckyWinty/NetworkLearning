@@ -35,7 +35,7 @@
                 <div class="tabs-wrap">
                   <el-tabs type="card">
                     <el-tab-pane label="我的提问">
-                      <singleQuestion :questions="person.myFocusQuestions.questions"></singleQuestion>
+                      <singleQuestion :questions="person.myQuestions.questions"></singleQuestion>
                       <Page></Page>
                     </el-tab-pane>
                   </el-tabs>
@@ -58,7 +58,7 @@
                     <el-tab-pane label="个人信息">
                       <el-form :model="person" label-width="80px">
                         <el-form-item label="头像">
-                          <img :src="`${basicUrl}/image?imageId=${person.portrait}`" alt="">
+                          <img style="width:200px;height:200px;" :src="`${basicUrl}/image?imageId=${person.portrait}`" alt="">
                         </el-form-item>
                         <el-form-item label="用户名">
                           <el-input v-model="person.userName"></el-input>

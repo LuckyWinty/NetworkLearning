@@ -52,22 +52,21 @@ module.exports.showSubjects = function(req, res){
         })
 }
 module.exports.showOneSubject = function(req, res){
-    if(req.body.subjectId){
-        Subject.findOne({'_id': req.body.subjectId})
-            .populate('comments.user')
-            .populate('Questions.user')
-            .populate('Questions.answers.user')
-            .exec(function(error,Subject){
-                if(error){
-                    console.log('.....查找课程出错',error);
-                }else{
-                    console.log('------------------',Subject)
-                    res.json({status: 1,Subject:Subject, mes: '查找所有课程成功！'});
-                }
-            })
-    }else{
-        res.json({status: 0,mes: '找不到课程信息！'});
-    }
+if(req.body.subjectId){
+    Subject.findOne({'_id': req.body.subjectId})
+        .populate('comments.user')
+        .populate('Questions.user')
+        .populate('Questions.answers.user')
+        .exec(function(error,Subject){
+            if(error){
+                console.log('.....查找课程出错',error);
+            }else{
+                res.json({status: 1,Subject:Subject, mes: '查找所有课程成功！'});
+            }
+        })
+}else{
+    res.json({status: 0,mes: '找不到课程信息！'});
+}
 }
 module.exports.showQuestions = function(req, res){
     Question.find({})
@@ -166,9 +165,7 @@ module.exports.showSingleQuestion = function(req, res){
 }
 module.exports.getImage = function(req, res){
     var _id = new mongo.ObjectId(req.query.imageId);
-    console.log("_id--------------------" , _id);
     gfs.files.findOne({'_id': _id}, function (err, file) {
-        // console.log("pic--------------------" , file);
         if (err) return res.status(400).send(err);
         if (!file) return res.status(404).send('');
         res.set('Content-Type', file.contentType);
@@ -177,7 +174,7 @@ module.exports.getImage = function(req, res){
             _id: file._id
         });
         readstream.on("error", function(err) {
-            console.log("Got error while processing stream " + err.message);
+            console.log("Got error  " + err.message);
             res.end();
         });
         readstream.pipe(res);

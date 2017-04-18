@@ -23,30 +23,30 @@ db.open(function (err) {
 });
 
 module.exports.addImage = function(req, res){
-    var form = new formidable.IncomingForm()
-    form.parse(req, function(err, fields, files) {
-        console.log('-----files',files )
-         if (files) {
-             var fileId = new mongo.ObjectId();
-             var writeStream = gfs.createWriteStream({
-                 _id: fileId,
-                 filename: files.name,
-                 mode: 'w',
-                 content_type: files.type
+var form = new formidable.IncomingForm()
+form.parse(req, function(err, fields, files) {
+    console.log('-----files',files )
+     if (files) {
+         var fileId = new mongo.ObjectId();
+         var writeStream = gfs.createWriteStream({
+             _id: fileId,
+             filename: files.name,
+             mode: 'w',
+             content_type: files.type
+         });
+         fs.createReadStream(files.file.path).pipe(writeStream);
+         //files.file.path.pipe(writeStream);
+         writeStream.on('close', function(file) {
+             fs.unlink(files.file.path, function(err) {
+                 if (err) {
+                     res.json({status: 0, fileId: fileId, mes: '上传图片失败！'});
+                 };
+                 res.json({status: 1, fileId: fileId, mes: '上传图片成功！'});
              });
-             fs.createReadStream(files.file.path).pipe(writeStream);
-             //files.file.path.pipe(writeStream);
-             writeStream.on('close', function(file) {
-                 fs.unlink(files.file.path, function(err) {
-                     if (err) {
-                         res.json({status: 0, fileId: fileId, mes: '上传图片失败！'});
-                     };
-                     res.json({status: 1, fileId: fileId, mes: '上传图片成功！'});
-                 });
-             });
+         });
 
-         }
-    })
+     }
+})
 };
 module.exports.addSubjectInfo = function(req, res){
     if(req.body.subject){

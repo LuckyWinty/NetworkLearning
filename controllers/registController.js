@@ -1,6 +1,5 @@
 var mongoose=require('mongoose');
 var User=mongoose.model('User');
-var index = require('../routes/index');
 
 module.exports.regist = function(req, res){
     User.findOne({account:req.body.account},function(error,person){
