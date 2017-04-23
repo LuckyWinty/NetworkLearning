@@ -171,7 +171,7 @@
       return {
         subjectInfos: [],
         basicUrl: this.getUrl(),
-        person: {myFocusQuestions: {}},
+        person: {myFocusQuestions: {}, myQuestions: {}},
         showModule: 1,
         fileList: []
       }

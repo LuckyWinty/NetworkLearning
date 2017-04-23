@@ -20,7 +20,7 @@
       <div class="answer-wrap">
         <Answer :answers="question.answers" :questionId="question._id"></Answer>
       </div>
-      <div class="answer-btn"><el-button @click="open3(question)" type="success">我要回答</el-button></div>
+      <div class="answer-btn"><el-button @click="answer(question)" type="success">我要回答</el-button></div>
     </div>
     <Page :pageSize="5"></Page>
   </div>
@@ -122,7 +122,7 @@
         }
         return i
       },
-      open3 (question) {
+      answer (question) {
         var userId = window.sessionStorage.getItem('userId') || ''
         if (userId) {
           var self = this
