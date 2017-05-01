@@ -245,8 +245,14 @@
             params[name] = value
           }
         }
+        var updateInfo = {}
+        updateInfo.portrait = self.person.portrait
+        updateInfo.wechat = self.person.wechat
+        updateInfo.qq = self.person.qq
+        updateInfo.phone = self.person.phone
+        updateInfo.signature = self.person.signature
         var userId = params.userId || window.sessionStorage.getItem('userId')
-        this.$http.post(self.getUrl() + '/updatePersonInfo', {userId: userId, user: self.person}).then((response) => {
+        this.$http.post(self.getUrl() + '/updatePersonInfo', {userId: userId, user: updateInfo}).then((response) => {
           if (response.status === 200) {
             self.popTip(response.data.mes)
           }
