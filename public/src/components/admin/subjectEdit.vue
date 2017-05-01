@@ -195,7 +195,16 @@
       },
       updateSubject () {
         var self = this
-        this.$http.post(self.$store.state.basicUrl + '/admin/updateSubject', {subject: self.subject}).then((response) => {
+        var subjectInfo = {}
+        subjectInfo.practice = self.subject.practice
+        subjectInfo.moreInfo = self.subject.moreInfo
+        subjectInfo.title = self.subject.title
+        subjectInfo.desc = self.subject.desc
+        subjectInfo.level = self.subject.level
+        subjectInfo.learnTime = self.subject.learnTime
+        subjectInfo.content = self.subject.content
+        subjectInfo.mustKnow = self.subject.mustKnow
+        this.$http.post(self.$store.state.basicUrl + '/admin/updateSubject', {subject: subjectInfo}).then((response) => {
           if (response.status === 200) {
             if (response.data.status === 1) {
               self.popTip(response.data.mes)
